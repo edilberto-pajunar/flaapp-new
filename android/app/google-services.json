@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "211670657191",
+    "project_id": "flaapp-58aed",
+    "storage_bucket": "flaapp-58aed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211670657191:android:e93f5c84fe071f96e3d382",
+        "android_client_info": {
+          "package_name": "com.example.flaapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5ExgmDtuKNiFPqMQhwXX4h7_IIA9NBOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211670657191:android:40293d1f4e385196e3d382",
+        "android_client_info": {
+          "package_name": "com.mycompany.sample"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5ExgmDtuKNiFPqMQhwXX4h7_IIA9NBOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

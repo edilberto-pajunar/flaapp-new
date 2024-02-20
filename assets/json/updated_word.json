@@ -1,0 +1,66 @@
+{
+  "words": [
+    {
+      "level": "A1",
+      "lesson": "1",
+      "category": "Greetings and Farewells",
+      "translations": [
+        {
+          "box": 0,
+          "default": "Hallo",
+          "de": "Hallo",
+          "en": "Hello",
+          "es": "Hola",
+          "ph": "Kamusta"
+        },
+        {
+          "box": 0,
+          "default": "Danke",
+          "de": "Danke",
+          "en": "Thank you",
+          "es": "Gracias",
+          "ph": "Salamat"
+        },
+        {
+          "box": 0,
+          "default": "Bitte",
+          "de": "Bitte",
+          "en": "Please",
+          "es": "Por favor",
+          "ph": "Pakiusap"
+        }
+      ]
+    },
+    {
+      "level": "A1",
+      "lesson": "2",
+      "category": "Personal Information",
+      "translations": [
+        {
+          "box": 0,
+          "default": "Geschlecht",
+          "de": "Geschlecht",
+          "en": "Gender",
+          "es": "Género",
+          "ph": "Kasarian"
+        },
+        {
+          "box": 0,
+          "default": "Adresse",
+          "de": "Adresse",
+          "en": "Address",
+          "es": "Dirección",
+          "ph": "Address"
+        },
+        {
+          "box": 0,
+          "default": "Hausnummer",
+          "de": "Hausnummer",
+          "en": "House number",
+          "es": "Número de casa",
+          "ph": "Numero ng bahay"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3854 @@
+{
+    "A1_1": {
+        "lesson": "A1",
+        "level": "1",
+        "category": "Greetings and Farewells",
+        "words": [
+            {
+                "box": 0,
+                "default": "Hallo",
+                "de": "Hallo",
+                "en": "Hello",
+                "es": "Hola",
+                "ph": "Kamusta"
+            },
+            {
+                "box": 0,
+                "default": "Danke",
+                "de": "Danke",
+                "en": "Thank you",
+                "es": "Gracias",
+                "ph": "Salamat"
+            },
+            {
+                "box": 0,
+                "default": "Bitte",
+                "de": "Bitte",
+                "en": "Please",
+                "es": "Por favor",
+                "ph": "Pakiusap"
+            },
+            {
+                "box": 0,
+                "default": "Tschüss",
+                "de": "Tschüss",
+                "en": "Goodbye",
+                "es": "Adiós",
+                "ph": "Paalam"
+            },
+            {
+                "box": 0,
+                "default": "kommen",
+                "de": "kommen",
+                "en": "Come",
+                "es": "Venir",
+                "ph": "Halika"
+            },
+            {
+                "box": 0,
+                "default": "heissen",
+                "de": "heissen",
+                "en": "To be called",
+                "es": "Ser llamado",
+                "ph": "Tawagin"
+            },
+            {
+                "box": 0,
+                "default": "Tag",
+                "de": "Tag",
+                "en": "Day",
+                "es": "Día",
+                "ph": "Araw"
+            },
+            {
+                "box": 0,
+                "default": "Abend",
+                "de": "Abend",
+                "en": "Evening",
+                "es": "Tarde",
+                "ph": "Gabi"
+            },
+            {
+                "box": 0,
+                "default": "Nacht",
+                "de": "Nacht",
+                "en": "Night",
+                "es": "Noche",
+                "ph": "Gabi"
+            },
+            {
+                "box": 0,
+                "default": "Wie",
+                "de": "Wie",
+                "en": "How",
+                "es": "Cómo",
+                "ph": "Paano"
+            },
+            {
+                "box": 0,
+                "default": "Woher",
+                "de": "Woher",
+                "en": "Where from",
+                "es": "De dónde",
+                "ph": "Saan ka galing"
+            },
+            {
+                "box": 0,
+                "default": "aus",
+                "de": "aus",
+                "en": "From",
+                "es": "De",
+                "ph": "Galing"
+            },
+            {
+                "box": 0,
+                "default": "Ich",
+                "de": "Ich",
+                "en": "I",
+                "es": "Yo",
+                "ph": "Ako"
+            },
+            {
+                "box": 0,
+                "default": "Du",
+                "de": "Du",
+                "en": "You",
+                "es": "Tú",
+                "ph": "Ikaw"
+            },
+            {
+                "box": 0,
+                "default": "Er/Sie",
+                "de": "Er/Sie",
+                "en": "He/She",
+                "es": "Él/Ella",
+                "ph": "Siya"
+            },
+            {
+                "box": 0,
+                "default": "Guten Morgen",
+                "de": "Guten Morgen",
+                "en": "Good morning",
+                "es": "Buenos días",
+                "ph": "Magandang umaga"
+            },
+            {
+                "box": 0,
+                "default": "Guten Tag",
+                "de": "Guten Tag",
+                "en": "Good day",
+                "es": "Buen día",
+                "ph": "Magandang araw"
+            },
+            {
+                "box": 0,
+                "default": "Guten Abend",
+                "de": "Guten Abend",
+                "en": "Good evening",
+                "es": "Buenas noches",
+                "ph": "Magandang gabi"
+            },
+            {
+                "box": 0,
+                "default": "Gute Nacht",
+                "de": "Gute Nacht",
+                "en": "Good night",
+                "es": "Buenas noches",
+                "ph": "Magandang gabi"
+            },
+            {
+                "box": 0,
+                "default": "Wie geht es dir?",
+                "de": "Wie geht es dir?",
+                "en": "How are you?",
+                "es": "¿Cómo estás?",
+                "ph": "Kamusta ka?"
+            },
+            {
+                "box": 0,
+                "default": "Wie geht es Ihnen?",
+                "de": "Wie geht es Ihnen?",
+                "en": "How are you? (formal)",
+                "es": "¿Cómo está usted?",
+                "ph": "Kamusta ka na po?"
+            },
+            {
+                "box": 0,
+                "default": "Mir geht es gut.",
+                "de": "Mir geht es gut.",
+                "en": "I am fine.",
+                "es": "Estoy bien.",
+                "ph": "Mabuti naman ako."
+            },
+            {
+                "box": 0,
+                "default": "Danke",
+                "de": "Danke",
+                "en": "Thank you",
+                "es": "Gracias",
+                "ph": "Salamat"
+            },
+            {
+                "box": 0,
+                "default": "Bitte",
+                "de": "Bitte",
+                "en": "Please",
+                "es": "Por favor",
+                "ph": "Pakiusap"
+            },
+            {
+                "box": 0,
+                "default": "Auf Wiedersehen",
+                "de": "Auf Wiedersehen",
+                "en": "Goodbye",
+                "es": "Adiós",
+                "ph": "Paalam"
+            },
+            {
+                "box": 0,
+                "default": "Tschüss",
+                "de": "Tschüss",
+                "en": "Goodbye",
+                "es": "Adiós",
+                "ph": "Paalam"
+            },
+            {
+                "box": 0,
+                "default": "Bis bald",
+                "de": "Bis bald",
+                "en": "See you soon",
+                "es": "Hasta luego",
+                "ph": "Hanggang sa muling pagkikita"
+            },
+            {
+                "box": 0,
+                "default": "Bis später",
+                "de": "Bis später",
+                "en": "See you later",
+                "es": "Hasta luego",
+                "ph": "Hanggang sa muli"
+            },
+            {
+                "box": 0,
+                "default": "Bis morgen",
+                "de": "Bis morgen",
+                "en": "See you tomorrow",
+                "es": "Hasta mañana",
+                "ph": "Hanggang bukas"
+            },
+            {
+                "box": 0,
+                "default": "Willkommen",
+                "de": "Willkommen",
+                "en": "Welcome",
+                "es": "Bienvenido/a",
+                "ph": "Maligayang pagdating"
+            },
+            {
+                "box": 0,
+                "default": "Herzlich willkommen",
+                "de": "Herzlich willkommen",
+                "en": "Welcome",
+                "es": "Bienvenido/a",
+                "ph": "Maligayang pagdating"
+            },
+            {
+                "box": 0,
+                "default": "Grüß Gott",
+                "de": "Grüß Gott",
+                "en": "Greetings",
+                "es": "Saludos",
+                "ph": "Hola/Adiós"
+            },
+            {
+                "box": 0,
+                "default": "Servus",
+                "de": "Servus",
+                "en": "Hi/Bye",
+                "es": "Hola/Adiós",
+                "ph": "Hola/Adiós"
+            }
+        ]
+    },
+    "A1_2": {
+        "lesson": "A1",
+        "level": "2",
+        "category": "Personal Information",
+        "words": [
+            {
+                "box": 0,
+                "default": "Geschlecht",
+                "de": "Geschlecht",
+                "en": "Gender",
+                "es": "Género",
+                "ph": "Kasarian"
+            },
+            {
+                "box": 0,
+                "default": "Adresse",
+                "de": "Adresse",
+                "en": "Address",
+                "es": "Dirección",
+                "ph": "Address"
+            },
+            {
+                "box": 0,
+                "default": "Hausnummer",
+                "de": "Hausnummer",
+                "en": "House number",
+                "es": "Número de casa",
+                "ph": "Numero ng bahay"
+            },
+            {
+                "box": 0,
+                "default": "Telefonnummer",
+                "de": "Telefonnummer",
+                "en": "Telephone number",
+                "es": "Número de teléfono",
+                "ph": "Numero ng telepono"
+            },
+            {
+                "box": 0,
+                "default": "Handynummer",
+                "de": "Handynummer",
+                "en": "Mobile phone number",
+                "es": "Número de teléfono móvil",
+                "ph": "Numero ng mobile phone"
+            },
+            {
+                "box": 0,
+                "default": "Mobilnummer",
+                "de": "Mobilnummer",
+                "en": "Mobile number",
+                "es": "Número móvil",
+                "ph": "Numero ng mobile"
+            },
+            {
+                "box": 0,
+                "default": "E-Mail-Adresse",
+                "de": "E-Mail-Adresse",
+                "en": "Email address",
+                "es": "Dirección de correo electrónico",
+                "ph": "Email address"
+            },
+            {
+                "box": 0,
+                "default": "Nationalität",
+                "de": "Nationalität",
+                "en": "Nationality",
+                "es": "Nacionalidad",
+                "ph": "Nasyonalidad"
+            },
+            {
+                "box": 0,
+                "default": "Beruf",
+                "de": "Beruf",
+                "en": "Occupation",
+                "es": "Profesión",
+                "ph": "Trabaho"
+            },
+            {
+                "box": 0,
+                "default": "Arbeitgeber",
+                "de": "Arbeitgeber",
+                "en": "Employer",
+                "es": "Empleador",
+                "ph": "Amo"
+            },
+            {
+                "box": 0,
+                "default": "Sprachen",
+                "de": "Sprachen",
+                "en": "Languages",
+                "es": "Idiomas",
+                "ph": "Wika"
+            },
+            {
+                "box": 0,
+                "default": "Familienstand",
+                "de": "Familienstand",
+                "en": "Marital status",
+                "es": "Estado civil",
+                "ph": "Katayuan sa pamilya"
+            },
+            {
+                "box": 0,
+                "default": "Passnummer",
+                "de": "Passnummer",
+                "en": "Passport number",
+                "es": "Número de pasaporte",
+                "ph": "Numero ng pasaporte"
+            }
+        ]
+    },
+    "A1_3": {
+        "lesson": "A1",
+        "level": "3",
+        "category": "Numbers",
+        "words": [
+            {
+                "box": 0,
+                "default": "Null",
+                "de": "Null",
+                "en": "Zero",
+                "es": "Cero",
+                "ph": "Zero"
+            },
+            {
+                "box": 0,
+                "default": "Eins",
+                "de": "Eins",
+                "en": "One",
+                "es": "Uno",
+                "ph": "Isa"
+            },
+            {
+                "box": 0,
+                "default": "Zwei",
+                "de": "Zwei",
+                "en": "Two",
+                "es": "Dos",
+                "ph": "Dalawa"
+            },
+            {
+                "box": 0,
+                "default": "Drei",
+                "de": "Drei",
+                "en": "Three",
+                "es": "Tres",
+                "ph": "Tatlo"
+            },
+            {
+                "box": 0,
+                "default": "Vier",
+                "de": "Vier",
+                "en": "Four",
+                "es": "Cuatro",
+                "ph": "Kwatro"
+            },
+            {
+                "box": 0,
+                "default": "Fünf",
+                "de": "Fünf",
+                "en": "Five",
+                "es": "Cinco",
+                "ph": "Singko"
+            },
+            {
+                "box": 0,
+                "default": "Sechs",
+                "de": "Sechs",
+                "en": "Six",
+                "es": "Seis",
+                "ph": "Sais"
+            },
+            {
+                "box": 0,
+                "default": "Sieben",
+                "de": "Sieben",
+                "en": "Seven",
+                "es": "Siete",
+                "ph": "Syete"
+            },
+            {
+                "box": 0,
+                "default": "Acht",
+                "de": "Acht",
+                "en": "Eight",
+                "es": "Ocho",
+                "ph": "Walo"
+            },
+            {
+                "box": 0,
+                "default": "Neun",
+                "de": "Neun",
+                "en": "Nine",
+                "es": "Nueve",
+                "ph": "Nwebe"
+            },
+            {
+                "box": 0,
+                "default": "Zehn",
+                "de": "Zehn",
+                "en": "Ten",
+                "es": "Diez",
+                "ph": "Sampu"
+            },
+            {
+                "box": 0,
+                "default": "Elf",
+                "de": "Elf",
+                "en": "Eleven",
+                "es": "Once",
+                "ph": "Labing-isa"
+            },
+            {
+                "box": 0,
+                "default": "Zwölf",
+                "de": "Zwölf",
+                "en": "Twelve",
+                "es": "Doce",
+                "ph": "Labindalawa"
+            },
+            {
+                "box": 0,
+                "default": "Dreizehn",
+                "de": "Dreizehn",
+                "en": "Thirteen",
+                "es": "Trece",
+                "ph": "Labintatlo"
+            },
+            {
+                "box": 0,
+                "default": "Vierzehn",
+                "de": "Vierzehn",
+                "en": "Fourteen",
+                "es": "Catorce",
+                "ph": "Labing-apat"
+            },
+            {
+                "box": 0,
+                "default": "Fünfzehn",
+                "de": "Fünfzehn",
+                "en": "Fifteen",
+                "es": "Quince",
+                "ph": "Labing-lima"
+            },
+            {
+                "box": 0,
+                "default": "Sechzehn",
+                "de": "Sechzehn",
+                "en": "Sixteen",
+                "es": "Dieciséis",
+                "ph": "Labing-anim"
+            },
+            {
+                "box": 0,
+                "default": "Siebzehn",
+                "de": "Siebzehn",
+                "en": "Seventeen",
+                "es": "Diecisiete",
+                "ph": "Labing-pito"
+            },
+            {
+                "box": 0,
+                "default": "Achtzehn",
+                "de": "Achtzehn",
+                "en": "Eighteen",
+                "es": "Dieciocho",
+                "ph": "Labing-walo"
+            },
+            {
+                "box": 0,
+                "default": "Neunzehn",
+                "de": "Neunzehn",
+                "en": "Nineteen",
+                "es": "Diecinueve",
+                "ph": "Labing-siyam"
+            },
+            {
+                "box": 0,
+                "default": "Zwanzig",
+                "de": "Zwanzig",
+                "en": "Twenty",
+                "es": "Veinte",
+                "ph": "Bente"
+            },
+            {
+                "box": 0,
+                "default": "Einundzwanzig",
+                "de": "Einundzwanzig",
+                "en": "Twenty-one",
+                "es": "Veintiuno",
+                "ph": "Bente-uno"
+            },
+            {
+                "box": 0,
+                "default": "Dreißig",
+                "de": "Dreißig",
+                "en": "Thirty",
+                "es": "Treinta",
+                "ph": "Trenta"
+            },
+            {
+                "box": 0,
+                "default": "Vierzig",
+                "de": "Vierzig",
+                "en": "Forty",
+                "es": "Cuarenta",
+                "ph": "Kwarenta"
+            },
+            {
+                "box": 0,
+                "default": "Fünfzig",
+                "de": "Fünfzig",
+                "en": "Fifty",
+                "es": "Cincuenta",
+                "ph": "Singkwenta"
+            },
+            {
+                "box": 0,
+                "default": "Sechzig",
+                "de": "Sechzig",
+                "en": "Sixty",
+                "es": "Sesenta",
+                "ph": "Saysenta"
+            },
+            {
+                "box": 0,
+                "default": "Siebzig",
+                "de": "Siebzig",
+                "en": "Seventy",
+                "es": "Setenta",
+                "ph": "Setenta"
+            },
+            {
+                "box": 0,
+                "default": "Achtzig",
+                "de": "Achtzig",
+                "en": "Eighty",
+                "es": "Ochenta",
+                "ph": "Otsenta"
+            },
+            {
+                "box": 0,
+                "default": "Neunzig",
+                "de": "Neunzig",
+                "en": "Ninety",
+                "es": "Noventa",
+                "ph": "Nobenta"
+            },
+            {
+                "box": 0,
+                "default": "Hundert",
+                "de": "Hundert",
+                "en": "Hundred",
+                "es": "Cien",
+                "ph": "Isang daan"
+            }
+        ]
+    },
+    "A1_4": {
+        "lesson": "A1",
+        "level": "4",
+        "category": "Countries",
+        "words": [
+            {
+                "box": 0,
+                "default": "Deutschland",
+                "de": "Deutschland",
+                "en": "Germany",
+                "es": "Alemania",
+                "ph": "Alemanya"
+            },
+            {
+                "box": 0,
+                "default": "Frankreich",
+                "de": "Frankreich",
+                "en": "France",
+                "es": "Francia",
+                "ph": "Pransya"
+            },
+            {
+                "box": 0,
+                "default": "Spanien",
+                "de": "Spanien",
+                "en": "Spain",
+                "es": "España",
+                "ph": "Espanya"
+            },
+            {
+                "box": 0,
+                "default": "Italien",
+                "de": "Italien",
+                "en": "Italy",
+                "es": "Italia",
+                "ph": "Italya"
+            },
+            {
+                "box": 0,
+                "default": "Großbritannien",
+                "de": "Großbritannien",
+                "en": "United Kingdom",
+                "es": "Reino Unido",
+                "ph": "United Kingdom"
+            },
+            {
+                "box": 0,
+                "default": "Portugal",
+                "de": "Portugal",
+                "en": "Portugal",
+                "es": "Portugal",
+                "ph": "Portugal"
+            },
+            {
+                "box": 0,
+                "default": "Griechenland",
+                "de": "Griechenland",
+                "en": "Greece",
+                "es": "Grecia",
+                "ph": "Gresya"
+            },
+            {
+                "box": 0,
+                "default": "Niederlande",
+                "de": "Niederlande",
+                "en": "Netherlands",
+                "es": "Países Bajos",
+                "ph": "Netherlands"
+            },
+            {
+                "box": 0,
+                "default": "Belgien",
+                "de": "Belgien",
+                "en": "Belgium",
+                "es": "Bélgica",
+                "ph": "Belgium"
+            },
+            {
+                "box": 0,
+                "default": "Österreich",
+                "de": "Österreich",
+                "en": "Austria",
+                "es": "Austria",
+                "ph": "Austria"
+            },
+            {
+                "box": 0,
+                "default": "Schweiz",
+                "de": "Schweiz",
+                "en": "Switzerland",
+                "es": "Suiza",
+                "ph": "Switzerland"
+            },
+            {
+                "box": 0,
+                "default": "Schweden",
+                "de": "Schweden",
+                "en": "Sweden",
+                "es": "Suecia",
+                "ph": "Sweden"
+            },
+            {
+                "box": 0,
+                "default": "Norwegen",
+                "de": "Norwegen",
+                "en": "Norway",
+                "es": "Noruega",
+                "ph": "Norway"
+            },
+            {
+                "box": 0,
+                "default": "Dänemark",
+                "de": "Dänemark",
+                "en": "Denmark",
+                "es": "Dinamarca",
+                "ph": "Denmark"
+            },
+            {
+                "box": 0,
+                "default": "Finnland",
+                "de": "Finnland",
+                "en": "Finland",
+                "es": "Finlandia",
+                "ph": "Finland"
+            },
+            {
+                "box": 0,
+                "default": "Irland",
+                "de": "Irland",
+                "en": "Ireland",
+                "es": "Irlanda",
+                "ph": "Ireland"
+            },
+            {
+                "box": 0,
+                "default": "Island",
+                "de": "Island",
+                "en": "Iceland",
+                "es": "Islandia",
+                "ph": "Iceland"
+            },
+            {
+                "box": 0,
+                "default": "Polen",
+                "de": "Polen",
+                "en": "Poland",
+                "es": "Polonia",
+                "ph": "Poland"
+            },
+            {
+                "box": 0,
+                "default": "Tschechien",
+                "de": "Tschechien",
+                "en": "Czech Republic",
+                "es": "República Checa",
+                "ph": "Czech Republic"
+            },
+            {
+                "box": 0,
+                "default": "Slowakei",
+                "de": "Slowakei",
+                "en": "Slovakia",
+                "es": "Eslovaquia",
+                "ph": "Slovakia"
+            },
+            {
+                "box": 0,
+                "default": "Ungarn",
+                "de": "Ungarn",
+                "en": "Hungary",
+                "es": "Hungría",
+                "ph": "Hungary"
+            },
+            {
+                "box": 0,
+                "default": "Rumänien",
+                "de": "Rumänien",
+                "en": "Romania",
+                "es": "Rumanía",
+                "ph": "Romania"
+            },
+            {
+                "box": 0,
+                "default": "Bulgarien",
+                "de": "Bulgarien",
+                "en": "Bulgaria",
+                "es": "Bulgaria",
+                "ph": "Bulgaria"
+            },
+            {
+                "box": 0,
+                "default": "Kroatien",
+                "de": "Kroatien",
+                "en": "Croatia",
+                "es": "Croacia",
+                "ph": "Croatia"
+            },
+            {
+                "box": 0,
+                "default": "Slowenien",
+                "de": "Slowenien",
+                "en": "Slovenia",
+                "es": "Eslovenia",
+                "ph": "Slovenia"
+            },
+            {
+                "box": 0,
+                "default": "Bosnien und Herzegowina",
+                "de": "Bosnien und Herzegowina",
+                "en": "Bosnia and Herzegovina",
+                "es": "Bosnia y Herzegovina",
+                "ph": "Bosnia at Herzegovina"
+            },
+            {
+                "box": 0,
+                "default": "Serbien",
+                "de": "Serbien",
+                "en": "Serbia",
+                "es": "Serbia",
+                "ph": "Serbia"
+            },
+            {
+                "box": 0,
+                "default": "Montenegro",
+                "de": "Montenegro",
+                "en": "Montenegro",
+                "es": "Montenegro",
+                "ph": "Montenegro"
+            },
+            {
+                "box": 0,
+                "default": "Nordmazedonien",
+                "de": "Nordmazedonien",
+                "en": "North Macedonia",
+                "es": "Macedonia del Norte",
+                "ph": "Hilagang Macedonia"
+            },
+            {
+                "box": 0,
+                "default": "Albanien",
+                "de": "Albanien",
+                "en": "Albania",
+                "es": "Albania",
+                "ph": "Albania"
+            }
+        ]
+    },
+    "A1_5": {
+        "lesson": "A1",
+        "level": "5",
+        "category": "Languages",
+        "words": [
+            {
+                "box": 0,
+                "default": "Deutsch",
+                "de": "Deutsch",
+                "en": "German",
+                "es": "Alemán",
+                "ph": "Aleman"
+            },
+            {
+                "box": 0,
+                "default": "Englisch",
+                "de": "Englisch",
+                "en": "English",
+                "es": "Inglés",
+                "ph": "Ingles"
+            },
+            {
+                "box": 0,
+                "default": "Französisch",
+                "de": "Französisch",
+                "en": "French",
+                "es": "Francés",
+                "ph": "Pranses"
+            },
+            {
+                "box": 0,
+                "default": "Spanisch",
+                "de": "Spanisch",
+                "en": "Spanish",
+                "es": "Español",
+                "ph": "Espanyol"
+            },
+            {
+                "box": 0,
+                "default": "Italienisch",
+                "de": "Italienisch",
+                "en": "Italian",
+                "es": "Italiano",
+                "ph": "Italyano"
+            },
+            {
+                "box": 0,
+                "default": "Portugiesisch",
+                "de": "Portugiesisch",
+                "en": "Portuguese",
+                "es": "Portugués",
+                "ph": "Portuges"
+            },
+            {
+                "box": 0,
+                "default": "Griechisch",
+                "de": "Griechisch",
+                "en": "Greek",
+                "es": "Griego",
+                "ph": "Griyego"
+            },
+            {
+                "box": 0,
+                "default": "Niederländisch",
+                "de": "Niederländisch",
+                "en": "Dutch",
+                "es": "Neerlandés",
+                "ph": "Olandes"
+            },
+            {
+                "box": 0,
+                "default": "Belgisch",
+                "de": "Belgisch",
+                "en": "Belgian",
+                "es": "Belga",
+                "ph": "Belhika"
+            },
+            {
+                "box": 0,
+                "default": "Österreichisch",
+                "de": "Österreichisch",
+                "en": "Austrian",
+                "es": "Austríaco",
+                "ph": "Austriyako"
+            },
+            {
+                "box": 0,
+                "default": "Schweizerdeutsch",
+                "de": "Schweizerdeutsch",
+                "en": "Swiss German",
+                "es": "Alemán suizo",
+                "ph": "Swiss German"
+            },
+            {
+                "box": 0,
+                "default": "Schwedisch",
+                "de": "Schwedisch",
+                "en": "Swedish",
+                "es": "Sueco",
+                "ph": "Swedish"
+            },
+            {
+                "box": 0,
+                "default": "Norwegisch",
+                "de": "Norwegisch",
+                "en": "Norwegian",
+                "es": "Noruego",
+                "ph": "Norwegian"
+            },
+            {
+                "box": 0,
+                "default": "Dänisch",
+                "de": "Dänisch",
+                "en": "Danish",
+                "es": "Danés",
+                "ph": "Danish"
+            },
+            {
+                "box": 0,
+                "default": "Finnisch",
+                "de": "Finnisch",
+                "en": "Finnish",
+                "es": "Finlandés",
+                "ph": "Finnish"
+            },
+            {
+                "box": 0,
+                "default": "Isländisch",
+                "de": "Isländisch",
+                "en": "Icelandic",
+                "es": "Islandés",
+                "ph": "Icelandic"
+            },
+            {
+                "box": 0,
+                "default": "Polnisch",
+                "de": "Polnisch",
+                "en": "Polish",
+                "es": "Polaco",
+                "ph": "Polish"
+            },
+            {
+                "box": 0,
+                "default": "Tschechisch",
+                "de": "Tschechisch",
+                "en": "Czech",
+                "es": "Checo",
+                "ph": "Czech"
+            },
+            {
+                "box": 0,
+                "default": "Slowakisch",
+                "de": "Slowakisch",
+                "en": "Slovak",
+                "es": "Eslovaco",
+                "ph": "Slovak"
+            },
+            {
+                "box": 0,
+                "default": "Ungarisch",
+                "de": "Ungarisch",
+                "en": "Hungarian",
+                "es": "Húngaro",
+                "ph": "Hungarian"
+            },
+            {
+                "box": 0,
+                "default": "Rumänisch",
+                "de": "Rumänisch",
+                "en": "Romanian",
+                "es": "Rumano",
+                "ph": "Romanian"
+            },
+            {
+                "box": 0,
+                "default": "Bulgarisch",
+                "de": "Bulgarisch",
+                "en": "Bulgarian",
+                "es": "Búlgaro",
+                "ph": "Bulgarian"
+            },
+            {
+                "box": 0,
+                "default": "Kroatisch",
+                "de": "Kroatisch",
+                "en": "Croatian",
+                "es": "Croata",
+                "ph": "Croatian"
+            },
+            {
+                "box": 0,
+                "default": "Slowenisch",
+                "de": "Slowenisch",
+                "en": "Slovenian",
+                "es": "Esloveno",
+                "ph": "Slovenian"
+            },
+            {
+                "box": 0,
+                "default": "Bosnisch",
+                "de": "Bosnisch",
+                "en": "Bosnian",
+                "es": "Bosnio",
+                "ph": "Bosnian"
+            },
+            {
+                "box": 0,
+                "default": "Serbisch",
+                "de": "Serbisch",
+                "en": "Serbian",
+                "es": "Serbio",
+                "ph": "Serbian"
+            },
+            {
+                "box": 0,
+                "default": "Montenegrinisch",
+                "de": "Montenegrinisch",
+                "en": "Montenegrin",
+                "es": "Montenegrino",
+                "ph": "Montenegrin"
+            },
+            {
+                "box": 0,
+                "default": "Mazedonisch",
+                "de": "Mazedonisch",
+                "en": "Macedonian",
+                "es": "Macedonio",
+                "ph": "Macedonian"
+            },
+            {
+                "box": 0,
+                "default": "Albanisch",
+                "de": "Albanisch",
+                "en": "Albanian",
+                "es": "Albanés",
+                "ph": "Albanian"
+            },
+            {
+                "box": 0,
+                "default": "Russisch",
+                "de": "Russisch",
+                "en": "Russian",
+                "es": "Ruso",
+                "ph": "Russian"
+            }
+        ]
+    },
+    "A1_6": {
+        "lesson": "A1",
+        "level": "6",
+        "category": "Family",
+        "words": [
+            {
+                "box": 0,
+                "default": "Familie",
+                "de": "Familie",
+                "en": "Family",
+                "es": "Familia",
+                "ph": "Pamilya"
+            },
+            {
+                "box": 0,
+                "default": "Eltern",
+                "de": "Eltern",
+                "en": "Parents",
+                "es": "Padres",
+                "ph": "Magulang"
+            },
+            {
+                "box": 0,
+                "default": "Mutter",
+                "de": "Mutter",
+                "en": "Mother",
+                "es": "Madre",
+                "ph": "Ina"
+            },
+            {
+                "box": 0,
+                "default": "Vater",
+                "de": "Vater",
+                "en": "Father",
+                "es": "Padre",
+                "ph": "Ama"
+            },
+            {
+                "box": 0,
+                "default": "Geschwister",
+                "de": "Geschwister",
+                "en": "Siblings",
+                "es": "Hermanos",
+                "ph": "Mga Kapatid"
+            },
+            {
+                "box": 0,
+                "default": "Bruder",
+                "de": "Bruder",
+                "en": "Brother",
+                "es": "Hermano",
+                "ph": "Kapatid na Lalaki"
+            },
+            {
+                "box": 0,
+                "default": "Schwester",
+                "de": "Schwester",
+                "en": "Sister",
+                "es": "Hermana",
+                "ph": "Kapatid na Babae"
+            },
+            {
+                "box": 0,
+                "default": "Großeltern",
+                "de": "Großeltern",
+                "en": "Grandparents",
+                "es": "Abuelos",
+                "ph": "Lolo at Lola"
+            },
+            {
+                "box": 0,
+                "default": "Oma",
+                "de": "Oma",
+                "en": "Grandma",
+                "es": "Abuela",
+                "ph": "Lola"
+            },
+            {
+                "box": 0,
+                "default": "Opa",
+                "de": "Opa",
+                "en": "Grandpa",
+                "es": "Abuelo",
+                "ph": "Lolo"
+            },
+            {
+                "box": 0,
+                "default": "Enkel",
+                "de": "Enkel",
+                "en": "Grandson",
+                "es": "Nieto",
+                "ph": "Apo na Lalaki"
+            },
+            {
+                "box": 0,
+                "default": "Enkelin",
+                "de": "Enkelin",
+                "en": "Granddaughter",
+                "es": "Nieta",
+                "ph": "Apo na Babae"
+            },
+            {
+                "box": 0,
+                "default": "Onkel",
+                "de": "Onkel",
+                "en": "Uncle",
+                "es": "Tío",
+                "ph": "Tito"
+            },
+            {
+                "box": 0,
+                "default": "Tante",
+                "de": "Tante",
+                "en": "Aunt",
+                "es": "Tía",
+                "ph": "Tita"
+            },
+            {
+                "box": 0,
+                "default": "Cousin",
+                "de": "Cousin",
+                "en": "Cousin",
+                "es": "Primo",
+                "ph": "Kapwa Pinsan na Lalaki"
+            },
+            {
+                "box": 0,
+                "default": "Cousine",
+                "de": "Cousine",
+                "en": "Cousin",
+                "es": "Prima",
+                "ph": "Kapwa Pinsan na Babae"
+            },
+            {
+                "box": 0,
+                "default": "Ehemann",
+                "de": "Ehemann",
+                "en": "Husband",
+                "es": "Esposo",
+                "ph": "Asawa na Lalaki"
+            },
+            {
+                "box": 0,
+                "default": "Ehefrau",
+                "de": "Ehefrau",
+                "en": "Wife",
+                "es": "Esposa",
+                "ph": "Asawa na Babae"
+            },
+            {
+                "box": 0,
+                "default": "Kinder",
+                "de": "Kinder",
+                "en": "Children",
+                "es": "Hijos",
+                "ph": "Mga Anak"
+            },
+            {
+                "box": 0,
+                "default": "Sohn",
+                "de": "Sohn",
+                "en": "Son",
+                "es": "Hijo",
+                "ph": "Anak na Lalaki"
+            },
+            {
+                "box": 0,
+                "default": "Tochter",
+                "de": "Tochter",
+                "en": "Daughter",
+                "es": "Hija",
+                "ph": "Anak na Babae"
+            },
+            {
+                "box": 0,
+                "default": "Verwandte",
+                "de": "Verwandte",
+                "en": "Relatives",
+                "es": "Parientes",
+                "ph": "Mga Kamag-anak"
+            },
+            {
+                "box": 0,
+                "default": "Schwiegervater",
+                "de": "Schwiegervater",
+                "en": "Father-in-law",
+                "es": "Suegro",
+                "ph": "Tatay ng Manugang na Lalaki"
+            },
+            {
+                "box": 0,
+                "default": "Schwiegermutter",
+                "de": "Schwiegermutter",
+                "en": "Mother-in-law",
+                "es": "Suegra",
+                "ph": "Nanay ng Manugang na Babae"
+            },
+            {
+                "box": 0,
+                "default": "Schwager",
+                "de": "Schwager",
+                "en": "Brother-in-law",
+                "es": "Cuñado",
+                "ph": "Kapatid na Lalaki ng Asawa"
+            },
+            {
+                "box": 0,
+                "default": "Schwägerin",
+                "de": "Schwägerin",
+                "en": "Sister-in-law",
+                "es": "Cuñada",
+                "ph": "Kapatid na Babae ng Asawa"
+            },
+            {
+                "box": 0,
+                "default": "Nichte",
+                "de": "Nichte",
+                "en": "Niece",
+                "es": "Sobrina",
+                "ph": "Pamangkin na Babae"
+            },
+            {
+                "box": 0,
+                "default": "Neffe",
+                "de": "Neffe",
+                "en": "Nephew",
+                "es": "Sobrino",
+                "ph": "Pamangkin na Lalaki"
+            },
+            {
+                "box": 0,
+                "default": "Patenkind",
+                "de": "Patenkind",
+                "en": "Godchild",
+                "es": "Ahijado",
+                "ph": "Inaanak"
+            },
+            {
+                "box": 0,
+                "default": "Stiefvater",
+                "de": "Stiefvater",
+                "en": "Stepfather",
+                "es": "Padrastro",
+                "ph": "Stepfather"
+            }
+        ]
+    },
+    "A1_7": {
+        "lesson": "A1",
+        "level": "7",
+        "category": "Shopping, Groceries, Quantities, Prices",
+        "words": [
+            {
+                "box": 0,
+                "default": "Supermarkt",
+                "de": "Supermarkt",
+                "en": "Supermarket",
+                "es": "Supermercado",
+                "ph": "Supermarket"
+            },
+            {
+                "box": 0,
+                "default": "Laden/Geschäft",
+                "de": "Laden/Geschäft",
+                "en": "Store/Shop",
+                "es": "Tienda",
+                "ph": "Tindahan"
+            },
+            {
+                "box": 0,
+                "default": "Einkaufswagen",
+                "de": "Einkaufswagen",
+                "en": "Shopping Cart",
+                "es": "Carro de compras",
+                "ph": "Shopping Cart"
+            },
+            {
+                "box": 0,
+                "default": "Kasse",
+                "de": "Kasse",
+                "en": "Cashier",
+                "es": "Caja",
+                "ph": "Cashier"
+            },
+            {
+                "box": 0,
+                "default": "Kunde",
+                "de": "Kunde",
+                "en": "Customer",
+                "es": "Cliente",
+                "ph": "Customer"
+            },
+            {
+                "box": 0,
+                "default": "Verkäufer",
+                "de": "Verkäufer",
+                "en": "Seller",
+                "es": "Vendedor",
+                "ph": "Seller"
+            },
+            {
+                "box": 0,
+                "default": "Geld",
+                "de": "Geld",
+                "en": "Money",
+                "es": "Dinero",
+                "ph": "Pera"
+            },
+            {
+                "box": 0,
+                "default": "Bezahlung",
+                "de": "Bezahlung",
+                "en": "Payment",
+                "es": "Pago",
+                "ph": "Bayad"
+            },
+            {
+                "box": 0,
+                "default": "Quittung",
+                "de": "Quittung",
+                "en": "Receipt",
+                "es": "Recibo",
+                "ph": "Resibo"
+            },
+            {
+                "box": 0,
+                "default": "Preis",
+                "de": "Preis",
+                "en": "Price",
+                "es": "Precio",
+                "ph": "Presyo"
+            },
+            {
+                "box": 0,
+                "default": "Angebot",
+                "de": "Angebot",
+                "en": "Offer",
+                "es": "Oferta",
+                "ph": "Alok"
+            },
+            {
+                "box": 0,
+                "default": "Rabatt",
+                "de": "Rabatt",
+                "en": "Discount",
+                "es": "Descuento",
+                "ph": "Diskwento"
+            },
+            {
+                "box": 0,
+                "default": "Obst",
+                "de": "Obst",
+                "en": "Fruits",
+                "es": "Frutas",
+                "ph": "Prutas"
+            },
+            {
+                "box": 0,
+                "default": "Gemüse",
+                "de": "Gemüse",
+                "en": "Vegetables",
+                "es": "Verduras",
+                "ph": "Gulay"
+            },
+            {
+                "box": 0,
+                "default": "Fleisch",
+                "de": "Fleisch",
+                "en": "Meat",
+                "es": "Carne",
+                "ph": "Karne"
+            },
+            {
+                "box": 0,
+                "default": "Fisch",
+                "de": "Fisch",
+                "en": "Fish",
+                "es": "Pescado",
+                "ph": "Isda"
+            },
+            {
+                "box": 0,
+                "default": "Brot",
+                "de": "Brot",
+                "en": "Bread",
+                "es": "Pan",
+                "ph": "Bread"
+            },
+            {
+                "box": 0,
+                "default": "Milch",
+                "de": "Milch",
+                "en": "Milk",
+                "es": "Leche",
+                "ph": "Gatas"
+            },
+            {
+                "box": 0,
+                "default": "Ei",
+                "de": "Ei",
+                "en": "Egg",
+                "es": "Huevo",
+                "ph": "Itlog"
+            },
+            {
+                "box": 0,
+                "default": "Käse",
+                "de": "Käse",
+                "en": "Cheese",
+                "es": "Queso",
+                "ph": "Keso"
+            },
+            {
+                "box": 0,
+                "default": "Reis",
+                "de": "Reis",
+                "en": "Rice",
+                "es": "Arroz",
+                "ph": "Bigas"
+            },
+            {
+                "box": 0,
+                "default": "Nudeln",
+                "de": "Nudeln",
+                "en": "Noodles",
+                "es": "Fideos",
+                "ph": "Pancit"
+            },
+            {
+                "box": 0,
+                "default": "Kartoffeln",
+                "de": "Kartoffeln",
+                "en": "Potatoes",
+                "es": "Patatas",
+                "ph": "Patatas"
+            },
+            {
+                "box": 0,
+                "default": "Zucker",
+                "de": "Zucker",
+                "en": "Sugar",
+                "es": "Azúcar",
+                "ph": "Aso"
+            },
+            {
+                "box": 0,
+                "default": "Salz",
+                "de": "Salz",
+                "en": "Salt",
+                "es": "Sal",
+                "ph": "Asin"
+            },
+            {
+                "box": 0,
+                "default": "Öl",
+                "de": "Öl",
+                "en": "Oil",
+                "es": "Aceite",
+                "ph": "Langis"
+            },
+            {
+                "box": 0,
+                "default": "Gramm",
+                "de": "Gramm",
+                "en": "Gram",
+                "es": "Gramo",
+                "ph": "Gramo"
+            },
+            {
+                "box": 0,
+                "default": "Kilo",
+                "de": "Kilo",
+                "en": "Kilogram",
+                "es": "Kilogramo",
+                "ph": "Kilogramo"
+            },
+            {
+                "box": 0,
+                "default": "Liter",
+                "de": "Liter",
+                "en": "Liter",
+                "es": "Litro",
+                "ph": "Litro"
+            },
+            {
+                "box": 0,
+                "default": "Packung",
+                "de": "Packung",
+                "en": "Pack",
+                "es": "Paquete",
+                "ph": "Pakete"
+            },
+            {
+                "box": 0,
+                "default": "Dose",
+                "de": "Dose",
+                "en": "Can",
+                "es": "Lata",
+                "ph": "Lata"
+            },
+            {
+                "box": 0,
+                "default": "Flasche",
+                "de": "Flasche",
+                "en": "Bottle",
+                "es": "Botella",
+                "ph": "Bote"
+            },
+            {
+                "box": 0,
+                "default": "Stück",
+                "de": "Stück",
+                "en": "Piece",
+                "es": "Pieza",
+                "ph": "Piraso"
+            },
+            {
+                "box": 0,
+                "default": "Tüte",
+                "de": "Tüte",
+                "en": "Bag",
+                "es": "Bolsa",
+                "ph": "Supot"
+            },
+            {
+                "box": 0,
+                "default": "Becher",
+                "de": "Becher",
+                "en": "Cup",
+                "es": "Vaso",
+                "ph": "Tasa"
+            },
+            {
+                "box": 0,
+                "default": "Portion",
+                "de": "Portion",
+                "en": "Portion",
+                "es": "Porción",
+                "ph": "Porsyon"
+            },
+            {
+                "box": 0,
+                "default": "Schachtel",
+                "de": "Schachtel",
+                "en": "Box",
+                "es": "Caja",
+                "ph": "Kahon"
+            }
+        ]
+    },
+    "A1_8": {
+        "lesson": "A1",
+        "level": "8",
+        "category": "Colors",
+        "words": [
+            {
+                "box": 0,
+                "default": "Rot",
+                "de": "Rot",
+                "en": "Red",
+                "es": "Rojo",
+                "ph": "Pula"
+            },
+            {
+                "box": 0,
+                "default": "Blau",
+                "de": "Blau",
+                "en": "Blue",
+                "es": "Azul",
+                "ph": "Asul"
+            },
+            {
+                "box": 0,
+                "default": "Gelb",
+                "de": "Gelb",
+                "en": "Yellow",
+                "es": "Amarillo",
+                "ph": "Dilaw"
+            },
+            {
+                "box": 0,
+                "default": "Grün",
+                "de": "Grün",
+                "en": "Green",
+                "es": "Verde",
+                "ph": "Berde"
+            },
+            {
+                "box": 0,
+                "default": "Orange",
+                "de": "Orange",
+                "en": "Orange",
+                "es": "Naranja",
+                "ph": "Orange"
+            },
+            {
+                "box": 0,
+                "default": "Violett/Lila",
+                "de": "Violett/Lila",
+                "en": "Purple",
+                "es": "Morado/Lila",
+                "ph": "Lila"
+            },
+            {
+                "box": 0,
+                "default": "Rosa",
+                "de": "Rosa",
+                "en": "Pink",
+                "es": "Rosa",
+                "ph": "Rosas"
+            },
+            {
+                "box": 0,
+                "default": "Braun",
+                "de": "Braun",
+                "en": "Brown",
+                "es": "Marrón",
+                "ph": "Kulay Kape"
+            },
+            {
+                "box": 0,
+                "default": "Schwarz",
+                "de": "Schwarz",
+                "en": "Black",
+                "es": "Negro",
+                "ph": "Itim"
+            },
+            {
+                "box": 0,
+                "default": "Weiß",
+                "de": "Weiß",
+                "en": "White",
+                "es": "Blanco",
+                "ph": "Puti"
+            },
+            {
+                "box": 0,
+                "default": "Grau",
+                "de": "Grau",
+                "en": "Gray",
+                "es": "Gris",
+                "ph": "Abong"
+            }
+        ]
+    },
+    "A1_9": {
+        "lesson": "A1",
+        "level": "9",
+        "category": "House/Apartment",
+        "words": [
+            {
+                "box": 0,
+                "default": "Haus/Wohnung",
+                "de": "Haus/Wohnung",
+                "en": "House/Apartment",
+                "es": "Casa/Departamento",
+                "ph": "Bahay/Apartamento"
+            },
+            {
+                "box": 0,
+                "default": "Haus",
+                "de": "Haus",
+                "en": "House",
+                "es": "Casa",
+                "ph": "Bahay"
+            },
+            {
+                "box": 0,
+                "default": "Wohnung",
+                "de": "Wohnung",
+                "en": "Apartment",
+                "es": "Departamento",
+                "ph": "Apartamento"
+            },
+            {
+                "box": 0,
+                "default": "Zimmer",
+                "de": "Zimmer",
+                "en": "Room",
+                "es": "Habitación",
+                "ph": "Kwarto"
+            },
+            {
+                "box": 0,
+                "default": "Küche",
+                "de": "Küche",
+                "en": "Kitchen",
+                "es": "Cocina",
+                "ph": "Kusina"
+            },
+            {
+                "box": 0,
+                "default": "Wohnzimmer",
+                "de": "Wohnzimmer",
+                "en": "Living Room",
+                "es": "Sala de estar",
+                "ph": "Sala"
+            },
+            {
+                "box": 0,
+                "default": "Schlafzimmer",
+                "de": "Schlafzimmer",
+                "en": "Bedroom",
+                "es": "Dormitorio",
+                "ph": "Silid-tulugan"
+            },
+            {
+                "box": 0,
+                "default": "Badezimmer",
+                "de": "Badezimmer",
+                "en": "Bathroom",
+                "es": "Baño",
+                "ph": "Banyo"
+            },
+            {
+                "box": 0,
+                "default": "Toilette",
+                "de": "Toilette",
+                "en": "Toilet",
+                "es": "Inodoro",
+                "ph": "Toilet"
+            },
+            {
+                "box": 0,
+                "default": "Flur/Diele",
+                "de": "Flur/Diele",
+                "en": "Hallway/Foyer",
+                "es": "Pasillo/Vestíbulo",
+                "ph": "Pasilyo/Lobby"
+            },
+            {
+                "box": 0,
+                "default": "Treppe",
+                "de": "Treppe",
+                "en": "Stairs",
+                "es": "Escaleras",
+                "ph": "Hagdang-hagdang Hagdan"
+            },
+            {
+                "box": 0,
+                "default": "Fenster",
+                "de": "Fenster",
+                "en": "Window",
+                "es": "Ventana",
+                "ph": "Bintana"
+            },
+            {
+                "box": 0,
+                "default": "Tür",
+                "de": "Tür",
+                "en": "Door",
+                "es": "Puerta",
+                "ph": "Pinto"
+            },
+            {
+                "box": 0,
+                "default": "Bett",
+                "de": "Bett",
+                "en": "Bed",
+                "es": "Cama",
+                "ph": "Kama"
+            },
+            {
+                "box": 0,
+                "default": "Sofa",
+                "de": "Sofa",
+                "en": "Sofa",
+                "es": "Sofá",
+                "ph": "Sopa"
+            },
+            {
+                "box": 0,
+                "default": "Tisch",
+                "de": "Tisch",
+                "en": "Table",
+                "es": "Mesa",
+                "ph": "Lamesa"
+            },
+            {
+                "box": 0,
+                "default": "Stuhl",
+                "de": "Stuhl",
+                "en": "Chair",
+                "es": "Silla",
+                "ph": "Salumpuwit"
+            },
+            {
+                "box": 0,
+                "default": "Schrank",
+                "de": "Schrank",
+                "en": "Cabinet",
+                "es": "Armario",
+                "ph": "Aparador"
+            },
+            {
+                "box": 0,
+                "default": "Lampe",
+                "de": "Lampe",
+                "en": "Lamp",
+                "es": "Lámpara",
+                "ph": "Lampara"
+            },
+            {
+                "box": 0,
+                "default": "Teppich",
+                "de": "Teppich",
+                "en": "Carpet",
+                "es": "Alfombra",
+                "ph": "Alpombra"
+            },
+            {
+                "box": 0,
+                "default": "Spiegel",
+                "de": "Spiegel",
+                "en": "Mirror",
+                "es": "Espejo",
+                "ph": "Salamin"
+            },
+            {
+                "box": 0,
+                "default": "Kühlschrank",
+                "de": "Kühlschrank",
+                "en": "Refrigerator",
+                "es": "Refrigerador",
+                "ph": "Refrigerador"
+            },
+            {
+                "box": 0,
+                "default": "Herd/Ofen",
+                "de": "Herd/Ofen",
+                "en": "Stove/Oven",
+                "es": "Estufa/Horno",
+                "ph": "Kalan/Oben"
+            },
+            {
+                "box": 0,
+                "default": "Spülbecken",
+                "de": "Spülbecken",
+                "en": "Sink",
+                "es": "Fregadero",
+                "ph": "Lababo"
+            },
+            {
+                "box": 0,
+                "default": "Dusche",
+                "de": "Dusche",
+                "en": "Shower",
+                "es": "Ducha",
+                "ph": "Shower"
+            },
+            {
+                "box": 0,
+                "default": "Badewanne",
+                "de": "Badewanne",
+                "en": "Bathtub",
+                "es": "Bañera",
+                "ph": "Batya"
+            },
+            {
+                "box": 0,
+                "default": "Waschbecken",
+                "de": "Waschbecken",
+                "en": "Washbasin",
+                "es": "Lavabo",
+                "ph": "Lababo"
+            },
+            {
+                "box": 0,
+                "default": "Handtuch",
+                "de": "Handtuch",
+                "en": "Towel",
+                "es": "Toalla",
+                "ph": "Tuwalya"
+            },
+            {
+                "box": 0,
+                "default": "Waschmaschine",
+                "de": "Waschmaschine",
+                "en": "Washing Machine",
+                "es": "Lavadora",
+                "ph": "Labandera"
+            },
+            {
+                "box": 0,
+                "default": "Fernseher",
+                "de": "Fernseher",
+                "en": "Television",
+                "es": "Televisión",
+                "ph": "Telebisyon"
+            }
+        ]
+    },
+    "A1_10": {
+        "lesson": "A1",
+        "level": "10",
+        "category": "Furniture/Appliances",
+        "words": [
+            {
+                "box": 0,
+                "default": "Einrichtung",
+                "de": "Einrichtung",
+                "en": "Furniture/Decor",
+                "es": "Mobiliario/Decoración",
+                "ph": "Mga Kasangkapan/Decors"
+            },
+            {
+                "box": 0,
+                "default": "Möbel",
+                "de": "Möbel",
+                "en": "Furniture",
+                "es": "Muebles",
+                "ph": "Mga Kasangkapan"
+            },
+            {
+                "box": 0,
+                "default": "Dekoration",
+                "de": "Dekoration",
+                "en": "Decoration",
+                "es": "Decoración",
+                "ph": "Decors"
+            },
+            {
+                "box": 0,
+                "default": "Teppich",
+                "de": "Teppich",
+                "en": "Carpet",
+                "es": "Alfombra",
+                "ph": "Alpombra"
+            },
+            {
+                "box": 0,
+                "default": "Vorhang",
+                "de": "Vorhang",
+                "en": "Curtain",
+                "es": "Cortina",
+                "ph": "Kurtina"
+            },
+            {
+                "box": 0,
+                "default": "Kissen",
+                "de": "Kissen",
+                "en": "Cushion",
+                "es": "Cojín",
+                "ph": "Unan"
+            },
+            {
+                "box": 0,
+                "default": "Decke",
+                "de": "Decke",
+                "en": "Blanket",
+                "es": "Manta",
+                "ph": "Kumot"
+            },
+            {
+                "box": 0,
+                "default": "Tisch",
+                "de": "Tisch",
+                "en": "Table",
+                "es": "Mesa",
+                "ph": "Lamesa"
+            },
+            {
+                "box": 0,
+                "default": "Stuhl",
+                "de": "Stuhl",
+                "en": "Chair",
+                "es": "Silla",
+                "ph": "Salumpuwit"
+            },
+            {
+                "box": 0,
+                "default": "Sofa",
+                "de": "Sofa",
+                "en": "Sofa",
+                "es": "Sofá",
+                "ph": "Sopa"
+            },
+            {
+                "box": 0,
+                "default": "Bett",
+                "de": "Bett",
+                "en": "Bed",
+                "es": "Cama",
+                "ph": "Kama"
+            },
+            {
+                "box": 0,
+                "default": "Schrank",
+                "de": "Schrank",
+                "en": "Cabinet",
+                "es": "Armario",
+                "ph": "Aparador"
+            },
+            {
+                "box": 0,
+                "default": "Regal",
+                "de": "Regal",
+                "en": "Shelf",
+                "es": "Estantería",
+                "ph": "Estante"
+            },
+            {
+                "box": 0,
+                "default": "Kommode",
+                "de": "Kommode",
+                "en": "Chest of Drawers",
+                "es": "Cómoda",
+                "ph": "Kamador"
+            },
+            {
+                "box": 0,
+                "default": "Nachttisch",
+                "de": "Nachttisch",
+                "en": "Nightstand",
+                "es": "Mesita de noche",
+                "ph": "Kama-tabe"
+            },
+            {
+                "box": 0,
+                "default": "Spiegel",
+                "de": "Spiegel",
+                "en": "Mirror",
+                "es": "Espejo",
+                "ph": "Salamin"
+            },
+            {
+                "box": 0,
+                "default": "Schreibtisch",
+                "de": "Schreibtisch",
+                "en": "Desk",
+                "es": "Escritorio",
+                "ph": "Lamesa para sa Pagsusulat"
+            },
+            {
+                "box": 0,
+                "default": "Lampe",
+                "de": "Lampe",
+                "en": "Lamp",
+                "es": "Lámpara",
+                "ph": "Lampara"
+            },
+            {
+                "box": 0,
+                "default": "Fernseher",
+                "de": "Fernseher",
+                "en": "Television",
+                "es": "Televisión",
+                "ph": "Telebisyon"
+            },
+            {
+                "box": 0,
+                "default": "Radio",
+                "de": "Radio",
+                "en": "Radio",
+                "es": "Radio",
+                "ph": "Radyo"
+            },
+            {
+                "box": 0,
+                "default": "Computer",
+                "de": "Computer",
+                "en": "Computer",
+                "es": "Computadora",
+                "ph": "Kompyuter"
+            },
+            {
+                "box": 0,
+                "default": "Telefon",
+                "de": "Telefon",
+                "en": "Telephone",
+                "es": "Teléfono",
+                "ph": "Telepono"
+            },
+            {
+                "box": 0,
+                "default": "Kühlschrank",
+                "de": "Kühlschrank",
+                "en": "Refrigerator",
+                "es": "Refrigerador",
+                "ph": "Refrigerador"
+            },
+            {
+                "box": 0,
+                "default": "Mikrowelle",
+                "de": "Mikrowelle",
+                "en": "Microwave",
+                "es": "Microondas",
+                "ph": "Mikrobyon"
+            },
+            {
+                "box": 0,
+                "default": "Herd",
+                "de": "Herd",
+                "en": "Stove",
+                "es": "Estufa",
+                "ph": "Kalan"
+            },
+            {
+                "box": 0,
+                "default": "Backofen",
+                "de": "Backofen",
+                "en": "Oven",
+                "es": "Horno",
+                "ph": "Oben"
+            },
+            {
+                "box": 0,
+                "default": "Geschirrspüler",
+                "de": "Geschirrspüler",
+                "en": "Dishwasher",
+                "es": "Lavavajillas",
+                "ph": "Labandera ng Pinggan"
+            },
+            {
+                "box": 0,
+                "default": "Waschmaschine",
+                "de": "Waschmaschine",
+                "en": "Washing Machine",
+                "es": "Lavadora",
+                "ph": "Labandera"
+            },
+            {
+                "box": 0,
+                "default": "Staubsauger",
+                "de": "Staubsauger",
+                "en": "Vacuum Cleaner",
+                "es": "Aspiradora",
+                "ph": "Plantsa"
+            },
+            {
+                "box": 0,
+                "default": "Fön",
+                "de": "Fön",
+                "en": "Hair Dryer",
+                "es": "Secador de pelo",
+                "ph": "Blow Dryer"
+            },
+            {
+                "box": 0,
+                "default": "Bügeleisen",
+                "de": "Bügeleisen",
+                "en": "Iron",
+                "es": "Plancha",
+                "ph": "Pang Plantsa"
+            }
+        ]
+    },
+    "A1_11": {
+        "lesson": "A1",
+        "level": "11",
+        "category": "Apartment Listings",
+        "words": [
+            {
+                "box": 0,
+                "default": "Wohnung",
+                "de": "Wohnung",
+                "en": "Apartment",
+                "es": "Apartamento",
+                "ph": "Apartamento"
+            },
+            {
+                "box": 0,
+                "default": "Zimmer",
+                "de": "Zimmer",
+                "en": "Room",
+                "es": "Habitación",
+                "ph": "Kwarto"
+            },
+            {
+                "box": 0,
+                "default": "Quadratmeter",
+                "de": "Quadratmeter",
+                "en": "Square Meters",
+                "es": "Metros Cuadrados",
+                "ph": "Square Meters"
+            },
+            {
+                "box": 0,
+                "default": "Miete",
+                "de": "Miete",
+                "en": "Rent",
+                "es": "Alquiler",
+                "ph": "Upa"
+            },
+            {
+                "box": 0,
+                "default": "Kaution",
+                "de": "Kaution",
+                "en": "Deposit",
+                "es": "Depósito",
+                "ph": "Deposito"
+            },
+            {
+                "box": 0,
+                "default": "Nebenkosten",
+                "de": "Nebenkosten",
+                "en": "Additional Costs",
+                "es": "Costos Adicionales",
+                "ph": "Additional Costs"
+            },
+            {
+                "box": 0,
+                "default": "möbliert",
+                "de": "möbliert",
+                "en": "Furnished",
+                "es": "Amueblado",
+                "ph": "Furnished"
+            },
+            {
+                "box": 0,
+                "default": "unmöbliert",
+                "de": "unmöbliert",
+                "en": "Unfurnished",
+                "es": "No amueblado",
+                "ph": "Unfurnished"
+            },
+            {
+                "box": 0,
+                "default": "Balkon",
+                "de": "Balkon",
+                "en": "Balcony",
+                "es": "Balcón",
+                "ph": "Balkonahe"
+            },
+            {
+                "box": 0,
+                "default": "Terrasse",
+                "de": "Terrasse",
+                "en": "Terrace",
+                "es": "Terraza",
+                "ph": "Terasa"
+            },
+            {
+                "box": 0,
+                "default": "Garten",
+                "de": "Garten",
+                "en": "Garden",
+                "es": "Jardín",
+                "ph": "Hardin"
+            },
+            {
+                "box": 0,
+                "default": "Küche",
+                "de": "Küche",
+                "en": "Kitchen",
+                "es": "Cocina",
+                "ph": "Kusina"
+            },
+            {
+                "box": 0,
+                "default": "Bad",
+                "de": "Bad",
+                "en": "Bathroom",
+                "es": "Baño",
+                "ph": "Banyo"
+            },
+            {
+                "box": 0,
+                "default": "Dusche",
+                "de": "Dusche",
+                "en": "Shower",
+                "es": "Ducha",
+                "ph": "Shower"
+            },
+            {
+                "box": 0,
+                "default": "WC",
+                "de": "WC",
+                "en": "Toilet",
+                "es": "Inodoro",
+                "ph": "Toilet"
+            },
+            {
+                "box": 0,
+                "default": "Heizung",
+                "de": "Heizung",
+                "en": "Heating",
+                "es": "Calefacción",
+                "ph": "Heating"
+            },
+            {
+                "box": 0,
+                "default": "Warmwasser",
+                "de": "Warmwasser",
+                "en": "Hot Water",
+                "es": "Agua Caliente",
+                "ph": "Mainit na Tubig"
+            },
+            {
+                "box": 0,
+                "default": "Kaltwasser",
+                "de": "Kaltwasser",
+                "en": "Cold Water",
+                "es": "Agua Fría",
+                "ph": "Malamig na Tubig"
+            },
+            {
+                "box": 0,
+                "default": "Strom",
+                "de": "Strom",
+                "en": "Electricity",
+                "es": "Electricidad",
+                "ph": "Kuryente"
+            },
+            {
+                "box": 0,
+                "default": "Gas",
+                "de": "Gas",
+                "en": "Gas",
+                "es": "Gas",
+                "ph": "Gas"
+            },
+            {
+                "box": 0,
+                "default": "Internet",
+                "de": "Internet",
+                "en": "Internet",
+                "es": "Internet",
+                "ph": "Internet"
+            },
+            {
+                "box": 0,
+                "default": "Parkplatz",
+                "de": "Parkplatz",
+                "en": "Parking Space",
+                "es": "Espacio de Estacionamiento",
+                "ph": "Parking Space"
+            },
+            {
+                "box": 0,
+                "default": "Garage",
+                "de": "Garage",
+                "en": "Garage",
+                "es": "Garaje",
+                "ph": "Garahe"
+            },
+            {
+                "box": 0,
+                "default": "Keller",
+                "de": "Keller",
+                "en": "Basement",
+                "es": "Sótano",
+                "ph": "Bodega"
+            },
+            {
+                "box": 0,
+                "default": "Aufzug",
+                "de": "Aufzug",
+                "en": "Elevator",
+                "es": "Ascensor",
+                "ph": "Elevator"
+            },
+            {
+                "box": 0,
+                "default": "Zentralheizung",
+                "de": "Zentralheizung",
+                "en": "Central Heating",
+                "es": "Calefacción Central",
+                "ph": "Central Heating"
+            },
+            {
+                "box": 0,
+                "default": "Einbauküche",
+                "de": "Einbauküche",
+                "en": "Fitted Kitchen",
+                "es": "Cocina Equipada",
+                "ph": "Kusina na May Kasamang Kagamitan"
+            },
+            {
+                "box": 0,
+                "default": "Renoviert",
+                "de": "Renoviert",
+                "en": "Renovated",
+                "es": "Renovado",
+                "ph": "Renovated"
+            },
+            {
+                "box": 0,
+                "default": "Abstellraum",
+                "de": "Abstellraum",
+                "en": "Storage Room",
+                "es": "Trastero",
+                "ph": "Kwarto para sa Kasangkapan"
+            },
+            {
+                "box": 0,
+                "default": "Haustiere erlaubt",
+                "de": "Haustiere erlaubt",
+                "en": "Pets Allowed",
+                "es": "Se admiten mascotas",
+                "ph": "Pwedeng Mag-alaga ng Hayop"
+            }
+        ]
+    },
+    "A1_12": {
+        "lesson": "A1",
+        "level": "12",
+        "category": "Time",
+        "words": [
+            {
+                "box": 0,
+                "default": "Uhrzeit",
+                "de": "Uhrzeit",
+                "en": "Time",
+                "es": "Hora",
+                "ph": "Oras"
+            },
+            {
+                "box": 0,
+                "default": "Stunde",
+                "de": "Stunde",
+                "en": "Hour",
+                "es": "Hora",
+                "ph": "Oras"
+            },
+            {
+                "box": 0,
+                "default": "Minute",
+                "de": "Minute",
+                "en": "Minute",
+                "es": "Minuto",
+                "ph": "Minuto"
+            },
+            {
+                "box": 0,
+                "default": "Sekunde",
+                "de": "Sekunde",
+                "en": "Second",
+                "es": "Segundo",
+                "ph": "Segundo"
+            },
+            {
+                "box": 0,
+                "default": "Uhr",
+                "de": "Uhr",
+                "en": "Clock",
+                "es": "Reloj",
+                "ph": "Orolo"
+            },
+            {
+                "box": 0,
+                "default": "halb",
+                "de": "halb",
+                "en": "Half",
+                "es": "Media",
+                "ph": "Kalahati"
+            },
+            {
+                "box": 0,
+                "default": "Viertel",
+                "de": "Viertel",
+                "en": "Quarter",
+                "es": "Cuarto",
+                "ph": "Kwarter"
+            },
+            {
+                "box": 0,
+                "default": "Mitternacht",
+                "de": "Mitternacht",
+                "en": "Midnight",
+                "es": "Medianoche",
+                "ph": "Hatinggabi"
+            },
+            {
+                "box": 0,
+                "default": "Morgen",
+                "de": "Morgen",
+                "en": "Morning",
+                "es": "Mañana",
+                "ph": "Umaga"
+            },
+            {
+                "box": 0,
+                "default": "Vormittag",
+                "de": "Vormittag",
+                "en": "Forenoon",
+                "es": "Antes del Mediodía",
+                "ph": "Umaga"
+            },
+            {
+                "box": 0,
+                "default": "Mittag",
+                "de": "Mittag",
+                "en": "Noon",
+                "es": "Mediodía",
+                "ph": "Tanghali"
+            },
+            {
+                "box": 0,
+                "default": "Nachmittag",
+                "de": "Nachmittag",
+                "en": "Afternoon",
+                "es": "Tarde",
+                "ph": "Hapon"
+            },
+            {
+                "box": 0,
+                "default": "Abend",
+                "de": "Abend",
+                "en": "Evening",
+                "es": "Noche",
+                "ph": "Gabi"
+            },
+            {
+                "box": 0,
+                "default": "Nacht",
+                "de": "Nacht",
+                "en": "Night",
+                "es": "Noche",
+                "ph": "Gabi"
+            },
+            {
+                "box": 0,
+                "default": "Tag",
+                "de": "Tag",
+                "en": "Day",
+                "es": "Día",
+                "ph": "Araw"
+            },
+            {
+                "box": 0,
+                "default": "Woche",
+                "de": "Woche",
+                "en": "Week",
+                "es": "Semana",
+                "ph": "Linggo"
+            },
+            {
+                "box": 0,
+                "default": "Monat",
+                "de": "Monat",
+                "en": "Month",
+                "es": "Mes",
+                "ph": "Buwan"
+            },
+            {
+                "box": 0,
+                "default": "Jahr",
+                "de": "Jahr",
+                "en": "Year",
+                "es": "Año",
+                "ph": "Taon"
+            },
+            {
+                "box": 0,
+                "default": "Morgens",
+                "de": "Morgens",
+                "en": "In the morning",
+                "es": "Por la mañana",
+                "ph": "Sa Umaga"
+            },
+            {
+                "box": 0,
+                "default": "Vormittags",
+                "de": "Vormittags",
+                "en": "In the forenoon",
+                "es": "Por la mañana",
+                "ph": "Sa Umaga"
+            },
+            {
+                "box": 0,
+                "default": "Nachmittags",
+                "de": "Nachmittags",
+                "en": "In the afternoon",
+                "es": "Por la tarde",
+                "ph": "Sa Hapon"
+            },
+            {
+                "box": 0,
+                "default": "Abends",
+                "de": "Abends",
+                "en": "In the evening",
+                "es": "Por la noche",
+                "ph": "Sa Gabi"
+            },
+            {
+                "box": 0,
+                "default": "Nachts",
+                "de": "Nachts",
+                "en": "At night",
+                "es": "De noche",
+                "ph": "Sa Gabi"
+            },
+            {
+                "box": 0,
+                "default": "heute",
+                "de": "heute",
+                "en": "today",
+                "es": "hoy",
+                "ph": "ngayon"
+            },
+            {
+                "box": 0,
+                "default": "gestern",
+                "de": "gestern",
+                "en": "yesterday",
+                "es": "ayer",
+                "ph": "kahapon"
+            },
+            {
+                "box": 0,
+                "default": "morgen",
+                "de": "morgen",
+                "en": "tomorrow",
+                "es": "mañana",
+                "ph": "bukas"
+            }
+        ]
+    },
+    "A1_13": {
+        "lesson": "A1",
+        "level": "13",
+        "category": "Days of the Week",
+        "words": [
+            {
+                "box": 0,
+                "default": "Montag",
+                "de": "Montag",
+                "en": "Monday",
+                "es": "Lunes",
+                "ph": "Lunes"
+            },
+            {
+                "box": 0,
+                "default": "Dienstag",
+                "de": "Dienstag",
+                "en": "Tuesday",
+                "es": "Martes",
+                "ph": "Martes"
+            },
+            {
+                "box": 0,
+                "default": "Mittwoch",
+                "de": "Mittwoch",
+                "en": "Wednesday",
+                "es": "Miércoles",
+                "ph": "Miyerkules"
+            },
+            {
+                "box": 0,
+                "default": "Donnerstag",
+                "de": "Donnerstag",
+                "en": "Thursday",
+                "es": "Jueves",
+                "ph": "Huebes"
+            },
+            {
+                "box": 0,
+                "default": "Freitag",
+                "de": "Freitag",
+                "en": "Friday",
+                "es": "Viernes",
+                "ph": "Biyernes"
+            },
+            {
+                "box": 0,
+                "default": "Samstag",
+                "de": "Samstag",
+                "en": "Saturday",
+                "es": "Sábado",
+                "ph": "Sabado"
+            },
+            {
+                "box": 0,
+                "default": "Sonntag",
+                "de": "Sonntag",
+                "en": "Sunday",
+                "es": "Domingo",
+                "ph": "Linggo"
+            },
+            {
+                "box": 0,
+                "default": "vorgestern",
+                "de": "vorgestern",
+                "en": "day before yesterday",
+                "es": "anteayer",
+                "ph": "nagdaang kahapon"
+            },
+            {
+                "box": 0,
+                "default": "übermorgen",
+                "de": "übermorgen",
+                "en": "day after tomorrow",
+                "es": "pasado mañana",
+                "ph": "makalawa"
+            }
+        ]
+    },
+    "A1_14": {
+        "lesson": "A1",
+        "level": "14",
+        "category": "Months",
+        "words": [
+            {
+                "box": 0,
+                "default": "Monate",
+                "de": "Monate",
+                "en": "Months",
+                "es": "Meses",
+                "ph": "Buwan"
+            },
+            {
+                "box": 0,
+                "default": "Januar",
+                "de": "Januar",
+                "en": "January",
+                "es": "Enero",
+                "ph": "Enero"
+            },
+            {
+                "box": 0,
+                "default": "Februar",
+                "de": "Februar",
+                "en": "February",
+                "es": "Febrero",
+                "ph": "Pebrero"
+            },
+            {
+                "box": 0,
+                "default": "März",
+                "de": "März",
+                "en": "March",
+                "es": "Marzo",
+                "ph": "Marso"
+            },
+            {
+                "box": 0,
+                "default": "April",
+                "de": "April",
+                "en": "April",
+                "es": "Abril",
+                "ph": "Abril"
+            },
+            {
+                "box": 0,
+                "default": "Mai",
+                "de": "Mai",
+                "en": "May",
+                "es": "Mayo",
+                "ph": "Mayo"
+            },
+            {
+                "box": 0,
+                "default": "Juni",
+                "de": "Juni",
+                "en": "June",
+                "es": "Junio",
+                "ph": "Hunyo"
+            },
+            {
+                "box": 0,
+                "default": "Juli",
+                "de": "Juli",
+                "en": "July",
+                "es": "Julio",
+                "ph": "Hulyo"
+            },
+            {
+                "box": 0,
+                "default": "August",
+                "de": "August",
+                "en": "August",
+                "es": "Agosto",
+                "ph": "Agosto"
+            },
+            {
+                "box": 0,
+                "default": "September",
+                "de": "September",
+                "en": "September",
+                "es": "Septiembre",
+                "ph": "Setyembre"
+            },
+            {
+                "box": 0,
+                "default": "Oktober",
+                "de": "Oktober",
+                "en": "October",
+                "es": "Octubre",
+                "ph": "Oktubre"
+            },
+            {
+                "box": 0,
+                "default": "November",
+                "de": "November",
+                "en": "November",
+                "es": "Noviembre",
+                "ph": "Nobyembre"
+            },
+            {
+                "box": 0,
+                "default": "Dezember",
+                "de": "Dezember",
+                "en": "December",
+                "es": "Diciembre",
+                "ph": "Disyembre"
+            }
+        ]
+    },
+    "A1_15": {
+        "lesson": "A1",
+        "level": "15",
+        "category": "Seasons",
+        "words": [
+            {
+                "box": 0,
+                "default": "Frühling",
+                "de": "Frühling",
+                "en": "Spring",
+                "es": "Primavera",
+                "ph": "Tagsibol"
+            },
+            {
+                "box": 0,
+                "default": "Sommer",
+                "de": "Sommer",
+                "en": "Summer",
+                "es": "Verano",
+                "ph": "Tag-init"
+            },
+            {
+                "box": 0,
+                "default": "Herbst",
+                "de": "Herbst",
+                "en": "Autumn",
+                "es": "Otoño",
+                "ph": "Taglagas"
+            },
+            {
+                "box": 0,
+                "default": "Winter",
+                "de": "Winter",
+                "en": "Winter",
+                "es": "Invierno",
+                "ph": "Taglamig"
+            }
+        ]
+    },
+    "A1_16": {
+        "lesson": "A1",
+        "level": "16",
+        "category": "House/Apartment",
+        "words": [
+            {
+                "box": 0,
+                "default": "Öffnungszeiten",
+                "de": "Öffnungszeiten",
+                "en": "Opening Hours",
+                "es": "Horario de Apertura",
+                "ph": "Oras ng Pagbubukas"
+            },
+            {
+                "box": 0,
+                "default": "Montag",
+                "de": "Montag",
+                "en": "Monday",
+                "es": "Lunes",
+                "ph": "Lunes"
+            },
+            {
+                "box": 0,
+                "default": "Dienstag",
+                "de": "Dienstag",
+                "en": "Tuesday",
+                "es": "Martes",
+                "ph": "Martes"
+            },
+            {
+                "box": 0,
+                "default": "Mittwoch",
+                "de": "Mittwoch",
+                "en": "Wednesday",
+                "es": "Miércoles",
+                "ph": "Miyerkules"
+            },
+            {
+                "box": 0,
+                "default": "Donnerstag",
+                "de": "Donnerstag",
+                "en": "Thursday",
+                "es": "Jueves",
+                "ph": "Huebes"
+            },
+            {
+                "box": 0,
+                "default": "Freitag",
+                "de": "Freitag",
+                "en": "Friday",
+                "es": "Viernes",
+                "ph": "Biyernes"
+            },
+            {
+                "box": 0,
+                "default": "Samstag",
+                "de": "Samstag",
+                "en": "Saturday",
+                "es": "Sábado",
+                "ph": "Sabado"
+            },
+            {
+                "box": 0,
+                "default": "Sonntag",
+                "de": "Sonntag",
+                "en": "Sunday",
+                "es": "Domingo",
+                "ph": "Linggo"
+            },
+            {
+                "box": 0,
+                "default": "geschlossen",
+                "de": "geschlossen",
+                "en": "closed",
+                "es": "cerrado",
+                "ph": "sarado"
+            }
+        ]
+    },
+    "A1_17": {
+        "lesson": "A1",
+        "level": "17",
+        "category": "Weather and Climate",
+        "words": [
+            {
+                "box": 0,
+                "default": "Wetter und Klima",
+                "de": "Wetter und Klima",
+                "en": "Weather and Climate",
+                "es": "Tiempo y Clima",
+                "ph": "Panahon at Klima"
+            },
+            {
+                "box": 0,
+                "default": "Wetter",
+                "de": "Wetter",
+                "en": "Weather",
+                "es": "Tiempo",
+                "ph": "Panahon"
+            },
+            {
+                "box": 0,
+                "default": "Klima",
+                "de": "Klima",
+                "en": "Climate",
+                "es": "Clima",
+                "ph": "Klima"
+            },
+            {
+                "box": 0,
+                "default": "Sonne",
+                "de": "Sonne",
+                "en": "Sun",
+                "es": "Sol",
+                "ph": "Araw"
+            },
+            {
+                "box": 0,
+                "default": "Regen",
+                "de": "Regen",
+                "en": "Rain",
+                "es": "Lluvia",
+                "ph": "Ulan"
+            },
+            {
+                "box": 0,
+                "default": "Schnee",
+                "de": "Schnee",
+                "en": "Snow",
+                "es": "Nieve",
+                "ph": "Niyebe"
+            },
+            {
+                "box": 0,
+                "default": "Hagel",
+                "de": "Hagel",
+                "en": "Hail",
+                "es": "Granizo",
+                "ph": "Birada"
+            },
+            {
+                "box": 0,
+                "default": "Gewitter",
+                "de": "Gewitter",
+                "en": "Thunderstorm",
+                "es": "Tormenta",
+                "ph": "Kidlat"
+            },
+            {
+                "box": 0,
+                "default": "Wind",
+                "de": "Wind",
+                "en": "Wind",
+                "es": "Viento",
+                "ph": "Hangin"
+            },
+            {
+                "box": 0,
+                "default": "Wolken",
+                "de": "Wolken",
+                "en": "Clouds",
+                "es": "Nubes",
+                "ph": "Mga ulap"
+            },
+            {
+                "box": 0,
+                "default": "Himmel",
+                "de": "Himmel",
+                "en": "Sky",
+                "es": "Cielo",
+                "ph": "Langit"
+            },
+            {
+                "box": 0,
+                "default": "Temperatur",
+                "de": "Temperatur",
+                "en": "Temperature",
+                "es": "Temperatura",
+                "ph": "Temperatura"
+            },
+            {
+                "box": 0,
+                "default": "Grad",
+                "de": "Grad",
+                "en": "Degree",
+                "es": "Grado",
+                "ph": "Antas"
+            },
+            {
+                "box": 0,
+                "default": "Celsius",
+                "de": "Celsius",
+                "en": "Celsius",
+                "es": "Celsius",
+                "ph": "Celsius"
+            },
+            {
+                "box": 0,
+                "default": "Frost",
+                "de": "Frost",
+                "en": "Frost",
+                "es": "Helada",
+                "ph": "Frost"
+            },
+            {
+                "box": 0,
+                "default": "Hitze",
+                "de": "Hitze",
+                "en": "Heat",
+                "es": "Calor",
+                "ph": "Init"
+            },
+            {
+                "box": 0,
+                "default": "kühl",
+                "de": "kühl",
+                "en": "cool",
+                "es": "fresco",
+                "ph": "malamig"
+            },
+            {
+                "box": 0,
+                "default": "warm",
+                "de": "warm",
+                "en": "warm",
+                "es": "cálido",
+                "ph": "mainit"
+            },
+            {
+                "box": 0,
+                "default": "heiß",
+                "de": "heiß",
+                "en": "hot",
+                "es": "caliente",
+                "ph": "mainit"
+            },
+            {
+                "box": 0,
+                "default": "kalt",
+                "de": "kalt",
+                "en": "cold",
+                "es": "frío",
+                "ph": "malamig"
+            },
+            {
+                "box": 0,
+                "default": "Frühling",
+                "de": "Frühling",
+                "en": "Spring",
+                "es": "Primavera",
+                "ph": "Tagsibol"
+            },
+            {
+                "box": 0,
+                "default": "Sommer",
+                "de": "Sommer",
+                "en": "Summer",
+                "es": "Verano",
+                "ph": "Tag-init"
+            },
+            {
+                "box": 0,
+                "default": "Herbst",
+                "de": "Herbst",
+                "en": "Autumn",
+                "es": "Otoño",
+                "ph": "Taglagas"
+            },
+            {
+                "box": 0,
+                "default": "Winter",
+                "de": "Winter",
+                "en": "Winter",
+                "es": "Invierno",
+                "ph": "Taglamig"
+            },
+            {
+                "box": 0,
+                "default": "Jahreszeit",
+                "de": "Jahreszeit",
+                "en": "Season",
+                "es": "Estación",
+                "ph": "Panahon ng Taon"
+            },
+            {
+                "box": 0,
+                "default": "Tageszeit",
+                "de": "Tageszeit",
+                "en": "Time of Day",
+                "es": "Hora del Día",
+                "ph": "Oras ng Araw"
+            },
+            {
+                "box": 0,
+                "default": "Morgens",
+                "de": "Morgens",
+                "en": "Morning",
+                "es": "Mañana",
+                "ph": "Umaga"
+            },
+            {
+                "box": 0,
+                "default": "Mittags",
+                "de": "Mittags",
+                "en": "Noon",
+                "es": "Mediodía",
+                "ph": "Tanghalian"
+            },
+            {
+                "box": 0,
+                "default": "Abends",
+                "de": "Abends",
+                "en": "Evening",
+                "es": "Tarde",
+                "ph": "Gabi"
+            },
+            {
+                "box": 0,
+                "default": "Nachts",
+                "de": "Nachts",
+                "en": "Night",
+                "es": "Noche",
+                "ph": "Gabi"
+            }
+        ]
+    },
+    "A1_18": {
+        "lesson": "A1",
+        "level": "18",
+        "category": "Cardinal Directions",
+        "words": [
+            {
+                "box": 0,
+                "default": "Norden",
+                "de": "Norden",
+                "en": "North",
+                "es": "Norte",
+                "ph": "Hilaga"
+            },
+            {
+                "box": 0,
+                "default": "Osten",
+                "de": "Osten",
+                "en": "East",
+                "es": "Este",
+                "ph": "Silangan"
+            },
+            {
+                "box": 0,
+                "default": "Süden",
+                "de": "Süden",
+                "en": "South",
+                "es": "Sur",
+                "ph": "Timog"
+            },
+            {
+                "box": 0,
+                "default": "Westen",
+                "de": "Westen",
+                "en": "West",
+                "es": "Oeste",
+                "ph": "Kanluran"
+            },
+            {
+                "box": 0,
+                "default": "Nordosten",
+                "de": "Nordosten",
+                "en": "Northeast",
+                "es": "Noreste",
+                "ph": "Hilagang-Silangan"
+            },
+            {
+                "box": 0,
+                "default": "Südosten",
+                "de": "Südosten",
+                "en": "Southeast",
+                "es": "Sureste",
+                "ph": "Timog-Silangan"
+            },
+            {
+                "box": 0,
+                "default": "Südwesten",
+                "de": "Südwesten",
+                "en": "Southwest",
+                "es": "Suroeste",
+                "ph": "Timog-Kanluran"
+            },
+            {
+                "box": 0,
+                "default": "Nordwesten",
+                "de": "Nordwesten",
+                "en": "Northwest",
+                "es": "Noroeste",
+                "ph": "Hilagang-Kanluran"
+            },
+            {
+                "box": 0,
+                "default": "Richtung",
+                "de": "Richtung",
+                "en": "Direction",
+                "es": "Dirección",
+                "ph": "Direksiyon"
+            },
+            {
+                "box": 0,
+                "default": "Kompass",
+                "de": "Kompass",
+                "en": "Compass",
+                "es": "Brújula",
+                "ph": "Kompas"
+            },
+            {
+                "box": 0,
+                "default": "Karte",
+                "de": "Karte",
+                "en": "Map",
+                "es": "Mapa",
+                "ph": "Mapa"
+            },
+            {
+                "box": 0,
+                "default": "Standort",
+                "de": "Standort",
+                "en": "Location",
+                "es": "Ubicación",
+                "ph": "Lokasyon"
+            },
+            {
+                "box": 0,
+                "default": "Weg",
+                "de": "Weg",
+                "en": "Path",
+                "es": "Camino",
+                "ph": "Landas"
+            },
+            {
+                "box": 0,
+                "default": "Entfernung",
+                "de": "Entfernung",
+                "en": "Distance",
+                "es": "Distancia",
+                "ph": "Distansya"
+            },
+            {
+                "box": 0,
+                "default": "links",
+                "de": "links",
+                "en": "left",
+                "es": "izquierda",
+                "ph": "kaliwa"
+            },
+            {
+                "box": 0,
+                "default": "rechts",
+                "de": "rechts",
+                "en": "right",
+                "es": "derecha",
+                "ph": "kanan"
+            },
+            {
+                "box": 0,
+                "default": "vorne",
+                "de": "vorne",
+                "en": "front",
+                "es": "frente",
+                "ph": "harap"
+            },
+            {
+                "box": 0,
+                "default": "hinten",
+                "de": "hinten",
+                "en": "back",
+                "es": "atrás",
+                "ph": "likod"
+            }
+        ]
+    },
+    "A1_19": {
+        "lesson": "A1",
+        "level": "19",
+        "category": "Leisure Activities",
+        "words": [
+            {
+                "box": 0,
+                "default": "Freizeit",
+                "de": "Freizeit",
+                "en": "Leisure",
+                "es": "Tiempo Libre",
+                "ph": "Libreng Oras"
+            },
+            {
+                "box": 0,
+                "default": "Hobby",
+                "de": "Hobby",
+                "en": "Hobby",
+                "es": "Hobby",
+                "ph": "Hilig"
+            },
+            {
+                "box": 0,
+                "default": "Aktivität",
+                "de": "Aktivität",
+                "en": "Activity",
+                "es": "Actividad",
+                "ph": "Aktibidad"
+            },
+            {
+                "box": 0,
+                "default": "Sport",
+                "de": "Sport",
+                "en": "Sports",
+                "es": "Deporte",
+                "ph": "Sports"
+            },
+            {
+                "box": 0,
+                "default": "Musik",
+                "de": "Musik",
+                "en": "Music",
+                "es": "Música",
+                "ph": "Musika"
+            },
+            {
+                "box": 0,
+                "default": "Lesen",
+                "de": "Lesen",
+                "en": "Reading",
+                "es": "Leer",
+                "ph": "Pagbabasa"
+            },
+            {
+                "box": 0,
+                "default": "Malen",
+                "de": "Malen",
+                "en": "Painting",
+                "es": "Pintar",
+                "ph": "Pagsusulay"
+            },
+            {
+                "box": 0,
+                "default": "Tanzen",
+                "de": "Tanzen",
+                "en": "Dancing",
+                "es": "Bailar",
+                "ph": "Sayaw"
+            },
+            {
+                "box": 0,
+                "default": "Reisen",
+                "de": "Reisen",
+                "en": "Traveling",
+                "es": "Viajar",
+                "ph": "Paglalakbay"
+            },
+            {
+                "box": 0,
+                "default": "Spielen",
+                "de": "Spielen",
+                "en": "Playing",
+                "es": "Jugar",
+                "ph": "Laro"
+            },
+            {
+                "box": 0,
+                "default": "Kochen",
+                "de": "Kochen",
+                "en": "Cooking",
+                "es": "Cocinar",
+                "ph": "Pagluluto"
+            },
+            {
+                "box": 0,
+                "default": "Fotografie",
+                "de": "Fotografie",
+                "en": "Photography",
+                "es": "Fotografía",
+                "ph": "Pagsusunod-sunod ng mga Larawan"
+            },
+            {
+                "box": 0,
+                "default": "Gartenarbeit",
+                "de": "Gartenarbeit",
+                "en": "Gardening",
+                "es": "Jardinería",
+                "ph": "Pagtatanim"
+            },
+            {
+                "box": 0,
+                "default": "Wandern",
+                "de": "Wandern",
+                "en": "Hiking",
+                "es": "Senderismo",
+                "ph": "Pag-akyat bundok"
+            },
+            {
+                "box": 0,
+                "default": "Schwimmen",
+                "de": "Schwimmen",
+                "en": "Swimming",
+                "es": "Natación",
+                "ph": "Paglangoy"
+            },
+            {
+                "box": 0,
+                "default": "Radfahren",
+                "de": "Radfahren",
+                "en": "Cycling",
+                "es": "Ciclismo",
+                "ph": "Pagbibisikleta"
+            },
+            {
+                "box": 0,
+                "default": "Camping",
+                "de": "Camping",
+                "en": "Camping",
+                "es": "Camping",
+                "ph": "Kempi"
+            },
+            {
+                "box": 0,
+                "default": "Kino",
+                "de": "Kino",
+                "en": "Cinema",
+                "es": "Cine",
+                "ph": "Sine"
+            },
+            {
+                "box": 0,
+                "default": "Theater",
+                "de": "Theater",
+                "en": "Theater",
+                "es": "Teatro",
+                "ph": "Teatro"
+            },
+            {
+                "box": 0,
+                "default": "Konzert",
+                "de": "Konzert",
+                "en": "Concert",
+                "es": "Concierto",
+                "ph": "Konsiyerto"
+            },
+            {
+                "box": 0,
+                "default": "Picknick",
+                "de": "Picknick",
+                "en": "Picnic",
+                "es": "Picnic",
+                "ph": "Piknik"
+            },
+            {
+                "box": 0,
+                "default": "Ausflug",
+                "de": "Ausflug",
+                "en": "Excursion",
+                "es": "Excursión",
+                "ph": "Lakbay-aral"
+            },
+            {
+                "box": 0,
+                "default": "Entspannen",
+                "de": "Entspannen",
+                "en": "Relaxing",
+                "es": "Relajarse",
+                "ph": "Paghinga"
+            },
+            {
+                "box": 0,
+                "default": "Fernsehen",
+                "de": "Fernsehen",
+                "en": "Watching TV",
+                "es": "Ver Televisión",
+                "ph": "Panonood ng Telebisyon"
+            },
+            {
+                "box": 0,
+                "default": "Radio hören",
+                "de": "Radio hören",
+                "en": "Listening to Radio",
+                "es": "Escuchar la Radio",
+                "ph": "Pakikinig sa Radyo"
+            }
+        ]
+    },
+    "A1_20": {
+        "lesson": "A1",
+        "level": "20",
+        "category": "Hobbies",
+        "words": [
+            {
+                "box": 0,
+                "default": "Hobby",
+                "de": "Hobby",
+                "en": "Hobby",
+                "es": "Hobby",
+                "ph": "Hilig"
+            },
+            {
+                "box": 0,
+                "default": "Sport",
+                "de": "Sport",
+                "en": "Sports",
+                "es": "Deporte",
+                "ph": "Sports"
+            },
+            {
+                "box": 0,
+                "default": "Musik",
+                "de": "Musik",
+                "en": "Music",
+                "es": "Música",
+                "ph": "Musika"
+            },
+            {
+                "box": 0,
+                "default": "Lesen",
+                "de": "Lesen",
+                "en": "Reading",
+                "es": "Leer",
+                "ph": "Pagbabasa"
+            },
+            {
+                "box": 0,
+                "default": "Malen",
+                "de": "Malen",
+                "en": "Painting",
+                "es": "Pintar",
+                "ph": "Pagsusulay"
+            },
+            {
+                "box": 0,
+                "default": "Tanzen",
+                "de": "Tanzen",
+                "en": "Dancing",
+                "es": "Bailar",
+                "ph": "Sayaw"
+            },
+            {
+                "box": 0,
+                "default": "Fotografie",
+                "de": "Fotografie",
+                "en": "Photography",
+                "es": "Fotografía",
+                "ph": "Pagsusunod-sunod ng mga Larawan"
+            },
+            {
+                "box": 0,
+                "default": "Kochen",
+                "de": "Kochen",
+                "en": "Cooking",
+                "es": "Cocinar",
+                "ph": "Pagluluto"
+            },
+            {
+                "box": 0,
+                "default": "Gärtnern",
+                "de": "Gärtnern",
+                "en": "Gardening",
+                "es": "Jardinería",
+                "ph": "Pagtatanim"
+            },
+            {
+                "box": 0,
+                "default": "Wandern",
+                "de": "Wandern",
+                "en": "Hiking",
+                "es": "Senderismo",
+                "ph": "Pag-akyat bundok"
+            },
+            {
+                "box": 0,
+                "default": "Schwimmen",
+                "de": "Schwimmen",
+                "en": "Swimming",
+                "es": "Natación",
+                "ph": "Paglangoy"
+            },
+            {
+                "box": 0,
+                "default": "Radfahren",
+                "de": "Radfahren",
+                "en": "Cycling",
+                "es": "Ciclismo",
+                "ph": "Pagbibisikleta"
+            },
+            {
+                "box": 0,
+                "default": "Reisen",
+                "de": "Reisen",
+                "en": "Traveling",
+                "es": "Viajar",
+                "ph": "Paglalakbay"
+            },
+            {
+                "box": 0,
+                "default": "Basteln",
+                "de": "Basteln",
+                "en": "Crafting",
+                "es": "Hacer Manualidades",
+                "ph": "Paggawa ng Sining"
+            },
+            {
+                "box": 0,
+                "default": "Spielen",
+                "de": "Spielen",
+                "en": "Playing",
+                "es": "Jugar",
+                "ph": "Laro"
+            },
+            {
+                "box": 0,
+                "default": "Sammeln",
+                "de": "Sammeln",
+                "en": "Collecting",
+                "es": "Coleccionar",
+                "ph": "Koleksyon"
+            },
+            {
+                "box": 0,
+                "default": "Schreiben",
+                "de": "Schreiben",
+                "en": "Writing",
+                "es": "Escribir",
+                "ph": "Pagsusulat"
+            },
+            {
+                "box": 0,
+                "default": "Angeln",
+                "de": "Angeln",
+                "en": "Fishing",
+                "es": "Pescar",
+                "ph": "Pangingisda"
+            },
+            {
+                "box": 0,
+                "default": "Skifahren",
+                "de": "Skifahren",
+                "en": "Skiing",
+                "es": "Esquiar",
+                "ph": "Skiing"
+            },
+            {
+                "box": 0,
+                "default": "Zeichnen",
+                "de": "Zeichnen",
+                "en": "Drawing",
+                "es": "Dibujar",
+                "ph": "Pagguhit"
+            },
+            {
+                "box": 0,
+                "default": "Nähen",
+                "de": "Nähen",
+                "en": "Sewing",
+                "es": "Coser",
+                "ph": "Pananahi"
+            },
+            {
+                "box": 0,
+                "default": "Modellbau",
+                "de": "Modellbau",
+                "en": "Model Building",
+                "es": "Modelismo",
+                "ph": "Paggawa ng Modelo"
+            },
+            {
+                "box": 0,
+                "default": "Filme schauen",
+                "de": "Filme schauen",
+                "en": "Watching Movies",
+                "es": "Ver Películas",
+                "ph": "Panonood ng mga Pelikula"
+            },
+            {
+                "box": 0,
+                "default": "Brettspiele spielen",
+                "de": "Brettspiele spielen",
+                "en": "Playing Board Games",
+                "es": "Jugar a Juegos de Mesa",
+                "ph": "Pagsusulay ng mga Larong Pambawat"
+            },
+            {
+                "box": 0,
+                "default": "Musikinstrument spielen",
+                "de": "Musikinstrument spielen",
+                "en": "Playing Musical Instruments",
+                "es": "Tocar Instrumentos Musicales",
+                "ph": "Pagtugtog ng mga Instrumentong Musika"
+            }
+        ]
+    }
+}
