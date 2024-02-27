@@ -299,15 +299,9 @@ class Word extends ChangeNotifier {
       currentWords[0] = currentWords[0].copyWith(
           box: currentWords[0].box + 1
       );
-    } else if (cardStatus == CardStatus.left && currentWords[0].box != 0) {
-      currentWords[0] = currentWords[0].copyWith(
-          box: currentWords[0].box - 1
-      );
-    } else {
-      if (currentWords.length != 1) {
-        currentWords.remove(currentWords[0]);
-        currentWords.add(currentWords[0]);
-      }
+    } else if (cardStatus == CardStatus.left) {
+      WordModel firstWord = currentWords.removeAt(0);
+      currentWords.add(firstWord);
     }
 
     final List<WordModel> updatedWords = [...notSelectedWords, ...currentWords];
@@ -343,6 +337,17 @@ class Word extends ChangeNotifier {
 
     }
     notifyListeners();
+  }
+
+  bool getActivated(int latestEmptyIndex, String time) {
+
+    if (boxIndex == 0 || latestEmptyIndex > boxIndex ) {
+      return true;
+    } else if (time != "0") {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   int latestEmptyIndex(List<WordModel> wordList) {

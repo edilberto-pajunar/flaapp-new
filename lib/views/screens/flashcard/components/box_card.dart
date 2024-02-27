@@ -29,10 +29,8 @@ class BoxCard extends StatelessWidget {
     final bool isCurrentBox = word.boxIndex == index;
     final List<WordModel> selectedWords = word.selectedWords(wordList, index);
     final bool locked = selectedWords.isEmpty;
-    final bool activated = index == 0
-        ? true
-        : time == "0";
     final latestEmptyIndex = word.latestEmptyIndex(wordList);
+    final bool activated = word.getActivated(latestEmptyIndex, time);
 
     return SizedBox(
       width: 70,
@@ -66,8 +64,9 @@ class BoxCard extends StatelessWidget {
                       : Stack(
                     children: [
                       Center(
-                        child: Image.asset(
-                          activated ? PngImage.card : PngImage.cardDeactivated,
+                        child: Image.asset(activated
+                            ? PngImage.card
+                            : PngImage.cardDeactivated,
                         ),
                       ),
                       Align(

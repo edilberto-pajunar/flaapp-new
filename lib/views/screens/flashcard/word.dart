@@ -185,7 +185,6 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
                             word: selectedWords[index],
                             isFront: selectedWords.first == word,
                             time: remainingTime(lesson),
-                            index: index,
                           );
                         }).toList().reversed.toList(),
                       ),

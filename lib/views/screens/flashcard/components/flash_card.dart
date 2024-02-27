@@ -16,7 +16,6 @@ class FlashCardWidget<T> extends StatefulWidget {
     required this.word,
     required this.isFront,
     required this.time,
-    required this.index,
     super.key,
   });
 
@@ -26,7 +25,6 @@ class FlashCardWidget<T> extends StatefulWidget {
   final WordModel word;
   final bool isFront;
   final String time;
-  final int index;
 
   @override
   State<FlashCardWidget<T>> createState() => _FlashCardWidgetState<T>();
@@ -46,16 +44,7 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
   }
 
 
-  bool getActivated(Word word, int latestEmptyIndex) {
 
-    if (word.boxIndex == 0 || latestEmptyIndex > word.boxIndex ) {
-      return true;
-    } else if (widget.time != "0") {
-      return false;
-    } else {
-      return true;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +52,7 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
     final Word word = Provider.of<Word>(context);
 
     final int latestEmptyIndex = word.latestEmptyIndex(widget.wordList);
-    final bool activated = getActivated(word, latestEmptyIndex);
+    final bool activated = word.getActivated(latestEmptyIndex, widget.time);
 
     if (activated) {
       if (widget.isFront) {
