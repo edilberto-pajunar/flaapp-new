@@ -1,4 +1,4 @@
-import 'package:flaapp/values/theme/colors.dart';
+import 'package:flaapp/services/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {

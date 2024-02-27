@@ -1,34 +1,28 @@
 class UserModel {
-  final String name;
   final String email;
-  final String password;
+  final String name;
 
   UserModel({
-    required this.name,
     required this.email,
-    required this.password,
+    required this.name,
   });
 
   UserModel copyWith({
-    String? name,
     String? email,
-    String? password,
+    String? name,
   }) =>
       UserModel(
-        name: name ?? this.name,
         email: email ?? this.email,
-        password: password ?? this.password,
+        name: name ?? this.name,
       );
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    name: json["name"],
     email: json["email"],
-    password: json["password"],
+    name: json["name"],
   );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
     "email": email,
-    "password": password,
+    "name": name,
   };
 }

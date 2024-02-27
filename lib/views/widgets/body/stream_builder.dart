@@ -8,7 +8,7 @@ class StreamWrapper<T> extends StatelessWidget {
   });
 
   final Stream<T>? stream;
-  final Widget Function(T) child;
+  final Widget Function(T? data) child;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class StreamWrapper<T> extends StatelessWidget {
       stream: stream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final T data = snapshot.data as T;
+          final data = snapshot.data;
           return child(data);
         } else if (snapshot.hasError) {
           debugPrint(snapshot.error.toString());

@@ -1,44 +1,16 @@
 {
     "levels": [
         {
-            "name": "A1",
-            "unlocked": true
+            "doc": "A1",
+            "locked": true
         },
         {
-            "name": "A2",
-            "unlocked": false
+            "doc": "A2",
+            "locked": false
         },
         {
-            "name": "B1",
-            "unlocked": false
-        },
-        {
-            "name": "B2",
-            "unlocked": false
-        },
-        {
-            "name": "C1",
-            "unlocked": false
-        },
-        {
-            "name": "C2",
-            "unlocked": false
-        },
-        {
-            "name": "D1",
-            "unlocked": false
-        },
-        {
-            "name": "D2",
-            "unlocked": false
-        },
-        {
-            "name": "E1",
-            "unlocked": false
-        },
-        {
-            "name": "E2",
-            "unlocked": false
+            "doc": "B1",
+            "locked": false
         }
     ]
 }

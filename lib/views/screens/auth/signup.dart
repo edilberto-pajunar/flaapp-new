@@ -1,8 +1,8 @@
+import 'package:flaapp/services/constant/theme/colors.dart';
+import 'package:flaapp/services/extensions/email_validator.dart';
 import 'package:flaapp/services/functions/nav.dart';
-import 'package:flaapp/services/networks/providers/user.dart';
-import 'package:flaapp/values/extensions/email_validator.dart';
-import 'package:flaapp/values/theme/colors.dart';
-import 'package:flaapp/views/screens/mobile/auth/login.dart';
+import 'package:flaapp/services/networks/auth.dart';
+import 'package:flaapp/views/screens/auth/login.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
 import 'package:flaapp/views/widgets/fields/primary_text_field.dart';
 import 'package:flutter/gestures.dart';
@@ -27,21 +27,13 @@ class _SignupScreenState extends State<SignupScreen> {
     final GlobalKey<FormFieldState> passwordKey = GlobalKey();
     final GlobalKey<FormState> formKey = GlobalKey();
     final ThemeData theme = Theme.of(context);
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
+    final Auth auth = Provider.of<Auth>(context);
     final NavigationServices nav = NavigationServices();
-
-    void signup() {
-      if (formKey.currentState!.validate()) {
-        userProvider.signup().then((value) {
-          nav.pushScreen(context, screen: const LoginScreen());
-        });
-      }
-    }
 
     return Scaffold(
       key: scaffoldKey,
       body: ModalProgressHUD(
-        inAsyncCall: userProvider.isLoading,
+        inAsyncCall: auth.isLoading,
         child: Form(
           key: formKey,
           child: SafeArea(
@@ -53,13 +45,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      PrimaryButton(
-                        label: "Generate words",
-                        onTap: () {
-                          userProvider.generateDatas();
-                        },
-                      ),
-                      Text("Create your Account",
+                      Text(
+                        "Create your Account",
                         style: theme.textTheme.headlineSmall!.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -67,7 +54,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: 18.0),
                       PrimaryTextField(
-                        controller: UserProvider.username,
+                        controller: Auth.name,
                         label: "Username",
                         hintText: "Juan Dela Cruz",
                         validator: (val) {
@@ -79,7 +66,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       PrimaryTextField(
                         key: emailKey,
-                        controller: UserProvider.email,
+                        controller: Auth.email,
                         label: "Email",
                         hintText: "example@gmail.com",
                         validator: (val) {
@@ -93,7 +80,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       PrimaryTextField(
                         key: passwordKey,
-                        controller: UserProvider.password,
+                        controller: Auth.password,
                         label: "Password",
                         isPassword: true,
                         hintText: "Password",
@@ -110,7 +97,11 @@ class _SignupScreenState extends State<SignupScreen> {
                       const SizedBox(height: 12.0),
                       PrimaryButton(
                         label: "Sign up",
-                        onTap: signup,
+                        onTap: () async {
+                          await auth.signup().then((value) {
+                            nav.pushScreen(context, screen: const LoginScreen());
+                          });
+                        },
                       ),
                       const SizedBox(height: 100.0),
                       RichText(
@@ -127,10 +118,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 color: ColorTheme.tBlueColor,
                               ),
                               recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  nav.pushScreen(context, screen: const LoginScreen());
-                                  userProvider.clearForm();
-                                },
+                                ..onTap = () => nav.pushScreen(context, screen: const LoginScreen())
                             ),
                           ],
                         ),

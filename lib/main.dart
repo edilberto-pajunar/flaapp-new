@@ -1,14 +1,14 @@
-import 'package:flaapp/views/screens/mobile/auth/signup.dart';
-import 'package:flutter/material.dart';
-import 'package:flaapp/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flaapp/services/networks/auth.dart';
+import 'package:flaapp/services/networks/word.dart';
+import 'package:flaapp/views/screens/auth/signup.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'services/networks/providers/user.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
+        ChangeNotifierProvider<Auth>(create: (context) => Auth()),
+        ChangeNotifierProvider<Word>(create: (context) => Word()),
       ],
       child: MaterialApp(
         home: SignupScreen(),

@@ -1,124 +1,52 @@
 {
-    "lessons": [
+  "lessons": [
+    {
+      "doc": "Greetings",
+      "locked": false,
+      "words": [
         {
-            "id": 1,
-            "name": "1",
-            "description": "Greetings and Farewells",
-            "unlocked": true
+          "word": "Hello",
+          "box": 0,
+          "translations": [
+            "Hallo",
+            "Hola",
+            "Kamusta"
+          ]
         },
         {
-            "id": 2,
-            "name": "2",
-            "description": "Personal Information",
-            "unlocked": false
+          "box": 0,
+          "word": "Thank you",
+          "translations": [
+            "Danke",
+            "Gracias",
+            "Salamat"
+          ]
         },
         {
-            "id": 3,
-            "name": "3",
-            "description": "Numbers",
-            "unlocked": false
-        },
-        {
-            "id": 4,
-            "name": "4",
-            "description": "Countries",
-            "unlocked": false
-        },
-        {
-            "id": 5,
-            "name": "5",
-            "description": "Languages",
-            "unlocked": false
-        },
-        {
-            "id": 6,
-            "name": "6",
-            "description": "Family",
-            "unlocked": false
-        },
-        {
-            "id": 7,
-            "name": "7",
-            "description": "Shopping, Groceries, Quantities, Prices",
-            "unlocked": false
-        },
-        {
-            "id": 8,
-            "name": "8",
-            "description": "Colors",
-            "unlocked": false
-        },
-        {
-            "id": 9,
-            "name": "9",
-            "description": "House/Apartment",
-            "unlocked": false
-        },
-        {
-            "id": 10,
-            "name": "10",
-            "description": "Furniture/Appliances",
-            "unlocked": false
-        },
-        {
-            "id": 11,
-            "name": "11",
-            "description": "Apartment Listings",
-            "unlocked": false
-        },
-        {
-            "id": 12,
-            "name": "12",
-            "description": "Time",
-            "unlocked": false
-        },
-        {
-            "id": 13,
-            "name": "13",
-            "description": "Days of the Week",
-            "unlocked": false
-        },
-        {
-            "id": 14,
-            "name": "14",
-            "description": "Months",
-            "unlocked": false
-        },
-        {
-            "id": 15,
-            "name": "15",
-            "description": "Seasons",
-            "unlocked": false
-        },
-        {
-            "id": 16,
-            "name": "16",
-            "description": "House/Apartment",
-            "unlocked": false
-        },
-        {
-            "id": 17,
-            "name": "17",
-            "description": "Weather and Climate",
-            "unlocked": false
-        },
-        {
-            "id": 18,
-            "name": "18",
-            "description": "Cardinal Directions",
-            "unlocked": false
-        },
-        {
-            "id": 19,
-            "name": "19",
-            "description": "Leisure Activities",
-            "unlocked": false
-        },
-        {
-            "id": 20,
-            "name": "20",
-            "description": "Hobbies",
-            "unlocked": false
+          "box": 0,
+          "word": "Please",
+          "translations": [
+            "Bitte",
+            "Por favor",
+            "Pakiusap"
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "doc": "Colors",
+      "locked": false,
+      "words": [
+        {
+          "word": "Red",
+          "box": 0,
+          "translations": [
+            "Rot",
+            "Red",
+            "Rojo"
+          ]
+        }
+      ]
+    }
+  ]
 }
