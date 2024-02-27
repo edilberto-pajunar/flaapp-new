@@ -6,6 +6,7 @@ import 'package:flaapp/views/screens/flashcard/components/box_card.dart';
 import 'package:flaapp/views/screens/flashcard/components/flash_card.dart';
 import 'package:flaapp/views/widgets/body/stream_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 class WordsScreen extends StatefulWidget {
@@ -22,20 +23,22 @@ class WordsScreen extends StatefulWidget {
   State<WordsScreen> createState() => _WordsScreenState();
 }
 
-class _WordsScreenState extends State<WordsScreen> {
+class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStateMixin {
+  late Ticker ticker;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final Word word = Provider.of<Word>(context, listen: false);
-      word.updateWordListStream(
-        levelId: widget.levelId,
-        lessonId: widget.lessonModel.doc,
-      );
+      ticker = createTicker((elapsed) {
+        word.updateWordListStream(
+          levelId: widget.levelId,
+          lessonId: widget.lessonModel.doc,
+        );
+      })..start();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +81,6 @@ class _WordsScreenState extends State<WordsScreen> {
                           child: BoxCard(
                             index: index,
                             wordList: wordList,
-                            onTap: () {
-                              word.updateBoxIndex(index);
-                            },
                             lessonModel: widget.lessonModel,
                           ),
                         );

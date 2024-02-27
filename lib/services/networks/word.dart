@@ -242,14 +242,14 @@ class Word extends ChangeNotifier {
     required String lessonId,
   }) async {
     final String id = _auth.currentUser!.uid;
+    final DateTime now = DateTime.now();
 
     final path = _db.collection(tUserPath).doc(id)
       .collection(tLevelPath).doc(levelId)
       .collection(tLessonPath).doc(lessonId);
 
-    final List<WordModel> wordList = await path.get().then((value) {
+    List<WordModel> wordList = await path.get().then((value) {
       final map = value.data()!;
-
       return (map[tLessonPath][tWordPath] as List).map((e) => WordModel.fromJson(e)).toList();
     });
 
@@ -258,7 +258,7 @@ class Word extends ChangeNotifier {
     }).toList();
 
 
-    final List<WordModel> currentWords = selectedWords(wordList, boxIndex);
+    List<WordModel> currentWords = selectedWords(wordList, boxIndex);
 
     currentWords[0] = currentWords[0].copyWith(
       box: currentWords[0].box + 1
@@ -268,11 +268,29 @@ class Word extends ChangeNotifier {
 
     await path.set({
       tLessonPath: {
-        "words": updatedWords.map((e) => e.toJson())
+        "words": updatedWords.map((e) =>  e.toJson())
       }
-    }, SetOptions(merge: true)).then((value) => debugPrint("Updated successful!"))
+    }, SetOptions(merge: true)).then((value) {
+      return debugPrint("Updated successful!");
+    })
       .onError((error, stackTrace) => debugPrint("Error: $error"));
 
-  }
+    wordList = await path.get().then((value) {
+      final map = value.data()!;
+      return (map[tLessonPath][tWordPath] as List).map((e) => WordModel.fromJson(e)).toList();
+    });
 
+    currentWords = selectedWords(wordList, boxIndex);
+
+    if (currentWords.isEmpty) {
+      await path.set({
+        tLessonPath: {
+          "timeConstraint": now.add(const Duration(minutes: 5)),
+        }
+      }, SetOptions(merge: true)).then((value) => debugPrint("Updated time successful!"))
+          .onError((error, stackTrace) => debugPrint("Error: $error"));
+    }
+
+    notifyListeners();
+  }
 }

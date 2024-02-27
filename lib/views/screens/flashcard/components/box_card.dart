@@ -4,12 +4,12 @@ import 'package:flaapp/services/constant/strings/image.dart';
 import 'package:flaapp/services/constant/theme/colors.dart';
 import 'package:flaapp/services/networks/word.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 class BoxCard extends StatefulWidget {
   const BoxCard({
     required this.wordList,
-    required this.onTap,
     required this.index,
     required this.lessonModel,
     super.key,
@@ -17,7 +17,6 @@ class BoxCard extends StatefulWidget {
 
   final List<WordModel> wordList;
   final int index;
-  final Function()? onTap;
   final LessonModel lessonModel;
 
   @override
@@ -26,20 +25,20 @@ class BoxCard extends StatefulWidget {
 
 class _BoxCardState extends State<BoxCard> {
 
-
-  int time() {
+  String time() {
     final DateTime now = DateTime.now();
     final DateTime? timeConstraint = widget.lessonModel.timeConstraint;
 
-    if (timeConstraint != null) {
-      if (now.isBefore(timeConstraint)) {
-        final difference = now.subtract(Duration(hours: timeConstraint.hour)).hour;
-        return difference;
-      } else {
-        return 0;
-      }
+    if (timeConstraint != null && timeConstraint.isAfter(now)) {
+      final difference = timeConstraint.difference(now);
+
+      int hour = difference.inHours;
+      int minute = difference.inMinutes % 60;
+      int second = difference.inSeconds % 60;
+
+      return '$hour:$minute:$second';
     } else {
-      return 0;
+      return "0";
     }
   }
 
@@ -51,7 +50,12 @@ class _BoxCardState extends State<BoxCard> {
 
     final bool isCurrentBox = word.boxIndex == widget.index;
     final List<WordModel> selectedWords = word.selectedWords(widget.wordList, widget.index);
-
+    final bool locked = selectedWords.isEmpty;
+    final bool deactivated = widget.index == 0
+        ? true
+        : widget.lessonModel.timeConstraint != null
+          ? widget.lessonModel.timeConstraint!.hour != 0
+          : false;
 
     return SizedBox(
       width: 70,
@@ -60,7 +64,7 @@ class _BoxCardState extends State<BoxCard> {
           Positioned(
             top: 12,
             child: InkWell(
-              onTap: widget.onTap,
+              onTap: locked || !deactivated ? null : () => word.updateBoxIndex(widget.index),
               child: Container(
                 height: 80,
                 width: size.width * 0.17,
@@ -80,13 +84,13 @@ class _BoxCardState extends State<BoxCard> {
                   ) : null,
                 ),
                 child: Center(
-                  child: false
+                  child: locked
                       ? const Icon(Icons.lock)
                       : Stack(
                     children: [
                       Center(
                         child: Image.asset(
-                          true ? PngImage.card : PngImage.cardDeactivated,
+                          deactivated ? PngImage.card : PngImage.cardDeactivated,
                         ),
                       ),
                       Align(
@@ -108,7 +112,7 @@ class _BoxCardState extends State<BoxCard> {
           Positioned(
             left: 28,
             child: Visibility(
-              visible: time() != 0,
+              visible: widget.index == 1,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
                 decoration: BoxDecoration(
