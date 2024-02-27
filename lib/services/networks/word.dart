@@ -103,6 +103,35 @@ class Word extends ChangeNotifier {
     notifyListeners();
   }
 
+  Stream<LessonModel>? lessonStream;
+
+  Stream<LessonModel> getLessonStream({
+    required String levelId,
+    required String lessonId,
+  }) {
+
+    final String id = _auth.currentUser!.uid;
+
+    return _db.collection(tUserPath)
+        .doc(id).collection(tLevelPath).doc(levelId)
+        .collection(tLessonPath).doc(lessonId).snapshots().map((event) {
+      final map = event.data()!;
+
+      return LessonModel.fromJson(map[tLessonPath]);
+    });
+  }
+
+  void updateLessonStream({
+    required String levelId,
+    required String lessonId,
+  }) {
+    lessonStream = getLessonStream(
+        levelId: levelId,
+        lessonId: lessonId
+    );
+    notifyListeners();
+  }
+
   Stream<List<WordModel>>? wordListStream;
 
   Stream<List<WordModel>> getWordListStream({
@@ -185,10 +214,10 @@ class Word extends ChangeNotifier {
 
 
   /// [endPosition] triggers when the user stops dragging the card
-  Future<void> endPosition(DragEndDetails details, BuildContext context, {
-    required String lessonId,
+  void endPosition(DragEndDetails details, {
+    required LessonModel lessonModel,
     required String levelId,
-  }) async {
+  }) {
     isDragging = false;
     notifyListeners();
 
@@ -198,13 +227,13 @@ class Word extends ChangeNotifier {
       case CardStatus.right:
         angle = 20;
         position += Offset(screenSize.width * 2, 0);
-        await nextCard(context, lessonId: lessonId, levelId: levelId);
+        nextCard(lessonModel: lessonModel, levelId: levelId);
 
+        notifyListeners();
         break;
 
       case CardStatus.left:
         break;
-
 
       default:
         resetPosition();
@@ -240,16 +269,16 @@ class Word extends ChangeNotifier {
 
   final NavigationServices nav = NavigationServices();
 
-  Future<void> nextCard(BuildContext context, {
+  Future<void> nextCard({
     required String levelId,
-    required String lessonId,
+    required LessonModel lessonModel,
   }) async {
     final String id = _auth.currentUser!.uid;
     final DateTime now = DateTime.now();
 
     final path = _db.collection(tUserPath).doc(id)
       .collection(tLevelPath).doc(levelId)
-      .collection(tLessonPath).doc(lessonId);
+      .collection(tLessonPath).doc(lessonModel.doc);
 
     List<WordModel> wordList = await path.get().then((value) {
       final map = value.data()!;
@@ -286,20 +315,19 @@ class Word extends ChangeNotifier {
     currentWords = selectedWords(wordList, boxIndex);
 
     if (currentWords.isEmpty) {
+      boxIndex += 1;
+
       await path.set({
         tLessonPath: {
           "timeConstraint": now.add(const Duration(minutes: 5)),
         }
-      }, SetOptions(merge: true)).then((value) {
-        print("hi");
-        Navigator.of(context).pop();
-
-        return debugPrint("Updated time successful!");
+      }, SetOptions(merge: true))
+        .then((value) {
+          return debugPrint("Updated time successful!");
       })
-          .onError((error, stackTrace) => debugPrint("Error: $stackTrace"));
+        .onError((error, stackTrace) => debugPrint("Error: $stackTrace"));
 
     }
-
     notifyListeners();
   }
 }

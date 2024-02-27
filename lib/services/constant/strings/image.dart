@@ -6,6 +6,9 @@ class PngImage {
   static String closedEye = "assets/images/closed_eye.png";
   static String books = "assets/images/books.png";
 
+  /// ICON
+  static String logo = "assets/images/flaapp.png";
+
   /// FLAGS
   static String spanishFlag = "assets/images/spanish_flag.png";
   static String usFlag = "assets/images/us_flag.png";

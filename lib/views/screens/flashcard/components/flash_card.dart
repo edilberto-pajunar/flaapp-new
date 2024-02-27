@@ -12,20 +12,19 @@ class FlashCardWidget<T> extends StatefulWidget {
   const FlashCardWidget({
     required this.levelId,
     required this.lessonModel,
-    // required this.id,
-    // required this.index,
     required this.word,
     required this.isFront,
+    required this.scaffoldKey,
+    required this.time,
     super.key,
   });
 
   final LessonModel lessonModel;
   final String levelId;
-
-  // final String id;
-  // final int index;
   final WordModel word;
   final bool isFront;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final String time;
 
   @override
   State<FlashCardWidget<T>> createState() => _FlashCardWidgetState<T>();
@@ -44,14 +43,14 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     
     final Word word = Provider.of<Word>(context);
-    
-    final List<WordModel> selectedWords = word.selectedWords(widget.lessonModel.words, word.boxIndex);
+    final bool activated = word.boxIndex == 0 ? true : widget.time == "0";
 
-    if (selectedWords.isNotEmpty) {
+    if (activated) {
       if (widget.isFront) {
         return buildFrontCard(context);
       } else {
@@ -72,10 +71,10 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
       onPanUpdate: (details) {
         word.updatePosition(details);
       },
-      onPanEnd: (details) async {
-        await word.endPosition(details, context,
+      onPanEnd: (details) {
+        word.endPosition(details,
           levelId: widget.levelId,
-          lessonId: widget.lessonModel.doc,
+          lessonModel: widget.lessonModel,
         );
       },
       onTap: () {
@@ -215,8 +214,6 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
   Widget buildEmptyCard(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final ThemeData theme = Theme.of(context);
-    final Word word = Provider.of<Word>(context);
-
 
     return Container(
       height: size.height * 0.58,
@@ -234,43 +231,17 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
               right: 28.0,
             ),
             child: Align(
-              alignment: word.getStatus() == CardStatus.left
-                  ? Alignment.topRight
-                  : Alignment.topLeft,
               child: Text("Come back soon after the timer is finished",
-                style: theme.textTheme.bodyMedium!.copyWith(
-                  color: Colors.white,
+                style: theme.textTheme.bodyLarge!.copyWith(
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
           const Expanded(
             child: Center(
-              child: Icon(Icons.lock),
-            ),
-          ),
-          Visibility(
-            child: Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 9.0),
-                decoration: BoxDecoration(
-                  color: ColorTheme.tWhiteColor,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(23.0),
-                    bottomRight: Radius.circular(23.0),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Click to flip the card",
-                    ),
-                    const SizedBox(width: 6.0),
-                    Image.asset(PngImage.pointingUp),
-                  ],
-                ),
+              child: Icon(Icons.lock,
+                size: 100,
               ),
             ),
           ),

@@ -4,7 +4,6 @@ import 'package:flaapp/services/constant/strings/image.dart';
 import 'package:flaapp/services/constant/theme/colors.dart';
 import 'package:flaapp/services/networks/word.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 class BoxCard extends StatelessWidget {
@@ -12,29 +11,16 @@ class BoxCard extends StatelessWidget {
     required this.wordList,
     required this.index,
     required this.lessonModel,
+    required this.time,
     super.key,
   });
 
   final List<WordModel> wordList;
   final int index;
   final LessonModel lessonModel;
+  final String time;
 
-  String time() {
-    final DateTime now = DateTime.now();
-    final DateTime? timeConstraint = lessonModel.timeConstraint;
 
-    if (timeConstraint != null && timeConstraint.isAfter(now)) {
-      final difference = timeConstraint.difference(now);
-
-      int hour = difference.inHours;
-      int minute = difference.inMinutes % 60;
-      int second = difference.inSeconds % 60;
-
-      return '$hour:$minute:$second';
-    } else {
-      return "0";
-    }
-  }
 
   int latestEmptyIndex(Word word) {
     int latestNonEmptyIndex = 0;
@@ -60,11 +46,9 @@ class BoxCard extends StatelessWidget {
     final bool isCurrentBox = word.boxIndex == index;
     final List<WordModel> selectedWords = word.selectedWords(wordList, index);
     final bool locked = selectedWords.isEmpty;
-    final bool deactivated = index == 0
+    final bool activated = index == 0
         ? true
-        : lessonModel.timeConstraint != null
-          ? lessonModel.timeConstraint!.hour != 0
-          : false;
+        : time == "0";
 
     return SizedBox(
       width: 70,
@@ -73,7 +57,7 @@ class BoxCard extends StatelessWidget {
           Positioned(
             top: 12,
             child: InkWell(
-              onTap: locked || !deactivated ? null : () => word.updateBoxIndex(index),
+              onTap: locked ? null : () => word.updateBoxIndex(index),
               child: Container(
                 height: 80,
                 width: size.width * 0.17,
@@ -99,7 +83,7 @@ class BoxCard extends StatelessWidget {
                     children: [
                       Center(
                         child: Image.asset(
-                          deactivated ? PngImage.card : PngImage.cardDeactivated,
+                          activated ? PngImage.card : PngImage.cardDeactivated,
                         ),
                       ),
                       Align(
@@ -121,14 +105,14 @@ class BoxCard extends StatelessWidget {
           Positioned(
             left: 28,
             child: Visibility(
-              visible: index == latestEmptyIndex(word),
+              visible: index == latestEmptyIndex(word) && time != "0",
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
                 decoration: BoxDecoration(
-                  color:ColorTheme.tLightBlueColor,
+                  color: ColorTheme.tLightBlueColor,
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                child: Text(time(),
+                child: Text(time,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     letterSpacing: -0.2,

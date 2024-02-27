@@ -20,7 +20,6 @@ class LessonScreen extends StatefulWidget {
 }
 
 class _LessonScreenState extends State<LessonScreen> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -30,6 +29,8 @@ class _LessonScreenState extends State<LessonScreen> {
       word.updateLessonListStream(levelId: widget.levelId);
     });
   }
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,7 @@ class _LessonScreenState extends State<LessonScreen> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(15.0),
                             onTap: !lesson.locked ? () {
-                              nav.pushScreen(context, screen: WordsScreen(
+                              nav.pushScreen(scaffoldKey.currentContext!, screen: WordsScreen(
                                 lessonModel: lesson,
                                 levelId: widget.levelId,
                               ));

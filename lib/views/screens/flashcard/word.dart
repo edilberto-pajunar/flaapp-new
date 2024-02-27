@@ -30,14 +30,25 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final Word word = Provider.of<Word>(context, listen: false);
-      ticker = createTicker((elapsed) {
-        word.updateWordListStream(
-          levelId: widget.levelId,
-          lessonId: widget.lessonModel.doc,
-        );
-      })..start();
+      initTicker(scaffoldKey.currentContext!);
     });
+  }
+
+  void initTicker(BuildContext context) {
+
+    final Word word = Provider.of<Word>(context, listen: false);
+
+    ticker = createTicker((elapsed) {
+      word.updateWordListStream(
+        levelId: widget.levelId,
+        lessonId: widget.lessonModel.doc,
+      );
+
+      word.updateLessonStream(
+        levelId: widget.levelId,
+        lessonId: widget.lessonModel.doc,
+      );
+    })..start();
   }
 
   @override
@@ -46,114 +57,143 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
     super.dispose();
   }
 
+  String remainingTime(LessonModel lesson) {
+    final DateTime now = DateTime.now();
+    final DateTime? timeConstraint = lesson.timeConstraint;
+
+    if (timeConstraint != null && timeConstraint.isAfter(now)) {
+      final difference = timeConstraint.difference(now);
+
+      int hour = difference.inHours;
+      int minute = difference.inMinutes % 60;
+      int second = difference.inSeconds % 60;
+
+      return '$hour:$minute:$second';
+    } else {
+      return "0";
+    }
+  }
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Size size = MediaQuery.of(context).size;
     final Word word = Provider.of<Word>(context);
 
-
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: const Text("A1 Greetings"),
       ),
-      body: StreamWrapper<List<WordModel>>(
-        stream: word.wordListStream,
+      body: StreamWrapper<LessonModel>(
+        stream: word.lessonStream,
         child: (data) {
-          final List<WordModel> wordList = data!;
+          final LessonModel lesson = data!;
 
-          final List<WordModel> selectedWords = wordList.where((element) {
-            return element.box == word.boxIndex;
-          }).toList();
+          return StreamWrapper<List<WordModel>>(
+            stream: word.wordListStream,
+            child: (data) {
+              final List<WordModel> wordList = data!;
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: size.height * 0.13,
-                    child: ListView.builder(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: index == 0 ? 0 : 5.0,
-                          ),
-                          child: BoxCard(
-                            index: index,
-                            wordList: wordList,
-                            lessonModel: widget.lessonModel,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 24.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              final List<WordModel> selectedWords = wordList.where((element) {
+                return element.box == word.boxIndex;
+              }).toList();
+
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_back_outlined,
-                            color: ColorTheme.tBlackColor,
-                            size: 28.0,
-                          ),
-                          SizedBox(
-                            width: 100,
-                            child: Text(
-                              "Swipe left to relearn",
-                              style: theme.textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
+                      SizedBox(
+                        height: size.height * 0.13,
+                        child: ListView.builder(
+                          itemCount: 5,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                left: index == 0 ? 0 : 5.0,
                               ),
-                            ),
+                              child: BoxCard(
+                                index: index,
+                                wordList: wordList,
+                                lessonModel: widget.lessonModel,
+                                time: remainingTime(lesson),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 24.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back_outlined,
+                                color: ColorTheme.tBlackColor,
+                                size: 28.0,
+                              ),
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  "Swipe left to relearn",
+                                  style: theme.textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  "Swipe right for next",
+                                  style: theme.textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.end,
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: ColorTheme.tBlackColor,
+                                size: 28.0,
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            child: Text(
-                              "Swipe right for next",
-                              style: theme.textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.end,
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward,
-                            color: ColorTheme.tBlackColor,
-                            size: 28.0,
-                          ),
-                        ],
+                      const SizedBox(height: 12.0),
+                      Stack(
+                        children: selectedWords.map((word) {
+
+                          final int index = selectedWords.indexOf(word);
+
+                          return FlashCardWidget(
+                            scaffoldKey: scaffoldKey,
+                            levelId: widget.levelId,
+                            lessonModel: widget.lessonModel,
+                            word: selectedWords[index],
+                            isFront: selectedWords.first == word,
+                            time: remainingTime(lesson),
+                          );
+                        }).toList().reversed.toList(),
                       ),
+                      const SizedBox(height: 12.0),
                     ],
                   ),
-                  const SizedBox(height: 12.0),
-                  Stack(
-                    children: selectedWords.map((word) {
-
-                      final int index = selectedWords.indexOf(word);
-
-                      return FlashCardWidget(
-                        levelId: widget.levelId,
-                        lessonModel: widget.lessonModel,
-                        word: selectedWords[index],
-                        isFront: selectedWords.first == word,
-                      );
-                    }).toList().reversed.toList(),
-                  ),
-                  const SizedBox(height: 12.0),
-                ],
-              ),
-            ),
+                ),
+              );
+            }
           );
         }
       ),
