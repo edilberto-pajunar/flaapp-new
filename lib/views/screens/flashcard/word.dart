@@ -146,6 +146,7 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
                         levelId: widget.levelId,
                         lessonModel: widget.lessonModel,
                         word: selectedWords[index],
+                        isFront: selectedWords.first == word,
                       );
                     }).toList().reversed.toList(),
                   ),
@@ -156,106 +157,6 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
           );
         }
       ),
-      // body: StreamWrapper<List<WordModel>>(
-      //   stream: wordProvider.wordModelStream,
-      //   child: (data) {
-      //
-      //     final List<WordModel> wordModelList = data!;
-      //
-      //     final List<WordModel> wordsFromSelectedBox = wordModelList.where((element) {
-      //       return element.box == wordProvider.boxIndex;
-      //     }).toList();
-      //
-      //     return Padding(
-      //       padding: const EdgeInsets.all(16.0),
-      //       child: SingleChildScrollView(
-      //         child: Column(
-      //           crossAxisAlignment: CrossAxisAlignment.start,
-      //           mainAxisAlignment: MainAxisAlignment.start,
-      //           children: [
-      //             SizedBox(
-      //               height: size.height * 0.13,
-      //               child: ListView.builder(
-      //                 itemCount: 5,
-      //                 shrinkWrap: true,
-      //                 scrollDirection: Axis.horizontal,
-      //                 itemBuilder: (context, index) {
-      //                   return Padding(
-      //                     padding: EdgeInsets.only(
-      //                       left: index == 0 ? 0 : 5.0,
-      //                     ),
-      //                     child: BoxCard(
-      //                       index: index,
-      //                       wordList: widget.wordList,
-      //                       onTap: () {
-      //                         wordProvider.updateBoxIndex(index: index);
-      //                       },
-      //                     ),
-      //                   );
-      //                 },
-      //               ),
-      //             ),
-      //             const SizedBox(height: 24.0),
-      //             Row(
-      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //               children: [
-      //                 Row(
-      //                   children: [
-      //                     Icon(
-      //                       Icons.arrow_back_outlined,
-      //                       color: ColorTheme.tBlackColor,
-      //                       size: 28.0,
-      //                     ),
-      //                     SizedBox(
-      //                       width: 100,
-      //                       child: Text(
-      //                         "Swipe left to relearn",
-      //                         style: theme.textTheme.bodyMedium!.copyWith(
-      //                           fontWeight: FontWeight.bold,
-      //                         ),
-      //                       ),
-      //                     ),
-      //                   ],
-      //                 ),
-      //                 Row(
-      //                   children: [
-      //                     SizedBox(
-      //                       width: 100,
-      //                       child: Text(
-      //                         "Swipe right for next",
-      //                         style: theme.textTheme.bodyMedium!.copyWith(
-      //                           fontWeight: FontWeight.bold,
-      //                         ),
-      //                         textAlign: TextAlign.end,
-      //                       ),
-      //                     ),
-      //                     Icon(
-      //                       Icons.arrow_forward,
-      //                       color: ColorTheme.tBlackColor,
-      //                       size: 28.0,
-      //                     ),
-      //                   ],
-      //                 ),
-      //               ],
-      //             ),
-      //             const SizedBox(height: 12.0),
-      //             Stack(
-      //               children: wordsFromSelectedBox.map((word) {
-      //                 return FlashCardWidget(
-      //                   index: wordsFromSelectedBox.indexOf(word),
-      //                   id: widget.id,
-      //                   word: word,
-      //                   isFront: wordsFromSelectedBox.last == word,
-      //                 );
-      //               }).toList(),
-      //             ),
-      //             const SizedBox(height: 12.0),
-      //           ],
-      //         ),
-      //       ),
-      //     );
-      //   }
-      // ),
     );
   }
 }

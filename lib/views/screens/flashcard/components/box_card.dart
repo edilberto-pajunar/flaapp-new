@@ -128,7 +128,7 @@ class BoxCard extends StatelessWidget {
                   color:ColorTheme.tLightBlueColor,
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                child: Text("${time()}",
+                child: Text(time(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     letterSpacing: -0.2,

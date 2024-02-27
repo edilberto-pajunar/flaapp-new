@@ -15,7 +15,7 @@ class FlashCardWidget<T> extends StatefulWidget {
     // required this.id,
     // required this.index,
     required this.word,
-    // required this.isFront,
+    required this.isFront,
     super.key,
   });
 
@@ -25,7 +25,7 @@ class FlashCardWidget<T> extends StatefulWidget {
   // final String id;
   // final int index;
   final WordModel word;
-  // final bool isFront;
+  final bool isFront;
 
   @override
   State<FlashCardWidget<T>> createState() => _FlashCardWidgetState<T>();
@@ -44,13 +44,23 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
     });
   }
 
-  // @override
-  // Widget build(BuildContext context) => widget.isFront
-  //     ? buildFrontCard(context)
-  //     : buildCard(context);
-
   @override
-  Widget build(BuildContext context) => buildFrontCard(context);
+  Widget build(BuildContext context) {
+    
+    final Word word = Provider.of<Word>(context);
+    
+    final List<WordModel> selectedWords = word.selectedWords(widget.lessonModel.words, word.boxIndex);
+
+    if (selectedWords.isNotEmpty) {
+      if (widget.isFront) {
+        return buildFrontCard(context);
+      } else {
+        return buildCard(context);
+      }
+    } else {
+      return buildEmptyCard(context);
+    }
+  }
 
   Widget buildFrontCard(context) {
     final Word word = Provider.of<Word>(context);
@@ -62,8 +72,8 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
       onPanUpdate: (details) {
         word.updatePosition(details);
       },
-      onPanEnd: (details) {
-        word.endPosition(details,
+      onPanEnd: (details) async {
+        await word.endPosition(details, context,
           levelId: widget.levelId,
           lessonId: widget.lessonModel.doc,
         );
@@ -170,6 +180,73 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
+            ),
+          ),
+          Visibility(
+            child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 9.0),
+                decoration: BoxDecoration(
+                  color: ColorTheme.tWhiteColor,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(23.0),
+                    bottomRight: Radius.circular(23.0),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Click to flip the card",
+                    ),
+                    const SizedBox(width: 6.0),
+                    Image.asset(PngImage.pointingUp),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildEmptyCard(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    final ThemeData theme = Theme.of(context);
+    final Word word = Provider.of<Word>(context);
+
+
+    return Container(
+      height: size.height * 0.58,
+      decoration: BoxDecoration(
+        color: Colors.black12,
+        borderRadius: BorderRadius.circular(24.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 28.0,
+              top: 22.0,
+              right: 28.0,
+            ),
+            child: Align(
+              alignment: word.getStatus() == CardStatus.left
+                  ? Alignment.topRight
+                  : Alignment.topLeft,
+              child: Text("Come back soon after the timer is finished",
+                style: theme.textTheme.bodyMedium!.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          const Expanded(
+            child: Center(
+              child: Icon(Icons.lock),
             ),
           ),
           Visibility(

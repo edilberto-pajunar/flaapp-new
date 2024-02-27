@@ -6,6 +6,7 @@ import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/services/constant/strings/constant.dart';
+import 'package:flaapp/services/functions/nav.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
@@ -184,10 +185,10 @@ class Word extends ChangeNotifier {
 
 
   /// [endPosition] triggers when the user stops dragging the card
-  void endPosition(DragEndDetails details, {
+  Future<void> endPosition(DragEndDetails details, BuildContext context, {
     required String lessonId,
     required String levelId,
-  }) {
+  }) async {
     isDragging = false;
     notifyListeners();
 
@@ -197,7 +198,7 @@ class Word extends ChangeNotifier {
       case CardStatus.right:
         angle = 20;
         position += Offset(screenSize.width * 2, 0);
-        nextCard(lessonId: lessonId, levelId: levelId);
+        await nextCard(context, lessonId: lessonId, levelId: levelId);
 
         break;
 
@@ -237,7 +238,9 @@ class Word extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> nextCard({
+  final NavigationServices nav = NavigationServices();
+
+  Future<void> nextCard(BuildContext context, {
     required String levelId,
     required String lessonId,
   }) async {
@@ -287,8 +290,14 @@ class Word extends ChangeNotifier {
         tLessonPath: {
           "timeConstraint": now.add(const Duration(minutes: 5)),
         }
-      }, SetOptions(merge: true)).then((value) => debugPrint("Updated time successful!"))
-          .onError((error, stackTrace) => debugPrint("Error: $error"));
+      }, SetOptions(merge: true)).then((value) {
+        print("hi");
+        Navigator.of(context).pop();
+
+        return debugPrint("Updated time successful!");
+      })
+          .onError((error, stackTrace) => debugPrint("Error: $stackTrace"));
+
     }
 
     notifyListeners();
