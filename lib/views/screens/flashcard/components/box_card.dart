@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-class BoxCard extends StatefulWidget {
+class BoxCard extends StatelessWidget {
   const BoxCard({
     required this.wordList,
     required this.index,
@@ -19,15 +19,9 @@ class BoxCard extends StatefulWidget {
   final int index;
   final LessonModel lessonModel;
 
-  @override
-  State<BoxCard> createState() => _BoxCardState();
-}
-
-class _BoxCardState extends State<BoxCard> {
-
   String time() {
     final DateTime now = DateTime.now();
-    final DateTime? timeConstraint = widget.lessonModel.timeConstraint;
+    final DateTime? timeConstraint = lessonModel.timeConstraint;
 
     if (timeConstraint != null && timeConstraint.isAfter(now)) {
       final difference = timeConstraint.difference(now);
@@ -42,19 +36,34 @@ class _BoxCardState extends State<BoxCard> {
     }
   }
 
+  int latestEmptyIndex(Word word) {
+    int latestNonEmptyIndex = 0;
+
+    for (int i = 5 - 1; i >= 0; i--) {
+      final List<WordModel> selectedWords = word.selectedWords(wordList, i);
+
+      if (selectedWords.isNotEmpty) {
+        latestNonEmptyIndex = i;
+        break;
+      }
+    }
+
+    return latestNonEmptyIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final ThemeData theme = Theme.of(context);
     final Word word = Provider.of<Word>(context);
 
-    final bool isCurrentBox = word.boxIndex == widget.index;
-    final List<WordModel> selectedWords = word.selectedWords(widget.wordList, widget.index);
+    final bool isCurrentBox = word.boxIndex == index;
+    final List<WordModel> selectedWords = word.selectedWords(wordList, index);
     final bool locked = selectedWords.isEmpty;
-    final bool deactivated = widget.index == 0
+    final bool deactivated = index == 0
         ? true
-        : widget.lessonModel.timeConstraint != null
-          ? widget.lessonModel.timeConstraint!.hour != 0
+        : lessonModel.timeConstraint != null
+          ? lessonModel.timeConstraint!.hour != 0
           : false;
 
     return SizedBox(
@@ -64,7 +73,7 @@ class _BoxCardState extends State<BoxCard> {
           Positioned(
             top: 12,
             child: InkWell(
-              onTap: locked || !deactivated ? null : () => word.updateBoxIndex(widget.index),
+              onTap: locked || !deactivated ? null : () => word.updateBoxIndex(index),
               child: Container(
                 height: 80,
                 width: size.width * 0.17,
@@ -112,7 +121,7 @@ class _BoxCardState extends State<BoxCard> {
           Positioned(
             left: 28,
             child: Visibility(
-              visible: widget.index == 1,
+              visible: index == latestEmptyIndex(word),
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
                 decoration: BoxDecoration(

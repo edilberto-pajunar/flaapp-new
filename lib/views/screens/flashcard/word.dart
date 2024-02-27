@@ -41,6 +41,12 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
   }
 
   @override
+  void dispose() {
+    ticker.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Size size = MediaQuery.of(context).size;
