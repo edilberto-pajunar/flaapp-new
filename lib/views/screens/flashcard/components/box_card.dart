@@ -20,23 +20,6 @@ class BoxCard extends StatelessWidget {
   final LessonModel lessonModel;
   final String time;
 
-
-
-  int latestEmptyIndex(Word word) {
-    int latestNonEmptyIndex = 0;
-
-    for (int i = 5 - 1; i >= 0; i--) {
-      final List<WordModel> selectedWords = word.selectedWords(wordList, i);
-
-      if (selectedWords.isNotEmpty) {
-        latestNonEmptyIndex = i;
-        break;
-      }
-    }
-
-    return latestNonEmptyIndex;
-  }
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -49,6 +32,7 @@ class BoxCard extends StatelessWidget {
     final bool activated = index == 0
         ? true
         : time == "0";
+    final latestEmptyIndex = word.latestEmptyIndex(wordList);
 
     return SizedBox(
       width: 70,
@@ -105,7 +89,7 @@ class BoxCard extends StatelessWidget {
           Positioned(
             left: 28,
             child: Visibility(
-              visible: index == latestEmptyIndex(word) && time != "0",
+              visible: index == latestEmptyIndex && time != "0",
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
                 decoration: BoxDecoration(

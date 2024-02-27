@@ -179,12 +179,13 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
                           final int index = selectedWords.indexOf(word);
 
                           return FlashCardWidget(
-                            scaffoldKey: scaffoldKey,
+                            wordList: wordList,
                             levelId: widget.levelId,
                             lessonModel: widget.lessonModel,
                             word: selectedWords[index],
                             isFront: selectedWords.first == word,
                             time: remainingTime(lesson),
+                            index: index,
                           );
                         }).toList().reversed.toList(),
                       ),

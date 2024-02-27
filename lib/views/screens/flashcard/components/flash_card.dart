@@ -10,21 +10,23 @@ import 'package:provider/provider.dart';
 
 class FlashCardWidget<T> extends StatefulWidget {
   const FlashCardWidget({
+    required this.wordList,
     required this.levelId,
     required this.lessonModel,
     required this.word,
     required this.isFront,
-    required this.scaffoldKey,
     required this.time,
+    required this.index,
     super.key,
   });
 
+  final List<WordModel> wordList;
   final LessonModel lessonModel;
   final String levelId;
   final WordModel word;
   final bool isFront;
-  final GlobalKey<ScaffoldState> scaffoldKey;
   final String time;
+  final int index;
 
   @override
   State<FlashCardWidget<T>> createState() => _FlashCardWidgetState<T>();
@@ -44,11 +46,24 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
   }
 
 
+  bool getActivated(Word word, int latestEmptyIndex) {
+
+    if (word.boxIndex == 0 || latestEmptyIndex > word.boxIndex ) {
+      return true;
+    } else if (widget.time != "0") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     
     final Word word = Provider.of<Word>(context);
-    final bool activated = word.boxIndex == 0 ? true : widget.time == "0";
+
+    final int latestEmptyIndex = word.latestEmptyIndex(widget.wordList);
+    final bool activated = getActivated(word, latestEmptyIndex);
 
     if (activated) {
       if (widget.isFront) {
@@ -196,8 +211,7 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Click to flip the card",
+                    const Text("Click to flip the card",
                     ),
                     const SizedBox(width: 6.0),
                     Image.asset(PngImage.pointingUp),

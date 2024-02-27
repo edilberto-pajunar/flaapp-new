@@ -227,12 +227,13 @@ class Word extends ChangeNotifier {
       case CardStatus.right:
         angle = 20;
         position += Offset(screenSize.width * 2, 0);
-        nextCard(lessonModel: lessonModel, levelId: levelId);
+        nextCard(lessonModel: lessonModel, levelId: levelId, cardStatus: CardStatus.right);
 
         notifyListeners();
         break;
 
       case CardStatus.left:
+        nextCard(lessonModel: lessonModel, levelId: levelId, cardStatus: CardStatus.left);
         break;
 
       default:
@@ -272,6 +273,7 @@ class Word extends ChangeNotifier {
   Future<void> nextCard({
     required String levelId,
     required LessonModel lessonModel,
+    required CardStatus cardStatus,
   }) async {
     final String id = _auth.currentUser!.uid;
     final DateTime now = DateTime.now();
@@ -292,9 +294,21 @@ class Word extends ChangeNotifier {
 
     List<WordModel> currentWords = selectedWords(wordList, boxIndex);
 
-    currentWords[0] = currentWords[0].copyWith(
-      box: currentWords[0].box + 1
-    );
+
+    if (cardStatus == CardStatus.right && currentWords[0].box != 4) {
+      currentWords[0] = currentWords[0].copyWith(
+          box: currentWords[0].box + 1
+      );
+    } else if (cardStatus == CardStatus.left && currentWords[0].box != 0) {
+      currentWords[0] = currentWords[0].copyWith(
+          box: currentWords[0].box - 1
+      );
+    } else {
+      if (currentWords.length != 1) {
+        currentWords.remove(currentWords[0]);
+        currentWords.add(currentWords[0]);
+      }
+    }
 
     final List<WordModel> updatedWords = [...notSelectedWords, ...currentWords];
 
@@ -329,5 +343,19 @@ class Word extends ChangeNotifier {
 
     }
     notifyListeners();
+  }
+
+  int latestEmptyIndex(List<WordModel> wordList) {
+    int latestNonEmptyIndex = 0;
+
+    for (int i = 5; i >= 0; i--) {
+      final List<WordModel> getSelectedWords = selectedWords(wordList, i);
+
+      if (getSelectedWords.isNotEmpty) {
+        latestNonEmptyIndex = i;
+        break;
+      }
+    }
+    return latestNonEmptyIndex;
   }
 }
