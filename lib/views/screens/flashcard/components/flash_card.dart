@@ -44,7 +44,14 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
   }
 
 
-
+  bool isActivated(Word word, int latestEmptyIndex) {
+    final List<WordModel> latestSelectedWords = word.selectedWords(widget.wordList, latestEmptyIndex);
+    if (word.boxIndex == latestEmptyIndex) {
+      return latestSelectedWords.length == widget.wordList.length && word.getActivated(latestEmptyIndex, widget.time);
+    } else {
+      return true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +59,7 @@ class _FlashCardWidgetState<T> extends State<FlashCardWidget<T>> {
     final Word word = Provider.of<Word>(context);
 
     final int latestEmptyIndex = word.latestEmptyIndex(widget.wordList);
-    final bool activated = word.getActivated(latestEmptyIndex, widget.time);
+    final bool activated = isActivated(word, latestEmptyIndex);
 
     if (activated) {
       if (widget.isFront) {

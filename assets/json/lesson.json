@@ -5,46 +5,76 @@
       "locked": false,
       "words": [
         {
-          "word": "Hello",
           "box": 0,
-          "translations": [
-            "Hallo",
-            "Hola",
-            "Kamusta"
-          ]
+          "word": "Hello", "translations": ["Hallo", "Hola", "Kamusta"]
         },
         {
           "box": 0,
-          "word": "Thank you",
-          "translations": [
-            "Danke",
-            "Gracias",
-            "Salamat"
-          ]
+          "word": "Thank you", "translations": ["Danke", "Gracias", "Salamat"]
         },
         {
           "box": 0,
-          "word": "Please",
-          "translations": [
-            "Bitte",
-            "Por favor",
-            "Pakiusap"
-          ]
+          "word": "Please", "translations": ["Bitte", "Por favor", "Pakiusap"]
+        },
+        {
+          "box": 0,
+          "word": "Goodbye", "translations": ["Tschüss", "Adiós", "Paalam"]
+        },
+        {
+          "box": 0,
+          "word": "Come", "translations": ["kommen", "Venir", "Halika"]
         }
       ]
     },
     {
-      "doc": "Colors",
-      "locked": false,
+      "doc": "Personal Information",
+      "locked": true,
       "words": [
         {
-          "word": "Red",
           "box": 0,
-          "translations": [
-            "Rot",
-            "Red",
-            "Rojo"
-          ]
+          "word": "Gender", "translations": ["Geschlecht", "Género", "Kasarian"]
+        },
+        {
+          "box": 0,
+          "word": "Address", "translations": ["Adresse", "Dirección", "Address"]
+        },
+        {
+          "box": 0,
+          "word": "House number", "translations": ["Hausnummer", "Hausnummer", "Numero ng bahay"]
+        },
+        {
+          "box": 0,
+          "word": "Telephone number", "translations": ["Telefonnummer", "Número de teléfono", "Numero ng telepono"]
+        },
+        {
+          "box": 0,
+          "word": "Mobile phone number", "translations": ["Handynummer", "Número de teléfono móvil", "Numero ng mobile phone"]
+        }
+      ]
+    },
+    {
+      "doc": "Numbers",
+      "locked": true,
+      "words": [
+        {
+          "box": 0,
+          "word": "Zero", "translations": ["Null", "Cero", "Zero"]
+        },
+        {
+          "box": 0,
+          "word": "One", "translations": ["Eins", "Uno", "Isa"]
+        },
+        {
+          "box": 0,
+          "word": "Two", "translations": ["Zwei", "Dos", "Dalawa"]
+        },
+        {
+          "box": 0,
+          "word": "Three", "translations": ["Drei", "Tres", "Tatlo"]
+        },
+        {
+          "box": 0,
+          "word": "Four", "translations": ["Vier", "Cuatro", "Kwatro"]
         }
       ]
     }

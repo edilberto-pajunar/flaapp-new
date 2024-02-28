@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flaapp/model/word.dart';
 
-class LessonModel {
+class LessonModel extends Equatable {
   final String doc;
   final bool locked;
   final DateTime? timeConstraint;
   final List<WordModel> words;
 
-  LessonModel({
+  const LessonModel({
     required this.doc,
     required this.locked,
     required this.words,
@@ -42,4 +43,7 @@ class LessonModel {
         : null,
     "words": List<dynamic>.from(words.map((x) => x.toJson())),
   };
+
+  @override
+  List<Object?> get props => [doc];
 }

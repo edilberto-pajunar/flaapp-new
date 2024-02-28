@@ -20,6 +20,7 @@ dependencies:
   cloud_firestore: ^4.13.6
   cupertino_icons: ^1.0.2
   email_validator: ^2.1.17
+  equatable: ^2.0.5
   firebase_auth: ^4.15.3
   firebase_core: ^2.25.4
   modal_progress_hud_nsn: ^0.4.0

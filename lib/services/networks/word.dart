@@ -48,7 +48,6 @@ class Word extends ChangeNotifier {
     final String lesson = await rootBundle.loadString(tLessonJson);
     final List mapLesson = (jsonDecode(lesson)[tLessonPath]) as List;
 
-
     final List<LessonModel> lessonListLocal = mapLesson.map((e) {
       return LessonModel.fromJson(e);
     }).toList();
@@ -64,6 +63,7 @@ class Word extends ChangeNotifier {
         }).toList();
       });
 
+      /// TODO: remove this if you want to generate lessons
       if (lessonListDb.isEmpty) {
         await path.doc(data.doc).set({
           tLessonPath: data.toJson(),
@@ -268,6 +268,10 @@ class Word extends ChangeNotifier {
     notifyListeners();
   }
 
+  int indexAddMinute = 0;
+
+  List<int> addMinutesList = [5, 10, 15, 20];
+
   final NavigationServices nav = NavigationServices();
 
   Future<void> nextCard({
@@ -291,20 +295,24 @@ class Word extends ChangeNotifier {
       return element.box != boxIndex;
     }).toList();
 
-
     List<WordModel> currentWords = selectedWords(wordList, boxIndex);
 
+    if (currentWords[0].box == 3) {
+      await updateLessonLock(levelId: levelId, lessonModel: lessonModel);
+    }
 
     if (cardStatus == CardStatus.right && currentWords[0].box != 4) {
       currentWords[0] = currentWords[0].copyWith(
           box: currentWords[0].box + 1
       );
-    } else if (cardStatus == CardStatus.left) {
+    } else if (cardStatus == CardStatus.left || (cardStatus == CardStatus.right && currentWords[0].box == 4)) {
       WordModel firstWord = currentWords.removeAt(0);
       currentWords.add(firstWord);
     }
 
     final List<WordModel> updatedWords = [...notSelectedWords, ...currentWords];
+
+
 
     await path.set({
       tLessonPath: {
@@ -327,16 +335,48 @@ class Word extends ChangeNotifier {
 
       await path.set({
         tLessonPath: {
-          "timeConstraint": now.add(const Duration(minutes: 5)),
+          "timeConstraint": now.add(Duration(minutes: addMinutesList[latestEmptyIndex(wordList) - 1])),
         }
       }, SetOptions(merge: true))
         .then((value) {
           return debugPrint("Updated time successful!");
       })
         .onError((error, stackTrace) => debugPrint("Error: $stackTrace"));
-
     }
     notifyListeners();
+  }
+
+  Future<void> updateLessonLock({
+    required String levelId,
+    required LessonModel lessonModel,
+  }) async {
+    final String id = _auth.currentUser!.uid;
+
+    final path = _db.collection(tUserPath).doc(id)
+        .collection(tLevelPath).doc(levelId)
+        .collection(tLessonPath);
+
+    final List<LessonModel> lessonList = await path.get().then((value) {
+      return value.docs.map((data) {
+        final map = data.data();
+
+        return LessonModel.fromJson(map[tLessonPath]);
+      }).toList();
+    });
+
+    final int index = lessonList.indexOf(lessonModel);
+
+    if (lessonList.length > index) {
+      if (lessonList[index + 1].locked) {
+        await path.doc(lessonList[index + 1].doc).set({
+          tLessonPath: {
+            "locked": false,
+          }
+        }, SetOptions(merge: true))
+            .then((value) => debugPrint("Updated lesson successfully!"))
+            .onError((error, stackTrace) => debugPrint("Error: $error"));
+      }
+    }
   }
 
   bool getActivated(int latestEmptyIndex, String time) {

@@ -28,6 +28,22 @@
           "en": "Please",
           "es": "Por favor",
           "ph": "Pakiusap"
+        },
+        {
+          "box": 0,
+          "default": "Tschüss",
+          "de": "Tschüss",
+          "en": "Goodbye",
+          "es": "Adiós",
+          "ph": "Paalam"
+        },
+        {
+          "box": 0,
+          "default": "kommen",
+          "de": "kommen",
+          "en": "Come",
+          "es": "Venir",
+          "ph": "Halika"
         }
       ]
     },
@@ -59,6 +75,77 @@
           "en": "House number",
           "es": "Número de casa",
           "ph": "Numero ng bahay"
+        },
+        {
+          "box": 0,
+          "default": "Telefonnummer",
+          "de": "Telefonnummer",
+          "en": "Telephone number",
+          "es": "Número de teléfono",
+          "ph": "Numero ng telepono"
+        },
+        {
+          "box": 0,
+          "default": "Handynummer",
+          "de": "Handynummer",
+          "en": "Mobile phone number",
+          "es": "Número de teléfono móvil",
+          "ph": "Numero ng mobile phone"
+        },
+        {
+          "box": 0,
+          "default": "Mobilnummer",
+          "de": "Mobilnummer",
+          "en": "Mobile number",
+          "es": "Número móvil",
+          "ph": "Numero ng mobile"
+        }
+      ]
+    },
+    {
+      "level": "A1",
+      "lesson": "3",
+      "category": "Numbers",
+      "translations": [
+        {
+          "box": 0,
+          "default": "Null",
+          "de": "Null",
+          "en": "Zero",
+          "es": "Cero",
+          "ph": "Zero"
+        },
+        {
+          "box": 0,
+          "default": "Eins",
+          "de": "Eins",
+          "en": "One",
+          "es": "Uno",
+          "ph": "Isa"
+        },
+        {
+          "box": 0,
+          "default": "Zwei",
+          "de": "Zwei",
+          "en": "Two",
+          "es": "Dos",
+          "ph": "Dalawa"
+        },
+        {
+          "box": 0,
+          "default": "Drei",
+          "de": "Drei",
+          "en": "Three",
+          "es": "Tres",
+          "ph": "Tatlo"
+        },
+        {
+          "box": 0,
+          "default": "Vier",
+          "de": "Vier",
+          "en": "Four",
+          "es": "Cuatro",
+          "ph": "Kwatro"
         }
       ]
     }

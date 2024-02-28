@@ -20,17 +20,27 @@ class BoxCard extends StatelessWidget {
   final LessonModel lessonModel;
   final String time;
 
+  bool isActivated(Word word, int latestEmptyIndex) {
+    final List<WordModel> latestSelectedWords = word.selectedWords(wordList, latestEmptyIndex);
+    if (index == latestEmptyIndex) {
+      return latestSelectedWords.length == wordList.length && word.getActivated(latestEmptyIndex, time);
+    } else {
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final ThemeData theme = Theme.of(context);
     final Word word = Provider.of<Word>(context);
 
+
     final bool isCurrentBox = word.boxIndex == index;
     final List<WordModel> selectedWords = word.selectedWords(wordList, index);
     final bool locked = selectedWords.isEmpty;
     final latestEmptyIndex = word.latestEmptyIndex(wordList);
-    final bool activated = word.getActivated(latestEmptyIndex, time);
+    final bool activated = isActivated(word, latestEmptyIndex);
 
     return SizedBox(
       width: 70,
