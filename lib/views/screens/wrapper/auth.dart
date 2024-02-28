@@ -26,12 +26,13 @@ class _AuthWrapperScreenState extends State<AuthWrapperScreen> {
 
         if (snapshot.hasData) {
           final User? user = snapshot.data;
-
           if (user == null) {
             return const LoginScreen();
           } else {
             return const LevelScreen();
           }
+        } else if (snapshot.data == null) {
+          return const LoginScreen();
         } else if (snapshot.hasError) {
           return Center(
             child: Text("Error: ${snapshot.error}"),
