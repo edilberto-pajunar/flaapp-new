@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flaapp/services/networks/auth.dart';
+import 'package:flaapp/views/screens/admin/admin_screen.dart';
 import 'package:flaapp/views/screens/auth/login.dart';
 import 'package:flaapp/views/screens/flashcard/level.dart';
-import 'package:flaapp/views/widgets/body/stream_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthWrapperScreen extends StatefulWidget {
   const AuthWrapperScreen({super.key});
@@ -12,24 +14,23 @@ class AuthWrapperScreen extends StatefulWidget {
 }
 
 class _AuthWrapperScreenState extends State<AuthWrapperScreen> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
+    final Auth auth = Provider.of<Auth>(context);
 
+    return StreamBuilder(
+      stream: auth.user,
+      builder: (context, snapshot) {
         if (snapshot.hasData) {
           final User? user = snapshot.data;
           if (user == null) {
             return const LoginScreen();
           } else {
-            return const LevelScreen();
+            if (user.uid == "0XxNPuZWIyURc1PrddS6BUNEsGX2") {
+              return const AdminScreen();
+            } else {
+              return const LevelScreen();
+            }
           }
         } else if (snapshot.data == null) {
           return const LoginScreen();
@@ -42,7 +43,6 @@ class _AuthWrapperScreenState extends State<AuthWrapperScreen> {
             child: CircularProgressIndicator(),
           );
         }
-
       },
     );
   }

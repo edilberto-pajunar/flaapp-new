@@ -1,6 +1,7 @@
 import 'package:flaapp/services/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/services/networks/auth.dart';
+import 'package:flaapp/views/screens/admin/admin_screen.dart';
 import 'package:flaapp/views/screens/auth/signup.dart';
 import 'package:flaapp/views/screens/flashcard/level.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
@@ -85,7 +86,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         label: "Login",
                         onTap: () async {
                           await auth.login().then((value) {
-                            nav.pushScreen(context, screen: const LevelScreen());
+                            if (Auth.email.text == "admin@gmail.com") {
+                              nav.pushScreen(context,
+                                  screen: const AdminScreen());
+                            } else {
+                              nav.pushScreen(context,
+                                  screen: const LevelScreen());
+                            }
                           });
                         },
                       ),
@@ -99,13 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           text: "Don't have an account yet? ",
                           children: [
                             TextSpan(
-                              text: "SIGN UP",
-                              style: theme.textTheme.bodyMedium!.copyWith(
-                                color: ColorTheme.tBlueColor,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () => nav.pushScreen(context, screen: const SignupScreen())
-                            ),
+                                text: "SIGN UP",
+                                style: theme.textTheme.bodyMedium!.copyWith(
+                                  color: ColorTheme.tBlueColor,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => nav.pushScreen(context,
+                                      screen: const SignupScreen())),
                           ],
                         ),
                       ),

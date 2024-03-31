@@ -5,3 +5,4 @@ const String tWordPath = "words";
 
 const String tLevelJson = "assets/json/level.json";
 const String tLessonJson = "assets/json/lesson.json";
+const String tWordJson = "assets/json/updated_word.json";

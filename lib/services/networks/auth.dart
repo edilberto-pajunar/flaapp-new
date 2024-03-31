@@ -11,6 +11,8 @@ class Auth extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  Stream<User?> get user => _auth.authStateChanges();
+
   bool isLoading = false;
 
   void showHUD(bool value) {
@@ -23,16 +25,17 @@ class Auth extends ChangeNotifier {
   static TextEditingController password = TextEditingController();
 
   Future<void> signup() async {
-
-
     try {
-      await _auth.createUserWithEmailAndPassword(
+      await _auth
+          .createUserWithEmailAndPassword(
         email: email.text,
         password: password.text,
-      ).then((value) async {
+      )
+          .then((value) async {
         final String id = value.user!.uid;
 
-        final UserModel userModel = UserModel(email: email.text, name: name.text);
+        final UserModel userModel =
+            UserModel(email: email.text, name: name.text);
         final String level = await rootBundle.loadString(tLevelJson);
 
         final List mapLevel = (jsonDecode(level)[tLevelPath]) as List;
@@ -42,12 +45,16 @@ class Auth extends ChangeNotifier {
         for (Map data in mapLevel) {
           final levelDoc = data["doc"];
 
-          await _db.collection(tUserPath)
-              .doc(id).collection(tLevelPath)
-              .doc(levelDoc).set({
-            "id": levelDoc,
-          }).then((value) => debugPrint("Successful!"))
-            .onError((error, stackTrace) => debugPrint("Error: $error"));
+          await _db
+              .collection(tUserPath)
+              .doc(id)
+              .collection(tLevelPath)
+              .doc(levelDoc)
+              .set({
+                "id": levelDoc,
+              })
+              .then((value) => debugPrint("Successful!"))
+              .onError((error, stackTrace) => debugPrint("Error: $error"));
         }
       });
       showHUD(false);
@@ -63,7 +70,8 @@ class Auth extends ChangeNotifier {
 
     try {
       await _auth.signInWithEmailAndPassword(
-        email: email.text, password: password.text,
+        email: email.text,
+        password: password.text,
       );
     } catch (e) {
       showHUD(false);

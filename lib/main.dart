@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flaapp/services/networks/admin.dart';
 import 'package:flaapp/services/networks/auth.dart';
 import 'package:flaapp/services/networks/word.dart';
-import 'package:flaapp/views/screens/auth/signup.dart';
 import 'package:flaapp/views/screens/wrapper/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<Admin>(create: (context) => Admin()),
         ChangeNotifierProvider<Auth>(create: (context) => Auth()),
         ChangeNotifierProvider<Word>(create: (context) => Word()),
       ],
