@@ -1,7 +1,7 @@
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/word.dart';
-import 'package:flaapp/services/constant/strings/image.dart';
-import 'package:flaapp/services/constant/theme/colors.dart';
+import 'package:flaapp/values/constant/strings/image.dart';
+import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/networks/word.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

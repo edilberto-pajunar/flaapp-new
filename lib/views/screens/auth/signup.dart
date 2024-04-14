@@ -1,5 +1,5 @@
-import 'package:flaapp/services/constant/theme/colors.dart';
-import 'package:flaapp/services/extensions/email_validator.dart';
+import 'package:flaapp/values/constant/theme/colors.dart';
+import 'package:flaapp/values/extensions/email_validator.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/services/networks/auth.dart';
 import 'package:flaapp/views/screens/auth/login.dart';

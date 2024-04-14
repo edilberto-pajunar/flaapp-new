@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flaapp/model/lesson.dart';
-import 'package:flaapp/services/constant/strings/api.dart';
-import 'package:flaapp/services/constant/strings/constant.dart';
+import 'package:flaapp/values/constant/strings/api.dart';
+import 'package:flaapp/values/constant/strings/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -54,17 +54,16 @@ class Admin extends ChangeNotifier {
     final String lessons = await rootBundle.loadString(tLessonJson);
 
     final jsonFile = jsonDecode(lessons);
-    final Map<String, dynamic> data = (jsonFile["lessons"]
-        as List)[lessonList[levelList.indexOf(level!)].indexOf(lesson!)];
+    final Map<String, dynamic> data =
+        (jsonFile["lessons"] as List)[lessonList[levelList.indexOf(level!)].indexOf(lesson!)];
 
     final LessonModel lessonModel = LessonModel.fromJson(data);
 
     return lessonModel;
   }
 
-  Future<String> translateWord(
-      String word, String targetLang, String sourceLang) async {
-    final Uri uri = Uri.https(Api.baseUrl, "/v2/translate");
+  Future<String> translateWord(String word, String targetLang, String sourceLang) async {
+    final Uri uri = Uri.https(FlaappAPI.baseUrl, "/v2/translate");
     final Map<String, dynamic> body = {
       "text": [
         word,
@@ -76,10 +75,9 @@ class Admin extends ChangeNotifier {
     print("Calling: $uri");
 
     try {
-      final response =
-          await http.post(uri, body: jsonEncode(body), headers: Api.headers);
+      final response = await http.post(uri, body: jsonEncode(body), headers: FlaappAPI.headers);
+      print("Response: ${response.statusCode}: ${response.body}");
       if (response.statusCode == 200) {
-        print("Response: ${response.body}");
         return jsonDecode(response.body)["translations"][0]["text"];
       } else {
         return "";

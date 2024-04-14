@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word.dart';
-import 'package:flaapp/services/constant/strings/constant.dart';
+import 'package:flaapp/values/constant/strings/constant.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -13,18 +13,15 @@ import 'package:flutter/services.dart';
 enum CardStatus { right, none, left }
 
 class Word extends ChangeNotifier {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Stream<List<LevelModel>>? levelListStream;
 
   Stream<List<LevelModel>> getLevelListStream() {
-
     final String id = _auth.currentUser!.uid;
 
     return _db.collection(tUserPath).doc(id).collection(tLevelPath).snapshots().map((event) {
-
       return event.docs.map((data) {
         final map = data.data();
         return LevelModel.fromJson(map);
@@ -41,9 +38,7 @@ class Word extends ChangeNotifier {
     required String levelId,
   }) async {
     final String id = _auth.currentUser!.uid;
-    final path = _db.collection(tUserPath)
-        .doc(id).collection(tLevelPath)
-        .doc(levelId).collection(tLessonPath);
+    final path = _db.collection(tUserPath).doc(id).collection(tLevelPath).doc(levelId).collection(tLessonPath);
 
     final String lesson = await rootBundle.loadString(tLessonJson);
     final List mapLesson = (jsonDecode(lesson)[tLessonPath]) as List;
@@ -52,9 +47,7 @@ class Word extends ChangeNotifier {
       return LessonModel.fromJson(e);
     }).toList();
 
-
     for (var data in lessonListLocal) {
-
       final List<LessonModel> lessonListDb = await path.get().then((value) {
         return value.docs.map((data) {
           final map = data.data();
@@ -65,9 +58,12 @@ class Word extends ChangeNotifier {
 
       /// TODO: remove this if you want to generate lessons
       if (lessonListDb.isEmpty) {
-        await path.doc(data.doc).set({
-          tLessonPath: data.toJson(),
-        }, SetOptions(merge: true)).then((value) => debugPrint("Successful!"))
+        await path
+            .doc(data.doc)
+            .set({
+              tLessonPath: data.toJson(),
+            }, SetOptions(merge: true))
+            .then((value) => debugPrint("Successful!"))
             .onError((error, stackTrace) => debugPrint("Error: $error"));
       }
     }
@@ -78,28 +74,28 @@ class Word extends ChangeNotifier {
   Stream<List<LessonModel>> getLessonListStream({
     required String levelId,
   }) {
-
     final String id = _auth.currentUser!.uid;
 
-    return _db.collection(tUserPath)
-        .doc(id).collection(tLevelPath).doc(levelId)
-        .collection(tLessonPath).snapshots().map((event) {
+    return _db
+        .collection(tUserPath)
+        .doc(id)
+        .collection(tLevelPath)
+        .doc(levelId)
+        .collection(tLessonPath)
+        .snapshots()
+        .map((event) {
+      return event.docs.map((data) {
+        final map = data.data();
 
-        return event.docs.map((data) {
-          final map = data.data();
-
-          return LessonModel.fromJson(map[tLessonPath]);
-        }).toList();
-
+        return LessonModel.fromJson(map[tLessonPath]);
+      }).toList();
     });
   }
 
   void updateLessonListStream({
     required String levelId,
   }) {
-    lessonListStream = getLessonListStream(
-      levelId: levelId
-    );
+    lessonListStream = getLessonListStream(levelId: levelId);
     notifyListeners();
   }
 
@@ -109,12 +105,17 @@ class Word extends ChangeNotifier {
     required String levelId,
     required String lessonId,
   }) {
-
     final String id = _auth.currentUser!.uid;
 
-    return _db.collection(tUserPath)
-        .doc(id).collection(tLevelPath).doc(levelId)
-        .collection(tLessonPath).doc(lessonId).snapshots().map((event) {
+    return _db
+        .collection(tUserPath)
+        .doc(id)
+        .collection(tLevelPath)
+        .doc(levelId)
+        .collection(tLessonPath)
+        .doc(lessonId)
+        .snapshots()
+        .map((event) {
       final map = event.data()!;
 
       return LessonModel.fromJson(map[tLessonPath]);
@@ -125,10 +126,7 @@ class Word extends ChangeNotifier {
     required String levelId,
     required String lessonId,
   }) {
-    lessonStream = getLessonStream(
-        levelId: levelId,
-        lessonId: lessonId
-    );
+    lessonStream = getLessonStream(levelId: levelId, lessonId: lessonId);
     notifyListeners();
   }
 
@@ -138,15 +136,20 @@ class Word extends ChangeNotifier {
     required String levelId,
     required String lessonId,
   }) {
-
     final String id = _auth.currentUser!.uid;
 
-    return _db.collection(tUserPath)
-        .doc(id).collection(tLevelPath).doc(levelId)
-        .collection(tLessonPath).doc(lessonId).snapshots().map((event) {
-          final map = event.data()!;
+    return _db
+        .collection(tUserPath)
+        .doc(id)
+        .collection(tLevelPath)
+        .doc(levelId)
+        .collection(tLessonPath)
+        .doc(lessonId)
+        .snapshots()
+        .map((event) {
+      final map = event.data()!;
 
-        return (map[tLessonPath][tWordPath] as List).map((e) => WordModel.fromJson(e)).toList();
+      return (map[tLessonPath][tWordPath] as List).map((e) => WordModel.fromJson(e)).toList();
     });
   }
 
@@ -184,7 +187,6 @@ class Word extends ChangeNotifier {
 
   bool isFrontSide = false;
 
-
   /// [updateFlipCard] update if front or back the current card
   void updateFlipCard() {
     isFrontSide = !isFrontSide;
@@ -212,9 +214,9 @@ class Word extends ChangeNotifier {
     notifyListeners();
   }
 
-
   /// [endPosition] triggers when the user stops dragging the card
-  void endPosition(DragEndDetails details, {
+  void endPosition(
+    DragEndDetails details, {
     required LessonModel lessonModel,
     required String levelId,
   }) {
@@ -282,9 +284,13 @@ class Word extends ChangeNotifier {
     final String id = _auth.currentUser!.uid;
     final DateTime now = DateTime.now();
 
-    final path = _db.collection(tUserPath).doc(id)
-      .collection(tLevelPath).doc(levelId)
-      .collection(tLessonPath).doc(lessonModel.doc);
+    final path = _db
+        .collection(tUserPath)
+        .doc(id)
+        .collection(tLevelPath)
+        .doc(levelId)
+        .collection(tLessonPath)
+        .doc(lessonModel.doc);
 
     List<WordModel> wordList = await path.get().then((value) {
       final map = value.data()!;
@@ -302,9 +308,7 @@ class Word extends ChangeNotifier {
     }
 
     if (cardStatus == CardStatus.right && currentWords[0].box != 4) {
-      currentWords[0] = currentWords[0].copyWith(
-          box: currentWords[0].box + 1
-      );
+      currentWords[0] = currentWords[0].copyWith(box: currentWords[0].box + 1);
     } else if (cardStatus == CardStatus.left || (cardStatus == CardStatus.right && currentWords[0].box == 4)) {
       WordModel firstWord = currentWords.removeAt(0);
       currentWords.add(firstWord);
@@ -312,16 +316,11 @@ class Word extends ChangeNotifier {
 
     final List<WordModel> updatedWords = [...notSelectedWords, ...currentWords];
 
-
-
     await path.set({
-      tLessonPath: {
-        "words": updatedWords.map((e) =>  e.toJson())
-      }
+      tLessonPath: {"words": updatedWords.map((e) => e.toJson())}
     }, SetOptions(merge: true)).then((value) {
       return debugPrint("Updated successful!");
-    })
-      .onError((error, stackTrace) => debugPrint("Error: $error"));
+    }).onError((error, stackTrace) => debugPrint("Error: $error"));
 
     wordList = await path.get().then((value) {
       final map = value.data()!;
@@ -337,11 +336,9 @@ class Word extends ChangeNotifier {
         tLessonPath: {
           "timeConstraint": now.add(Duration(minutes: addMinutesList[latestEmptyIndex(wordList) - 1])),
         }
-      }, SetOptions(merge: true))
-        .then((value) {
-          return debugPrint("Updated time successful!");
-      })
-        .onError((error, stackTrace) => debugPrint("Error: $stackTrace"));
+      }, SetOptions(merge: true)).then((value) {
+        return debugPrint("Updated time successful!");
+      }).onError((error, stackTrace) => debugPrint("Error: $stackTrace"));
     }
     notifyListeners();
   }
@@ -352,9 +349,7 @@ class Word extends ChangeNotifier {
   }) async {
     final String id = _auth.currentUser!.uid;
 
-    final path = _db.collection(tUserPath).doc(id)
-        .collection(tLevelPath).doc(levelId)
-        .collection(tLessonPath);
+    final path = _db.collection(tUserPath).doc(id).collection(tLevelPath).doc(levelId).collection(tLessonPath);
 
     final List<LessonModel> lessonList = await path.get().then((value) {
       return value.docs.map((data) {
@@ -366,13 +361,18 @@ class Word extends ChangeNotifier {
 
     final int index = lessonList.indexOf(lessonModel);
 
-    if (lessonList.length > index) {
+    print(lessonList.length);
+    print(index);
+
+    if (lessonList.length > index && lessonList.length > 1) {
       if (lessonList[index + 1].locked) {
-        await path.doc(lessonList[index + 1].doc).set({
-          tLessonPath: {
-            "locked": false,
-          }
-        }, SetOptions(merge: true))
+        await path
+            .doc(lessonList[index + 1].doc)
+            .set({
+              tLessonPath: {
+                "locked": false,
+              }
+            }, SetOptions(merge: true))
             .then((value) => debugPrint("Updated lesson successfully!"))
             .onError((error, stackTrace) => debugPrint("Error: $error"));
       }
@@ -380,8 +380,7 @@ class Word extends ChangeNotifier {
   }
 
   bool getActivated(int latestEmptyIndex, String time) {
-
-    if (boxIndex == 0 || latestEmptyIndex > boxIndex ) {
+    if (boxIndex == 0 || latestEmptyIndex > boxIndex) {
       return true;
     } else if (time != "0") {
       return false;

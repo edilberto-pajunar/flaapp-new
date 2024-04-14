@@ -1,6 +1,7 @@
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/services/networks/admin.dart';
+import 'package:flaapp/services/networks/auth.dart';
 import 'package:flaapp/views/screens/admin/add_word_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class AdminScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Admin admin = Provider.of<Admin>(context);
     final NavigationServices nav = NavigationServices();
+    final Auth auth = Provider.of<Auth>(context);
 
     return PopScope(
       canPop: false,
@@ -19,6 +21,17 @@ class AdminScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Admin"),
           automaticallyImplyLeading: false,
+          actions: [
+            TextButton.icon(
+              label: const Text("Sign out"),
+              onPressed: () {
+                auth.logout();
+              },
+              icon: const Icon(
+                Icons.logout,
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -43,9 +56,7 @@ class AdminScreen extends StatelessWidget {
                 const Text("Choose a lesson:"),
                 SizedBox(
                   child: DropdownButton<String>(
-                    items: Admin.lessonList[
-                            Admin.levelList.indexOf(admin.level ?? "A1")]
-                        .map((lesson) {
+                    items: Admin.lessonList[Admin.levelList.indexOf(admin.level ?? "A1")].map((lesson) {
                       return DropdownMenuItem(
                         value: lesson,
                         child: Text(lesson),
@@ -60,8 +71,7 @@ class AdminScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text(
-                          "List of Words from ${admin.level}-${admin.lesson}"),
+                      child: Text("List of Words from ${admin.level}-${admin.lesson}"),
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -121,18 +131,9 @@ class _WordList extends StatelessWidget {
                           Expanded(
                             child: Text(translation),
                           ),
-                          if (data.words[index].translations
-                                  .indexOf(translation) ==
-                              0)
-                            const Text("DE"),
-                          if (data.words[index].translations
-                                  .indexOf(translation) ==
-                              1)
-                            const Text("ES"),
-                          if (data.words[index].translations
-                                  .indexOf(translation) ==
-                              2)
-                            const Text("PH"),
+                          if (data.words[index].translations.indexOf(translation) == 0) const Text("DE"),
+                          if (data.words[index].translations.indexOf(translation) == 1) const Text("ES"),
+                          if (data.words[index].translations.indexOf(translation) == 2) const Text("PH"),
                         ],
                       );
                     }).toList(),

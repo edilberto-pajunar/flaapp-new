@@ -1,5 +1,5 @@
 import 'package:flaapp/model/lesson.dart';
-import 'package:flaapp/services/constant/theme/colors.dart';
+import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/services/networks/word.dart';
 import 'package:flaapp/views/screens/flashcard/word.dart';

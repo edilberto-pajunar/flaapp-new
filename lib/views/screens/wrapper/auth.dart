@@ -18,7 +18,7 @@ class _AuthWrapperScreenState extends State<AuthWrapperScreen> {
   Widget build(BuildContext context) {
     final Auth auth = Provider.of<Auth>(context);
 
-    return StreamBuilder(
+    return StreamBuilder<User?>(
       stream: auth.user,
       builder: (context, snapshot) {
         if (snapshot.hasData) {

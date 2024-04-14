@@ -2,15 +2,15 @@
     "levels": [
         {
             "doc": "A1",
-            "locked": true
+            "locked": false
         },
         {
             "doc": "A2",
-            "locked": false
+            "locked": true
         },
         {
             "doc": "B1",
-            "locked": false
+            "locked": true
         }
     ]
 }

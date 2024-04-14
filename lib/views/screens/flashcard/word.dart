@@ -1,6 +1,6 @@
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/word.dart';
-import 'package:flaapp/services/constant/theme/colors.dart';
+import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/networks/word.dart';
 import 'package:flaapp/views/screens/flashcard/components/box_card.dart';
 import 'package:flaapp/views/screens/flashcard/components/flash_card.dart';

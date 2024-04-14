@@ -1,4 +1,4 @@
-import 'package:flaapp/services/constant/strings/image.dart';
+import 'package:flaapp/values/constant/strings/image.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryTextField extends StatefulWidget {

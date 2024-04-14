@@ -1,4 +1,4 @@
-import 'package:flaapp/services/constant/theme/colors.dart';
+import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/services/networks/auth.dart';
 import 'package:flaapp/views/screens/admin/admin_screen.dart';
@@ -85,13 +85,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       PrimaryButton(
                         label: "Login",
                         onTap: () async {
-                          await auth.login().then((value) {
+                          await auth.login().then((user) {
                             if (Auth.email.text == "admin@gmail.com") {
-                              nav.pushScreen(context,
-                                  screen: const AdminScreen());
+                              nav.pushScreen(context, screen: const AdminScreen());
+                            } else if (user != null) {
+                              nav.pushScreen(context, screen: const LevelScreen());
                             } else {
-                              nav.pushScreen(context,
-                                  screen: const LevelScreen());
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Incorrect email/password.")),
+                              );
                             }
                           });
                         },
@@ -111,8 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: ColorTheme.tBlueColor,
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () => nav.pushScreen(context,
-                                      screen: const SignupScreen())),
+                                  ..onTap = () => nav.pushScreen(context, screen: const SignupScreen())),
                           ],
                         ),
                       ),
