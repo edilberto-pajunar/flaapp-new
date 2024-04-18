@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/values/constant/strings/api.dart';
 import 'package:flaapp/values/constant/strings/constant.dart';
@@ -8,11 +9,10 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class Admin extends ChangeNotifier {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
   static final List<String> levelList = [
     "A1",
-    "A2",
-    "B1",
-    "B2",
   ];
 
   static final List<List<String>> lessonList = [
@@ -60,6 +60,10 @@ class Admin extends ChangeNotifier {
     final LessonModel lessonModel = LessonModel.fromJson(data);
 
     return lessonModel;
+  }
+
+  Future<void> saveWordToDb() async {
+    await _db.collection("words").doc().set({});
   }
 
   Future<String> translateWord(String word, String targetLang, String sourceLang) async {
