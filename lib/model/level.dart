@@ -4,7 +4,7 @@ class LevelModel {
 
   LevelModel({
     required this.id,
-    required this.locked,
+    this.locked = true,
   });
 
   LevelModel copyWith({
@@ -17,12 +17,19 @@ class LevelModel {
       );
 
   factory LevelModel.fromJson(Map<String, dynamic> json) => LevelModel(
-    id: json["id"],
-    locked: json["locked"],
-  );
+        id: json["id"],
+        locked: json["locked"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "locked": locked,
-  };
+        "id": id,
+        "locked": locked,
+      };
+
+  static List<LevelModel> levelList = [
+    LevelModel(id: "A1", locked: false),
+    LevelModel(id: "A2"),
+    LevelModel(id: "B1"),
+    LevelModel(id: "B2"),
+  ];
 }

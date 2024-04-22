@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word.dart';
+import 'package:flaapp/model/word_new.dart';
+import 'package:flaapp/services/networks/auth.dart';
 import 'package:flaapp/values/constant/strings/constant.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flutter/cupertino.dart';
@@ -130,40 +133,6 @@ class Word extends ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<List<WordModel>>? wordListStream;
-
-  Stream<List<WordModel>> getWordListStream({
-    required String levelId,
-    required String lessonId,
-  }) {
-    final String id = _auth.currentUser!.uid;
-
-    return _db
-        .collection(tUserPath)
-        .doc(id)
-        .collection(tLevelPath)
-        .doc(levelId)
-        .collection(tLessonPath)
-        .doc(lessonId)
-        .snapshots()
-        .map((event) {
-      final map = event.data()!;
-
-      return (map[tLessonPath][tWordPath] as List).map((e) => WordModel.fromJson(e)).toList();
-    });
-  }
-
-  void updateWordListStream({
-    required String levelId,
-    required String lessonId,
-  }) {
-    wordListStream = getWordListStream(
-      levelId: levelId,
-      lessonId: lessonId,
-    );
-    notifyListeners();
-  }
-
   int boxIndex = 0;
 
   void updateBoxIndex(int value) {
@@ -177,14 +146,6 @@ class Word extends ChangeNotifier {
     }).toList();
   }
 
-  Size screenSize = Size.zero;
-
-  /// [setScreenSize] initialize to detect the width of the mobile
-  void setScreenSize(Size screenSize) {
-    this.screenSize = screenSize;
-    notifyListeners();
-  }
-
   bool isFrontSide = false;
 
   /// [updateFlipCard] update if front or back the current card
@@ -193,88 +154,43 @@ class Word extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isDragging = false;
-
-  /// [startPosition] triggers when start to drag the card
-  void startPosition(DragStartDetails details) {
-    isDragging = true;
-    notifyListeners();
-  }
-
-  Offset position = Offset.zero;
-  double angle = 0;
-
-  /// [updatePosition] triggers when dragging the card
-  void updatePosition(DragUpdateDetails details) {
-    position += details.delta;
-
-    final x = position.dx;
-    angle = 45 * x / screenSize.width;
-
-    notifyListeners();
-  }
-
-  /// [endPosition] triggers when the user stops dragging the card
-  void endPosition(
-    DragEndDetails details, {
-    required LessonModel lessonModel,
-    required String levelId,
-  }) {
-    isDragging = false;
-    notifyListeners();
-
-    final status = getStatus();
-
-    switch (status) {
-      case CardStatus.right:
-        angle = 20;
-        position += Offset(screenSize.width * 2, 0);
-        nextCard(lessonModel: lessonModel, levelId: levelId, cardStatus: CardStatus.right);
-
-        notifyListeners();
-        break;
-
-      case CardStatus.left:
-        nextCard(lessonModel: lessonModel, levelId: levelId, cardStatus: CardStatus.left);
-        break;
-
-      default:
-        resetPosition();
-    }
-
-    resetPosition();
-  }
-
-  /// [getStatus] check whether the user swipes to the
-  /// right or left
-  CardStatus getStatus() {
-    final x = position.dx;
-
-    const delta = 100;
-
-    if (x >= delta) {
-      return CardStatus.right;
-    } else if (x <= -delta) {
-      return CardStatus.left;
-    } else {
-      return CardStatus.none;
-    }
-  }
-
-  /// [resetPosition] returns to default after end of drag
-  void resetPosition() {
-    isDragging = false;
-    position = Offset.zero;
-    angle = 0;
-
-    notifyListeners();
-  }
-
   int indexAddMinute = 0;
 
   List<int> addMinutesList = [5, 10, 15, 20];
 
   final NavigationServices nav = NavigationServices();
+
+  Future<void> swipeCard({
+    required String id,
+    required WordNewModel word,
+    bool swipeRight = false,
+  }) async {
+    await _db
+        .collection(tUserPath)
+        .doc(id)
+        .collection(tWordPath)
+        .doc(word.id)
+        .update({
+          "box": swipeRight ? word.box + 1 : word.box,
+          "updateTime": Timestamp.fromDate(DateTime.now()),
+        })
+        .then((value) => print("Successful!"))
+        .onError((error, stackTrace) => print("Something went wrong."));
+  }
+
+  Offset position = Offset.zero;
+
+  /// [updatePosition] triggers when dragging the card
+  void updatePosition(DragUpdateDetails details) {
+    position += details.delta;
+
+    notifyListeners();
+  }
+
+  void resetPosition() {
+    position = Offset.zero;
+    notifyListeners();
+  }
 
   Future<void> nextCard({
     required String levelId,
@@ -401,5 +317,32 @@ class Word extends ChangeNotifier {
       }
     }
     return latestNonEmptyIndex;
+  }
+
+  Stream<List<WordNewModel>> fetchWord(String id, String level, String lesson) {
+    return _db
+        .collection(tUserPath)
+        .doc(id)
+        .collection(tWordPath)
+        .where("level", isEqualTo: level)
+        .where("lesson", isEqualTo: lesson)
+        .orderBy("updateTime", descending: false)
+        .snapshots()
+        .map(
+          (snap) => snap.docs.map((doc) {
+            return WordNewModel.fromJson(doc.data());
+          }).toList(),
+        );
+  }
+
+  Stream<List<WordNewModel>>? wordStream;
+
+  void updateWordNewStream({
+    required String id,
+    required String level,
+    required String lesson,
+  }) {
+    wordStream = fetchWord(id, level, lesson);
+    notifyListeners();
   }
 }

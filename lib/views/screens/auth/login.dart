@@ -1,3 +1,4 @@
+import 'package:flaapp/services/networks/admin.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/services/networks/auth.dart';
@@ -29,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
     final Auth auth = Provider.of<Auth>(context);
     final NavigationServices nav = NavigationServices();
+    final Admin admin = Provider.of<Admin>(context);
 
     final ThemeData theme = Theme.of(context);
 
@@ -85,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       PrimaryButton(
                         label: "Login",
                         onTap: () async {
+                          // await admin.saveWordToDb();
                           await auth.login().then((user) {
                             if (Auth.email.text == "admin@gmail.com") {
                               nav.pushScreen(context, screen: const AdminScreen());

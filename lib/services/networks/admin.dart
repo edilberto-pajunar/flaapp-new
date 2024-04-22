@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flaapp/model/lesson.dart';
+import 'package:flaapp/model/word_new.dart';
 import 'package:flaapp/values/constant/strings/api.dart';
 import 'package:flaapp/values/constant/strings/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 
 class Admin extends ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -63,7 +65,17 @@ class Admin extends ChangeNotifier {
   }
 
   Future<void> saveWordToDb() async {
-    await _db.collection("words").doc().set({});
+    for (WordNewModel word in WordNewModel.wordList) {
+      String uid = const Uuid().v1();
+      WordNewModel updatedWord = word.copyWith(id: uid); // Update the id
+
+      await _db
+          .collection("words")
+          .doc(uid)
+          .set(updatedWord.toJson()) // Use the updatedWord for setting data
+          .then((value) => print("Successful!"))
+          .onError((error, stackTrace) => print("Something went wrong"));
+    }
   }
 
   Future<String> translateWord(String word, String targetLang, String sourceLang) async {
