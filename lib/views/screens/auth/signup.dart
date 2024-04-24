@@ -1,3 +1,4 @@
+import 'package:flaapp/cubit/signup/signup_cubit.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/values/extensions/email_validator.dart';
 import 'package:flaapp/services/functions/nav.dart';
@@ -29,6 +30,9 @@ class _SignupScreenState extends State<SignupScreen> {
     final ThemeData theme = Theme.of(context);
     final Auth auth = Provider.of<Auth>(context);
     final NavigationServices nav = NavigationServices();
+
+    final TextEditingController email = TextEditingController();
+    final TextEditingController password = TextEditingController();
 
     return Scaffold(
       key: scaffoldKey,
@@ -98,9 +102,10 @@ class _SignupScreenState extends State<SignupScreen> {
                       PrimaryButton(
                         label: "Sign up",
                         onTap: () async {
-                          await auth.signup().then((value) {
-                            nav.pushScreen(context, screen: const LoginScreen());
-                          });
+                          // await auth.signup().then((value) {
+                          //   nav.pushScreen(context, screen: const LoginScreen());
+                          // });
+                          context.read<SignupCubit>().signup(email: email.text, password: password.text);
                         },
                       ),
                       const SizedBox(height: 100.0),
@@ -113,13 +118,12 @@ class _SignupScreenState extends State<SignupScreen> {
                           text: "Already have an account? ",
                           children: [
                             TextSpan(
-                              text: "LOGIN",
-                              style: theme.textTheme.bodyMedium!.copyWith(
-                                color: ColorTheme.tBlueColor,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () => nav.pushScreen(context, screen: const LoginScreen())
-                            ),
+                                text: "LOGIN",
+                                style: theme.textTheme.bodyMedium!.copyWith(
+                                  color: ColorTheme.tBlueColor,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => nav.pushScreen(context, screen: const LoginScreen())),
                           ],
                         ),
                       ),

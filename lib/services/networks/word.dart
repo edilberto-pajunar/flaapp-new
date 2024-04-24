@@ -171,7 +171,7 @@ class Word extends ChangeNotifier {
         .collection(tWordPath)
         .doc(word.id)
         .update({
-          "box": swipeRight ? word.box + 1 : word.box,
+          "box": (swipeRight && word.box < 4) ? word.box + 1 : word.box,
           "updateTime": Timestamp.fromDate(DateTime.now()),
         })
         .then((value) => print("Successful!"))
@@ -341,8 +341,12 @@ class Word extends ChangeNotifier {
     required String id,
     required String level,
     required String lesson,
-  }) {
+  }) async {
     wordStream = fetchWord(id, level, lesson);
+
+    await wordStream!.first.then((value) {
+      updateBoxIndex(value.last.box);
+    });
     notifyListeners();
   }
 }

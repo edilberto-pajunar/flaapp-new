@@ -1,10 +1,9 @@
+import 'package:flaapp/cubit/login/login_cubit.dart';
 import 'package:flaapp/services/networks/admin.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/services/networks/auth.dart';
-import 'package:flaapp/views/screens/admin/admin_screen.dart';
 import 'package:flaapp/views/screens/auth/signup.dart';
-import 'package:flaapp/views/screens/flashcard/level.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
 import 'package:flaapp/views/widgets/fields/primary_text_field.dart';
 import 'package:flutter/gestures.dart';
@@ -31,6 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final Auth auth = Provider.of<Auth>(context);
     final NavigationServices nav = NavigationServices();
     final Admin admin = Provider.of<Admin>(context);
+
+    final TextEditingController email = TextEditingController();
+    final TextEditingController password = TextEditingController();
 
     final ThemeData theme = Theme.of(context);
 
@@ -59,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 18.0),
                       PrimaryTextField(
                         key: emailKey,
-                        controller: Auth.email,
+                        controller: email,
                         label: "Email",
                         hintText: "example@gmail.com",
                         validator: (val) {
@@ -71,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       PrimaryTextField(
                         key: passwordKey,
-                        controller: Auth.password,
+                        controller: password,
                         label: "Password",
                         isPassword: true,
                         hintText: "Password",
@@ -88,17 +90,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         label: "Login",
                         onTap: () async {
                           // await admin.saveWordToDb();
-                          await auth.login().then((user) {
-                            if (Auth.email.text == "admin@gmail.com") {
-                              nav.pushScreen(context, screen: const AdminScreen());
-                            } else if (user != null) {
-                              nav.pushScreen(context, screen: const LevelScreen());
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Incorrect email/password.")),
+                          // await auth.login().then((user) {
+                          //   if (Auth.email.text == "admin@gmail.com") {
+                          //     nav.pushScreen(context, screen: const AdminScreen());
+                          //   } else if (user != null) {
+                          //     nav.pushScreen(context, screen: const LevelScreen());
+                          //   } else {
+                          //     ScaffoldMessenger.of(context).showSnackBar(
+                          //       const SnackBar(content: Text("Incorrect email/password.")),
+                          //     );
+                          //   }
+                          // });
+                          context.read<LoginCubit>().loginWithCredentials(
+                                email: email.text,
+                                password: password.text,
                               );
-                            }
-                          });
                         },
                       ),
                       const SizedBox(height: 100.0),
