@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flaapp/bloc/word/word_bloc.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 
 part 'auth_event.dart';
@@ -21,19 +20,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _userSubscription = _authRepository.user.listen((user) {
       print("Auth user: $user");
 
-      if (user != null) {
-        add(AuthUserChanged(user: user));
-      } else {
-        add(AuthUserChanged(user: user));
-      }
+      add(AuthUserChanged(user: user));
     });
   }
 
   void _onAuthUserChanged(AuthUserChanged event, emit) {
-    event.user == null ? emit(const AuthState.unauthenticated()) : emit(AuthState.authenticated(user: event.user!));
+    event.user == null
+        ? emit(const AuthState.unauthenticated())
+        : emit(
+            AuthState.authenticated(user: event.user!),
+          );
   }
-  
-  
 
   @override
   Future<void> close() async {

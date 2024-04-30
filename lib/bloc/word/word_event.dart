@@ -4,18 +4,37 @@ sealed class WordEvent extends Equatable {
   const WordEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadUserWords extends WordEvent {
   final String userId;
+  final String level;
+  final String lesson;
+  final String? localId;
 
   const LoadUserWords({
     required this.userId,
+    required this.level,
+    required this.lesson,
+    this.localId,
   });
 
   @override
-  List<Object> get props => [userId];
+  List<Object?> get props => [userId, level, lesson, localId];
+}
+
+class UpdateHome extends WordEvent {
+  final List<WordNewModel> wordList;
+  final String? duration;
+
+  const UpdateHome({
+    required this.wordList,
+    this.duration,
+  });
+
+  @override
+  List<Object?> get props => [wordList, duration];
 }
 
 class UpdateBox extends WordEvent {
@@ -25,14 +44,14 @@ class UpdateBox extends WordEvent {
     required this.boxIndex,
   });
   @override
-  List<Object> get props => [boxIndex];
+  List<Object?> get props => [boxIndex];
 }
 
 class UpdateFrontSide extends WordEvent {
   const UpdateFrontSide();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class DragPosition extends WordEvent {
@@ -43,12 +62,24 @@ class DragPosition extends WordEvent {
   });
 
   @override
-  List<Object> get props => [details];
+  List<Object?> get props => [details];
 }
 
-class EndPosition extends WordEvent {
-  const EndPosition();
+class SwipeCard extends WordEvent {
+  final WordNewModel currentWord;
+  final List<WordNewModel> wordList;
+  final String level;
+  final String lesson;
+  final bool swipeRight;
+
+  const SwipeCard({
+    required this.wordList,
+    required this.currentWord,
+    required this.swipeRight,
+    required this.level,
+    required this.lesson,
+  });
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [wordList, currentWord, swipeRight, level, lesson];
 }

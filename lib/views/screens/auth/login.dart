@@ -1,13 +1,17 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flaapp/bloc/auth/auth_bloc.dart';
 import 'package:flaapp/cubit/login/login_cubit.dart';
 import 'package:flaapp/services/networks/admin.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/services/networks/auth.dart';
 import 'package:flaapp/views/screens/auth/signup.dart';
+import 'package:flaapp/views/screens/flashcard/level.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
 import 'package:flaapp/views/widgets/fields/primary_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
@@ -27,9 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final GlobalKey<FormFieldState> passwordKey = GlobalKey();
     final GlobalKey<FormState> formKey = GlobalKey();
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-    final Auth auth = Provider.of<Auth>(context);
     final NavigationServices nav = NavigationServices();
-    final Admin admin = Provider.of<Admin>(context);
 
     final TextEditingController email = TextEditingController();
     final TextEditingController password = TextEditingController();
@@ -38,10 +40,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       key: scaffoldKey,
-      body: ModalProgressHUD(
-        inAsyncCall: auth.isLoading,
-        child: Form(
-          key: formKey,
+      body: Form(
+        key: formKey,
+        child: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state.status == AuthStatus.authenticated) {
+              nav.replaceScreen(context, screen: const LevelScreen());
+            }
+          },
           child: SafeArea(
             child: Center(
               child: Padding(

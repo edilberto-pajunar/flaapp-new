@@ -33,6 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
     final TextEditingController email = TextEditingController();
     final TextEditingController password = TextEditingController();
+    final TextEditingController name = TextEditingController();
 
     return Scaffold(
       key: scaffoldKey,
@@ -58,7 +59,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: 18.0),
                       PrimaryTextField(
-                        controller: Auth.name,
+                        controller: name,
                         label: "Username",
                         hintText: "Juan Dela Cruz",
                         validator: (val) {
@@ -70,7 +71,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       PrimaryTextField(
                         key: emailKey,
-                        controller: Auth.email,
+                        controller: email,
                         label: "Email",
                         hintText: "example@gmail.com",
                         validator: (val) {
@@ -84,7 +85,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       PrimaryTextField(
                         key: passwordKey,
-                        controller: Auth.password,
+                        controller: password,
                         label: "Password",
                         isPassword: true,
                         hintText: "Password",

@@ -5,6 +5,7 @@ import 'package:flaapp/cubit/login/login_cubit.dart';
 import 'package:flaapp/cubit/signup/signup_cubit.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
+import 'package:flaapp/repository/local/local_repository.dart';
 import 'package:flaapp/services/networks/admin.dart';
 import 'package:flaapp/services/networks/auth.dart';
 import 'package:flaapp/services/networks/word.dart';
@@ -32,17 +33,14 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (context) => AuthRepository()),
-        RepositoryProvider(create: (context) => DatabaseRepository())
+        RepositoryProvider(create: (context) => DatabaseRepository()),
+        RepositoryProvider(create: (context) => LocalRepository())
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => LoginCubit(authRepository: context.read<AuthRepository>())),
           BlocProvider(create: (context) => AuthBloc(authRepository: context.read<AuthRepository>())),
           BlocProvider(create: (context) => SignupCubit(authRepository: context.read<AuthRepository>())),
-          BlocProvider(
-              create: (context) =>
-                  WordBloc(authBloc: context.read<AuthBloc>(), databaseRepository: context.read<DatabaseRepository>())
-                    ..add(LoadUserWords(userId: context.read<AuthBloc>().state.user!.uid))),
         ],
         child: MultiProvider(
           providers: [

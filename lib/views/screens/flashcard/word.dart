@@ -1,15 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flaapp/bloc/auth/auth_bloc.dart';
 import 'package:flaapp/bloc/word/word_bloc.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/word_new.dart';
-import 'package:flaapp/services/networks/auth.dart';
+import 'package:flaapp/repository/auth/auth_repository.dart';
+import 'package:flaapp/repository/database/database_repository.dart';
+import 'package:flaapp/repository/local/local_repository.dart';
 import 'package:flaapp/values/constant/strings/image.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
-import 'package:flaapp/services/networks/word.dart';
-import 'package:flaapp/views/widgets/body/stream_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class WordsScreen extends StatefulWidget {
   const WordsScreen({
@@ -93,21 +92,37 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
       appBar: AppBar(
         title: const Text("A1 Greetings"),
       ),
-      body: BlocBuilder<WordBloc, WordState>(
-        builder: (context, state) {
-          if (state is WordLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is WordLoaded) {
-            return UserWords(state: state);
-          } else {
-            return const Center(
-              child: Text("Something went wrong."),
-            );
-          }
-        },
+      body: BlocProvider(
+        create: (context) => WordBloc(
+          authBloc: context.read<AuthBloc>(),
+          databaseRepository: context.read<DatabaseRepository>(),
+          localRepository: context.read<LocalRepository>(),
+        )..add(LoadUserWords(
+            userId: context.read<AuthBloc>().state.user!.uid,
+            level: widget.level,
+            lesson: widget.lesson,
+            localId: "${widget.level}-${widget.lesson}",
+          )),
+        child: BlocBuilder<WordBloc, WordState>(
+          builder: (context, state) {
+            if (state is WordLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is WordLoaded) {
+              return UserWords(
+                state: state,
+                level: widget.level,
+                lesson: widget.lesson,
+              );
+            } else {
+              return const Center(
+                child: Text("Something went wrong."),
+              );
+            }
+          },
+        ),
       ),
       // body: StreamWrapper<LessonModel>(
       //   stream: word.lessonStream,
@@ -227,9 +242,13 @@ class UserWords extends StatelessWidget {
   const UserWords({
     super.key,
     required this.state,
+    required this.level,
+    required this.lesson,
   });
 
   final WordLoaded state;
+  final String level;
+  final String lesson;
 
   @override
   Widget build(BuildContext context) {
@@ -245,86 +264,9 @@ class UserWords extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: size.height * 0.13,
-              child: ListView.builder(
-                itemCount: 5,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  // return Padding(
-                  //   padding: EdgeInsets.only(
-                  //     left: index == 0 ? 0 : 5.0,
-                  //   ),
-                  //   child: BoxCard(
-                  //     index: index,
-                  //     wordList: wordList,
-                  //     lessonModel: widget.lessonModel,
-                  //     time: remainingTime(lesson),
-                  //   ),
-                  // );
-                  return SizedBox(
-                    width: size.width * 0.19,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 12,
-                          child: InkWell(
-                            onTap: wordStream.where((element) => element.box == index).isEmpty
-                                ? null
-                                : () => context.read<WordBloc>().add(UpdateBox(boxIndex: index)),
-                            child: Container(
-                              height: 80,
-                              width: size.width * 0.17,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.0),
-                                color: ColorTheme.tTertiaryBlueColor,
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 4),
-                                    blurRadius: 4.0,
-                                    color: Colors.black.withOpacity(0.25),
-                                  ),
-                                ],
-                                border: state.boxIndex == index
-                                    ? Border.all(
-                                        color: ColorTheme.tBlueColor,
-                                        width: 2.0,
-                                      )
-                                    : null,
-                              ),
-                              child: Center(
-                                child: wordStream.where((element) => element.box == index).isEmpty
-                                    ? const Icon(Icons.lock)
-                                    : Stack(
-                                        children: [
-                                          Center(
-                                            child: Image.asset(
-                                              true ? PngImage.card : PngImage.cardDeactivated,
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "${wordStream.where((element) => element.box == index).length}",
-                                              style: theme.textTheme.bodyMedium!.copyWith(
-                                                color: ColorTheme.tWhiteColor,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+            BoxCard(
+              wordStream: wordStream,
+              state: state,
             ),
             const SizedBox(height: 24.0),
             Row(
@@ -370,44 +312,178 @@ class UserWords extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12.0),
-            InkWell(
-              onTap: () {
-                context.read<WordBloc>().add(const UpdateFrontSide());
-              },
-              child: Draggable(
-                feedback: FlashCard(
-                  wordModel: currentWords[0],
-                  state: state,
-                ),
-                onDragUpdate: (details) {
-                  context.read<WordBloc>().add(DragPosition(details: details));
-                },
-                onDragEnd: (details) {
-                  if (details.offset.dx < -100) {
-                    print("Swipe left");
-                    // word.swipeCard(id: user.uid, word: currentWords[0]);
-                  } else if (details.offset.dx > 100) {
-                    // word.swipeCard(id: user.uid, word: currentWords[0], swipeRight: true);
-                    print("Swipe right");
-                  }
-
-                  context.read<WordBloc>().add(const EndPosition());
-                },
-                childWhenDragging: currentWords.length > 1
-                    ? FlashCard(
+            state.duration != null
+                ? FlashCard(wordModel: currentWords[0], state: state)
+                : InkWell(
+                    onTap: () {
+                      context.read<WordBloc>().add(const UpdateFrontSide());
+                    },
+                    child: Draggable(
+                      feedback: FlashCard(
+                        wordModel: currentWords[0],
                         state: state,
-                        wordModel: currentWords[1],
-                      )
-                    : Container(),
-                child: FlashCard(
-                  state: state,
-                  wordModel: currentWords[0],
-                ),
-              ),
-            ),
+                      ),
+                      onDragUpdate: (details) {
+                        context.read<WordBloc>().add(DragPosition(details: details));
+                      },
+                      onDragEnd: (details) {
+                        if (details.offset.dx < -100) {
+                          print("Swipe left");
+                          // word.swipeCard(id: user.uid, word: currentWords[0]);
+                          context.read<WordBloc>().add(SwipeCard(
+                                wordList: currentWords,
+                                currentWord: currentWords[0],
+                                swipeRight: false,
+                                level: level,
+                                lesson: lesson,
+                              ));
+                        } else if (details.offset.dx > 100) {
+                          // word.swipeCard(id: user.uid, word: currentWords[0], swipeRight: true);
+                          print("Swipe right");
+                          context.read<WordBloc>().add(SwipeCard(
+                                wordList: currentWords,
+                                currentWord: currentWords[0],
+                                swipeRight: true,
+                                level: level,
+                                lesson: lesson,
+                              ));
+                        }
+                      },
+                      childWhenDragging: currentWords.length > 1
+                          ? FlashCard(
+                              state: state,
+                              wordModel: currentWords[1],
+                            )
+                          : Container(),
+                      child: FlashCard(
+                        state: state,
+                        wordModel: currentWords[0],
+                      ),
+                    ),
+                  ),
             const SizedBox(height: 12.0),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class BoxCard extends StatelessWidget {
+  const BoxCard({
+    super.key,
+    required this.wordStream,
+    required this.state,
+  });
+
+  final List<WordNewModel> wordStream;
+  final WordLoaded state;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Size size = MediaQuery.of(context).size;
+
+    return SizedBox(
+      height: size.height * 0.13,
+      child: ListView.builder(
+        itemCount: 5,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          // return Padding(
+          //   padding: EdgeInsets.only(
+          //     left: index == 0 ? 0 : 5.0,
+          //   ),
+          //   child: BoxCard(
+          //     index: index,
+          //     wordList: wordList,
+          //     lessonModel: widget.lessonModel,
+          //     time: remainingTime(lesson),
+          //   ),
+          // );
+          return SizedBox(
+            width: size.width * 0.19,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 12,
+                  child: InkWell(
+                    // onTap: wordStream.where((element) => element.box == index).isEmpty
+                    //     ? null
+                    //     : () => context.read<WordBloc>().add(UpdateBox(boxIndex: index)),
+                    child: Container(
+                      height: 80,
+                      width: size.width * 0.17,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        color: ColorTheme.tTertiaryBlueColor,
+                        boxShadow: [
+                          BoxShadow(
+                            offset: const Offset(0, 4),
+                            blurRadius: 4.0,
+                            color: Colors.black.withOpacity(0.25),
+                          ),
+                        ],
+                        border: state.boxIndex == index
+                            ? Border.all(
+                                color: ColorTheme.tBlueColor,
+                                width: 2.0,
+                              )
+                            : null,
+                      ),
+                      child: Center(
+                        child: wordStream.where((element) => element.box == index).isEmpty
+                            ? const Icon(Icons.lock)
+                            : Stack(
+                                children: [
+                                  Center(
+                                    child: index == state.boxIndex
+                                        ? Image.asset(PngImage.card)
+                                        : Image.asset(PngImage.cardDeactivated),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "${wordStream.where((element) => element.box == index).length}",
+                                      style: theme.textTheme.bodyMedium!.copyWith(
+                                        color: ColorTheme.tWhiteColor,
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 28,
+                  child: Visibility(
+                    visible: state.duration != null && index == state.userWords.last.box,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        color: ColorTheme.tLightBlueColor,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Text(
+                        "${state.duration}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.2,
+                          fontSize: 8.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -423,6 +499,19 @@ class FlashCard extends StatelessWidget {
   final WordNewModel wordModel;
   final WordLoaded state;
 
+  Color get backgroundColor {
+    if (state.duration != null) {
+      return ColorTheme.tGreyColor;
+    }
+    if (state.position == 0) {
+      return ColorTheme.tBlueColor;
+    } else if (state.position > 200) {
+      return ColorTheme.tGreenColor;
+    } else {
+      return ColorTheme.tRedColor;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -430,11 +519,7 @@ class FlashCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: state.position.dx > 0
-            ? ColorTheme.tGreenColor
-            : state.position.dx < 0
-                ? ColorTheme.tRedColor
-                : ColorTheme.tBlueColor,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(24.0),
       ),
       height: size.height * 0.6,
@@ -449,11 +534,11 @@ class FlashCard extends StatelessWidget {
               right: 28.0,
             ),
             child: Align(
-              alignment: state.position.dx > 0 ? Alignment.topRight : Alignment.topLeft,
+              alignment: state.position > 0 ? Alignment.topRight : Alignment.topLeft,
               child: Text(
-                state.position.dx > 0
+                state.position > 0
                     ? "Great!"
-                    : state.position.dx < 0
+                    : state.position < 0
                         ? "You got this. Let's try again!"
                         : "",
                 style: theme.textTheme.bodyMedium!.copyWith(
@@ -464,13 +549,15 @@ class FlashCard extends StatelessWidget {
           ),
           Expanded(
             child: Center(
-              child: Text(
-                state.isFrontSide ? wordModel.word : wordModel.translations[0],
-                style: theme.textTheme.headlineLarge!.copyWith(
-                  color: ColorTheme.tWhiteColor,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
+              child: state.duration != null
+                  ? const Icon(Icons.lock)
+                  : Text(
+                      state.isFrontSide ? wordModel.word : wordModel.translations[0],
+                      style: theme.textTheme.headlineLarge!.copyWith(
+                        color: ColorTheme.tWhiteColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
             ),
           ),
           Visibility(
