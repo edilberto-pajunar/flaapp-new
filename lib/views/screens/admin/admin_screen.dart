@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flaapp/bloc/admin/admin_bloc.dart';
 import 'package:flaapp/bloc/auth/auth_bloc.dart';
+import 'package:flaapp/cubit/lang/lang_cubit.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';
@@ -11,6 +10,7 @@ import 'package:flaapp/views/screens/auth/login.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
@@ -18,6 +18,42 @@ class AdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NavigationServices nav = NavigationServices();
+
+    void changeLanguage() {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    context.read<LangCubit>().updateLanguage("en");
+                    nav.pop(context);
+                  },
+                  child: const Text("English"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.read<LangCubit>().updateLanguage("es");
+                    nav.pop(context);
+                  },
+                  child: const Text("Spanish"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.read<LangCubit>().updateLanguage("de");
+                    nav.pop(context);
+                  },
+                  child: const Text("German"),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
 
     return PopScope(
       canPop: false,
@@ -27,7 +63,14 @@ class AdminScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           actions: [
             TextButton.icon(
-              label: const Text("Sign out"),
+              label: const Text("Choose language"),
+              onPressed: () => changeLanguage(),
+              icon: const Icon(
+                Icons.language,
+              ),
+            ),
+            TextButton.icon(
+              label: Text(AppLocalizations.of(context)!.signOut),
               onPressed: () {
                 context.read<AuthRepository>().signOut();
               },
@@ -59,19 +102,20 @@ class AdminScreen extends StatelessWidget {
                 }
 
                 if (state is AdminLoaded) {
+                  print(state.lesson);
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          PrimaryButton(
-                            label: "Generate Level",
-                            onTap: () {
-                              context.read<DatabaseRepository>().updateLevel();
-                            },
-                          ),
-                          const Text("Choose a level:"),
+                          // PrimaryButton(
+                          //   label: "Generate Level",
+                          //   onTap: () {
+                          //     context.read<DatabaseRepository>().updateLevel();
+                          //   },
+                          // ),
+                          Text("${AppLocalizations.of(context)!.chooseALevel}:"),
                           SizedBox(
                             child: DropdownButton<String>(
                               items: state.levelList.map((level) {
@@ -93,7 +137,7 @@ class AdminScreen extends StatelessWidget {
                               context.read<DatabaseRepository>().updateLesson();
                             },
                           ),
-                          const Text("Choose a lesson:"),
+                          Text("${AppLocalizations.of(context)!.chooseALesson}:"),
                           SizedBox(
                             child: DropdownButton<String>(
                               items: state.lessonList.map((lesson) {
@@ -123,10 +167,15 @@ class AdminScreen extends StatelessWidget {
                               ),
                               const SizedBox(width: 12.0),
                               ElevatedButton(
-                                onPressed: () {
-                                  nav.pushScreen(context, screen: const AddWordScreen());
-                                },
-                                child: const Text("Add a word"),
+                                onPressed: state.lesson != null && state.level != null
+                                    ? () {
+                                        nav.pushScreen(context,
+                                            screen: AddWordScreen(
+                                              adminLoaded: state,
+                                            ));
+                                      }
+                                    : null,
+                                child: Text(AppLocalizations.of(context)!.addAWord),
                               ),
                             ],
                           ),

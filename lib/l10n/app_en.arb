@@ -1,0 +1,21 @@
+{
+    "@@locale": "en",
+    "language": "English",
+    "@language": {
+        "description": "The current language"
+    },
+    "helloWorld": "Hello World",
+    "@helloWorld": {
+        "description": "A programmer greeting"
+    },
+    "chooseALevel": "Choose a level",
+    "chooseALesson": "Choose a lesson",
+    "listOfWordsFrom": "List of Words from",
+    "chooseLanguage": "Choose language",
+    "signOut": "Sign out",
+    "addAWord": "Add a word",
+    "enterAWord": "Enter a word",
+    "translate": "Translate",
+    "save": "Save",
+    "addToTheList": "Add to the List"
+}

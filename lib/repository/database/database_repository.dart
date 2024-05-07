@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
@@ -33,8 +35,8 @@ class DatabaseRepository extends BaseDatabaseRepository {
           "box": (swipeRight && word.box < 4) ? word.box + 1 : word.box,
           "updateTime": Timestamp.fromDate(DateTime.now()),
         })
-        .then((value) => print("Successful!"))
-        .onError((error, stackTrace) => print("Something went wrong."));
+        .then((value) => log("Successful!"))
+        .onError((error, stackTrace) => log("Something went wrong."));
   }
 
   @override
@@ -54,7 +56,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
           .set(
             word.toJson(),
           )
-          .then((value) => print("Successful!"));
+          .then((value) => log("Successful!"));
     }
   }
 
@@ -85,7 +87,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
           .collection(tLevelPath)
           .doc(uuid)
           .set(updatedLevel.toJson(), SetOptions(merge: true))
-          .then((value) => print("Successful!"));
+          .then((value) => log("Successful!"));
     }
   }
 
@@ -102,7 +104,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
           .collection(tLessonPath)
           .doc(uuid)
           .set(updatedLesson.toJson(), SetOptions(merge: true))
-          .then((value) => print("Successful!"));
+          .then((value) => log("Successful!"));
     }
   }
 
@@ -114,8 +116,8 @@ class DatabaseRepository extends BaseDatabaseRepository {
   }
 
   @override
-  Stream<List<LessonModel>> getLessons(String level) {
-    return _firebaseFirestore.collection(tLessonPath).where("level", isEqualTo: level).snapshots().map((snap) {
+  Future<List<LessonModel>> getLessons(String level) {
+    return _firebaseFirestore.collection(tLessonPath).where("level", isEqualTo: level).get().then((snap) {
       return snap.docs.map((doc) => LessonModel.fromJson(doc.data())).toList();
     });
   }

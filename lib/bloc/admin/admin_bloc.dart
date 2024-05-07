@@ -36,9 +36,9 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     ));
   }
 
-  void _onGetLevels(GetLevels event, emit) {
-    _databaseRepository.getLevels().listen((levels) {
-      add(UpdateHome(
+  void _onGetLevels(GetLevels event, emit) async {
+    await _databaseRepository.getLevels().first.then((levels) {
+      emit(AdminLoaded(
         wordList: const [],
         levelList: levels,
         lessonList: const [],
@@ -68,27 +68,19 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   void _onUpdateLevel(UpdateLevel event, emit) async {
     final state = this.state as AdminLoaded;
 
-    await _databaseRepository.getLessons(event.level).first.then((lessons) {
-      emit(AdminLoaded(
-        wordList: state.wordList,
-        levelList: state.levelList,
-        lessonList: lessons,
-        level: event.level,
-      ));
-    });
+    final lessons = await _databaseRepository.getLessons(event.level);
+    emit(state.copyWith(
+      level: event.level,
+      lessonList: lessons,
+      lesson: null,
+    ));
   }
 
   void _onUpdateLesson(UpdateLesson event, emit) {
     final state = this.state as AdminLoaded;
 
-    emit(AdminLoaded(
-      wordList: state.wordList,
-      levelList: state.levelList,
-      lessonList: state.lessonList,
-      level: state.level,
+    emit(state.copyWith(
       lesson: event.lesson,
     ));
   }
-
- 
 }

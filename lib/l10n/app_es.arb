@@ -1,0 +1,15 @@
+{
+    "@@locale": "es",
+    "language": "spanish",
+    "helloWorld": "",
+    "chooseALevel": "Elegir un nivel",
+    "chooseALesson": "Elegir una lección",
+    "listOfWordsFrom": "Lista de palabras de",
+    "chooseLanguage": "Elegir idioma",
+    "signOut": "Cerrar sesión",
+    "addAWord": "Agregar una palabra",
+    "enterAWord": "Ingresar una palabra",
+    "translate": "Traducir",
+    "save": "Guardar",
+    "addToTheList": "Agregar a la lista"
+}

@@ -1,0 +1,15 @@
+{
+    "@@locale": "de",
+    "language": "german",
+    "helloWorld": "Hello Word DE",
+    "chooseALevel": "Wähle eine Ebene",
+    "chooseALesson": "Wähle eine Lektion",
+    "listOfWordsFrom": "Liste der Wörter von",
+    "chooseLanguage": "Sprache wählen",
+    "signOut": "Abmelden",
+    "addAWord": "Ein Wort hinzufügen",
+    "enterAWord": "Gib ein Wort ein",
+    "translate": "Übersetzen",
+    "save": "Speichern",
+    "addToTheList": "Zur Liste hinzufügen"
+}
