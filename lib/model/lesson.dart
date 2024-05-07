@@ -1,49 +1,55 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flaapp/model/word.dart';
 
 class LessonModel extends Equatable {
-  final String doc;
+  final String label;
+  final String level;
   final bool locked;
-  final DateTime? timeConstraint;
-  final List<WordModel> words;
+  final String? id;
 
   const LessonModel({
-    required this.doc,
-    required this.locked,
-    required this.words,
-    this.timeConstraint,
+    required this.label,
+    required this.level,
+    this.locked = true,
+    this.id,
   });
 
   LessonModel copyWith({
-    String? doc,
+    String? label,
+    String? level,
     bool? locked,
-    DateTime? timeConstraint,
-    List<WordModel>? words,
+    String? id,
   }) =>
       LessonModel(
-        doc: doc ?? this.doc,
+        label: label ?? this.label,
+        level: level ?? this.level,
         locked: locked ?? this.locked,
-        words: words ?? this.words,
-        timeConstraint: timeConstraint ?? this.timeConstraint,
+        id: id ?? this.id,
       );
 
   factory LessonModel.fromJson(Map<String, dynamic> json) => LessonModel(
-    doc: json["doc"],
-    locked: json["locked"],
-    timeConstraint: (json["timeConstraint"] as Timestamp?)?.toDate(),
-    words: List<WordModel>.from(json["words"].map((x) => WordModel.fromJson(x))),
-  );
+        label: json["label"],
+        level: json["level"],
+        locked: json["locked"],
+        id: json["id"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "doc": doc,
-    "locked": locked,
-    "timeConstraint": timeConstraint != null
-        ? Timestamp.fromDate(timeConstraint!)
-        : null,
-    "words": List<dynamic>.from(words.map((x) => x.toJson())),
-  };
+        "label": label,
+        "level": level,
+        "locked": locked,
+        "id": id,
+      };
 
   @override
-  List<Object?> get props => [doc];
+  List<Object?> get props => [
+        label,
+        level,
+        locked,
+        id,
+      ];
+
+  static List<LessonModel> lessonList = [
+    const LessonModel(label: "Greetings and Farewells", locked: false, level: "A1"),
+    const LessonModel(label: "Personal Information", level: "A1"),
+  ];
 }

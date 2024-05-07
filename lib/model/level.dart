@@ -1,35 +1,41 @@
 class LevelModel {
-  final String id;
+  final String label;
   final bool locked;
+  final String? id;
 
   LevelModel({
-    required this.id,
+    required this.label,
     this.locked = true,
+    this.id,
   });
 
   LevelModel copyWith({
-    String? id,
+    String? label,
     bool? locked,
+    String? id,
   }) =>
       LevelModel(
-        id: id ?? this.id,
+        label: label ?? this.label,
         locked: locked ?? this.locked,
+        id: id ?? this.id,
       );
 
   factory LevelModel.fromJson(Map<String, dynamic> json) => LevelModel(
-        id: json["id"],
+        label: json["label"],
         locked: json["locked"],
+        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "label": label,
         "locked": locked,
+        "id": id,
       };
 
   static List<LevelModel> levelList = [
-    LevelModel(id: "A1", locked: false),
-    LevelModel(id: "A2"),
-    LevelModel(id: "B1"),
-    LevelModel(id: "B2"),
+    LevelModel(label: "A1", locked: false),
+    LevelModel(label: "A2"),
+    LevelModel(label: "B1"),
+    LevelModel(label: "B2"),
   ];
 }

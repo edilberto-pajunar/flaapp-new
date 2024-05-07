@@ -1,12 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer';
+
 import 'package:flaapp/bloc/auth/auth_bloc.dart';
-import 'package:flaapp/services/networks/auth.dart';
+import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/views/screens/admin/admin_screen.dart';
 import 'package:flaapp/views/screens/auth/login.dart';
 import 'package:flaapp/views/screens/flashcard/level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class AuthWrapperScreen extends StatefulWidget {
   const AuthWrapperScreen({super.key});
@@ -18,20 +18,22 @@ class AuthWrapperScreen extends StatefulWidget {
 class _AuthWrapperScreenState extends State<AuthWrapperScreen> {
   @override
   Widget build(BuildContext context) {
-    final Auth auth = Provider.of<Auth>(context);
+    final NavigationServices nav = NavigationServices();
 
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        print(state.status);
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        log("${state.status}");
         if (state.status == AuthStatus.authenticated) {
-          return const LevelScreen();
+          if (state.user!.uid == "0XxNPuZWIyURc1PrddS6BUNEsGX2") {
+            nav.replaceScreen(context, screen: const AdminScreen());
+          } else {
+            nav.replaceScreen(context, screen: const LevelScreen());
+          }
         } else if (state.status == AuthStatus.unknown || state.status == AuthStatus.unauthenticated) {
-          return const LoginScreen();
+          nav.replaceScreen(context, screen: const LoginScreen());
         }
-        return const Center(
-          child: Text("Something went wrong."),
-        );
       },
+      child: Container(),
     );
 
     // return StreamBuilder<User?>(

@@ -32,4 +32,9 @@ class AuthRepository extends BaseAuthRepository {
       print("Error: $e");
     }
   }
+
+  @override
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
+  }
 }

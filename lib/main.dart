@@ -1,14 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flaapp/bloc/auth/auth_bloc.dart';
-import 'package:flaapp/bloc/word/word_bloc.dart';
 import 'package:flaapp/cubit/login/login_cubit.dart';
 import 'package:flaapp/cubit/signup/signup_cubit.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/local/local_repository.dart';
+import 'package:flaapp/repository/translate/translate_repository.dart';
 import 'package:flaapp/services/networks/admin.dart';
 import 'package:flaapp/services/networks/auth.dart';
-import 'package:flaapp/services/networks/word.dart';
 import 'package:flaapp/views/screens/wrapper/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,19 +33,19 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider(create: (context) => AuthRepository()),
         RepositoryProvider(create: (context) => DatabaseRepository()),
-        RepositoryProvider(create: (context) => LocalRepository())
+        RepositoryProvider(create: (context) => LocalRepository()),
+        RepositoryProvider(create: (context) => TranslateRepository())
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => LoginCubit(authRepository: context.read<AuthRepository>())),
           BlocProvider(create: (context) => AuthBloc(authRepository: context.read<AuthRepository>())),
+          BlocProvider(create: (context) => LoginCubit(authRepository: context.read<AuthRepository>())),
           BlocProvider(create: (context) => SignupCubit(authRepository: context.read<AuthRepository>())),
         ],
         child: MultiProvider(
           providers: [
             ChangeNotifierProvider<Admin>(create: (context) => Admin()),
             ChangeNotifierProvider<Auth>(create: (context) => Auth()),
-            ChangeNotifierProvider<Word>(create: (context) => Word()),
           ],
           child: const MaterialApp(
             home: AuthWrapperScreen(),

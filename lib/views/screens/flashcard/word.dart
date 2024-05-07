@@ -8,7 +8,9 @@ import 'package:flaapp/repository/local/local_repository.dart';
 import 'package:flaapp/values/constant/strings/image.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class WordsScreen extends StatefulWidget {
   const WordsScreen({
@@ -65,23 +67,6 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
   //   ticker.dispose();
   //   super.dispose();
   // }
-
-  String remainingTime(LessonModel lesson) {
-    final DateTime now = DateTime.now();
-    final DateTime? timeConstraint = lesson.timeConstraint;
-
-    if (timeConstraint != null && timeConstraint.isAfter(now)) {
-      final difference = timeConstraint.difference(now);
-
-      int hour = difference.inHours;
-      int minute = difference.inMinutes % 60;
-      int second = difference.inSeconds % 60;
-
-      return '$hour:$minute:$second';
-    } else {
-      return "0";
-    }
-  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
@@ -516,6 +501,7 @@ class FlashCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Size size = MediaQuery.of(context).size;
+    final FlutterTts flutterTts = FlutterTts();
 
     return Container(
       decoration: BoxDecoration(
@@ -558,6 +544,36 @@ class FlashCard extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+            ),
+          ),
+          Visibility(
+            visible: state.duration == null,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: ColorTheme.tBlackColor,
+                  child: IconButton(
+                    onPressed: () async {
+                      // 16 : us
+                      // 40 : de
+                      // 46 : es
+                      final List languages = await flutterTts.getLanguages;
+                      await flutterTts.setLanguage(languages[46]);
+                      await flutterTts.speak(
+                        state.isFrontSide ? wordModel.word : wordModel.translations[0],
+                      );
+                    },
+                    iconSize: 30.0,
+                    icon: const Icon(
+                      Icons.volume_down,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
           Visibility(

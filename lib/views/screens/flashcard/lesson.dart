@@ -1,13 +1,8 @@
-import 'package:flaapp/bloc/word/word_bloc.dart';
-import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/lesson_new.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
-import 'package:flaapp/services/networks/word.dart';
 import 'package:flaapp/views/screens/flashcard/word.dart';
-import 'package:flaapp/views/widgets/body/stream_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LessonScreen extends StatefulWidget {
   const LessonScreen({
@@ -22,21 +17,12 @@ class LessonScreen extends StatefulWidget {
 }
 
 class _LessonScreenState extends State<LessonScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final Word word = Provider.of<Word>(context, listen: false);
-      word.updateLessonListStream(levelId: widget.levelId);
-    });
-  }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Word word = Provider.of<Word>(context);
     final NavigationServices nav = NavigationServices();
 
     return Scaffold(

@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flaapp/model/lesson.dart';
+import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word_new.dart';
 import 'package:flaapp/repository/database/base_database_repository.dart';
 import 'package:flaapp/values/constant/strings/constant.dart';
+import 'package:uuid/uuid.dart';
 
 class DatabaseRepository extends BaseDatabaseRepository {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -53,5 +56,67 @@ class DatabaseRepository extends BaseDatabaseRepository {
           )
           .then((value) => print("Successful!"));
     }
+  }
+
+  @override
+  Stream<List<WordNewModel>> getAdminWords(String level, String lesson) {
+    return _firebaseFirestore
+        .collection(tWordPath)
+        .where("level", isEqualTo: level)
+        .where("lesson", isEqualTo: lesson)
+        .snapshots()
+        .map((snap) {
+      return snap.docs.map((doc) {
+        return WordNewModel.fromJson(doc.data());
+      }).toList();
+    });
+  }
+
+  @override
+  Future<void> updateLevel() async {
+    final List<LevelModel> levelList = LevelModel.levelList;
+
+    for (LevelModel level in levelList) {
+      final String uuid = const Uuid().v1();
+
+      final updatedLevel = level.copyWith(id: uuid);
+
+      await _firebaseFirestore
+          .collection(tLevelPath)
+          .doc(uuid)
+          .set(updatedLevel.toJson(), SetOptions(merge: true))
+          .then((value) => print("Successful!"));
+    }
+  }
+
+  @override
+  Future<void> updateLesson() async {
+    final List<LessonModel> lessonList = LessonModel.lessonList;
+
+    for (LessonModel lesson in lessonList) {
+      final String uuid = const Uuid().v1();
+
+      final updatedLesson = lesson.copyWith(id: uuid);
+
+      await _firebaseFirestore
+          .collection(tLessonPath)
+          .doc(uuid)
+          .set(updatedLesson.toJson(), SetOptions(merge: true))
+          .then((value) => print("Successful!"));
+    }
+  }
+
+  @override
+  Stream<List<LevelModel>> getLevels() {
+    return _firebaseFirestore.collection(tLevelPath).orderBy("label", descending: false).snapshots().map((snap) {
+      return snap.docs.map((doc) => LevelModel.fromJson(doc.data())).toList();
+    });
+  }
+
+  @override
+  Stream<List<LessonModel>> getLessons(String level) {
+    return _firebaseFirestore.collection(tLessonPath).where("level", isEqualTo: level).snapshots().map((snap) {
+      return snap.docs.map((doc) => LessonModel.fromJson(doc.data())).toList();
+    });
   }
 }

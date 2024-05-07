@@ -5,6 +5,7 @@ import 'package:flaapp/services/networks/admin.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/services/networks/auth.dart';
+import 'package:flaapp/views/screens/admin/admin_screen.dart';
 import 'package:flaapp/views/screens/auth/signup.dart';
 import 'package:flaapp/views/screens/flashcard/level.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
@@ -45,7 +46,13 @@ class _LoginScreenState extends State<LoginScreen> {
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.status == AuthStatus.authenticated) {
-              nav.replaceScreen(context, screen: const LevelScreen());
+              if (state.user!.uid == "0XxNPuZWIyURc1PrddS6BUNEsGX2") {
+                nav.replaceScreen(context, screen: const AdminScreen());
+              } else {
+                nav.replaceScreen(context, screen: const LevelScreen());
+              }
+            } else {
+              nav.popAll(context);
             }
           },
           child: SafeArea(
