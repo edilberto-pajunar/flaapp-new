@@ -7,21 +7,34 @@ sealed class WordEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class LoadLevel extends WordEvent {
+  final List<LevelModel> levelList;
+
+  const LoadLevel({
+    required this.levelList,
+  });
+
+  @override
+  List<Object?> get props => [levelList];
+}
+
 class LoadUserWords extends WordEvent {
   final String userId;
   final String level;
   final String lesson;
   final String? localId;
+  final List<WordNewModel> wordList;
 
   const LoadUserWords({
     required this.userId,
     required this.level,
     required this.lesson,
+    required this.wordList,
     this.localId,
   });
 
   @override
-  List<Object?> get props => [userId, level, lesson, localId];
+  List<Object?> get props => [userId, level, lesson, localId, wordList];
 }
 
 class UpdateHome extends WordEvent {

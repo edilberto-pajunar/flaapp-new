@@ -68,7 +68,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   void _onUpdateLevel(UpdateLevel event, emit) async {
     final state = this.state as AdminLoaded;
 
-    final lessons = await _databaseRepository.getLessons(event.level);
+    final lessons = await _databaseRepository.getLessons(event.level).first;
     emit(state.copyWith(
       level: event.level,
       lessonList: lessons,

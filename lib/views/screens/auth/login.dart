@@ -1,10 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flaapp/bloc/auth/auth_bloc.dart';
 import 'package:flaapp/cubit/login/login_cubit.dart';
-import 'package:flaapp/services/networks/admin.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
-import 'package:flaapp/services/networks/auth.dart';
 import 'package:flaapp/views/screens/admin/admin_screen.dart';
 import 'package:flaapp/views/screens/auth/signup.dart';
 import 'package:flaapp/views/screens/flashcard/level.dart';
@@ -13,8 +10,6 @@ import 'package:flaapp/views/widgets/fields/primary_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static String route = "/login";
@@ -102,18 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       PrimaryButton(
                         label: "Login",
                         onTap: () async {
-                          // await admin.saveWordToDb();
-                          // await auth.login().then((user) {
-                          //   if (Auth.email.text == "admin@gmail.com") {
-                          //     nav.pushScreen(context, screen: const AdminScreen());
-                          //   } else if (user != null) {
-                          //     nav.pushScreen(context, screen: const LevelScreen());
-                          //   } else {
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(content: Text("Incorrect email/password.")),
-                          //     );
-                          //   }
-                          // });
+                          // await context.read<DatabaseRepository>().updateWords();
                           context.read<LoginCubit>().loginWithCredentials(
                                 email: email.text,
                                 password: password.text,

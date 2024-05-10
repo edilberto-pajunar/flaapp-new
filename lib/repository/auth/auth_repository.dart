@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/repository/auth/base_auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
@@ -19,8 +21,8 @@ class AuthRepository extends BaseAuthRepository {
   }) async {
     await _firebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) => print("Login Successful!"))
-        .onError((error, stackTrace) => print("Error: $error"));
+        .then((value) => log("Login Successful!"))
+        .onError((error, stackTrace) => log("Error: $error"));
   }
 
   @override
@@ -29,7 +31,7 @@ class AuthRepository extends BaseAuthRepository {
       final cred = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       await DatabaseRepository().setUp(cred.user!.uid);
     } catch (e) {
-      print("Error: $e");
+      log("Error: $e");
     }
   }
 

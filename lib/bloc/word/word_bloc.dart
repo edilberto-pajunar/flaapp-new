@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flaapp/bloc/auth/auth_bloc.dart';
+import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word_new.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/local/local_repository.dart';
@@ -15,6 +16,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
   final DatabaseRepository _databaseRepository;
   final LocalRepository _localRepository;
   final AuthBloc _authBloc;
+  final String level;
+  final String lesson;
   StreamSubscription? _wordSubscription;
   StreamSubscription? _timeSubscription;
 
@@ -22,6 +25,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     required AuthBloc authBloc,
     required DatabaseRepository databaseRepository,
     required LocalRepository localRepository,
+    required this.level,
+    required this.lesson,
   })  : _authBloc = authBloc,
         _databaseRepository = databaseRepository,
         _localRepository = localRepository,
@@ -32,33 +37,51 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     on<UpdateFrontSide>(_onUpdateFrontSide);
     on<DragPosition>(_onDragPosition);
     on<SwipeCard>(_onSwipeCard);
+
+    _wordSubscription = _databaseRepository.getUserWords(_authBloc.state.user!.uid, level, lesson).listen((wordList) {
+      add(LoadUserWords(
+        userId: _authBloc.state.user!.uid,
+        level: level,
+        lesson: lesson,
+        wordList: wordList,
+      ));
+    });
   }
 
   void _onLoadUserWords(LoadUserWords event, emit) async {
-    await _localRepository.getTime("${event.level}-${event.lesson}").then((time) {
-      final parsedTime = DateTime.tryParse(time)!;
+    final String id = "${event.level}-${event.lesson}";
 
-      _timeSubscription?.cancel();
+    print(id);
 
-      _timeSubscription = Stream.periodic(const Duration(seconds: 1), (timer) {
-        return DateTime.now();
-      }).listen((now) async {
-        final difference = parsedTime.difference(now);
+    await _localRepository.getTime(id).then((time) {
+      print(time);
+      if (time.isNotEmpty) {
+        final parsedTime = DateTime.tryParse(time)!;
 
-        _wordSubscription =
-            _databaseRepository.getUserWords(event.userId, event.level, event.lesson).listen((wordList) {
+        _timeSubscription = Stream.periodic(const Duration(seconds: 1), (timer) {
+          return DateTime.now();
+        }).listen((now) async {
+          final difference = parsedTime.difference(now);
+
           if (parsedTime.isAfter(now)) {
             add(UpdateHome(
-                wordList: wordList,
+                wordList: event.wordList,
                 duration: '${difference.inHours}:${difference.inMinutes % 60}:${difference.inSeconds % 60}'));
           } else {
             add(UpdateHome(
-              wordList: wordList,
+              wordList: event.wordList,
             ));
-            // _timeSubscription?.cancel();
+
+            await _localRepository.cancelTime(id);
           }
         });
-      });
+      } else {
+        add(UpdateHome(
+          wordList: event.wordList,
+        ));
+
+        _timeSubscription?.cancel();
+      }
     });
   }
 
@@ -108,12 +131,13 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
   void _onSwipeCard(SwipeCard event, emit) async {
     final state = this.state as WordLoaded;
+    final String id = _authBloc.state.user!.uid;
     int time = 0;
 
     if (event.wordList.length == 1 && state.boxIndex != 4) {
       emit(WordLoading());
 
-      await _databaseRepository.swipeCard(_authBloc.state.user!.uid, event.currentWord, event.swipeRight);
+      await _databaseRepository.swipeCard(id, event.currentWord, event.swipeRight);
 
       if (event.currentWord.box == 0) {
         time = 1;
@@ -125,13 +149,18 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         time = 4;
       }
 
-      await _localRepository
-          .setTime("${event.currentWord.level}-${event.currentWord.lesson}", time)
-          .then((value) async {
-        add(LoadUserWords(userId: _authBloc.state.user!.uid, level: event.level, lesson: event.lesson));
+      await _localRepository.setTime("${event.currentWord.level}-${event.currentWord.lesson}", time);
+
+      emit(WordLoading());
+      await _databaseRepository.getUserWords(id, level, lesson).first.then((value) {
+        add(LoadUserWords(wordList: value, userId: id, level: level, lesson: lesson));
       });
     } else {
       await _databaseRepository.swipeCard(_authBloc.state.user!.uid, event.currentWord, event.swipeRight);
+    }
+
+    if (event.wordList.every((element) => element.box == 4)) {
+      await _databaseRepository.unlockLesson(id, event.currentWord.lesson);
     }
 
     // await _databaseRepository

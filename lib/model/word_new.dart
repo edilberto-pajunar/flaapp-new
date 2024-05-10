@@ -59,6 +59,7 @@ class WordNewModel {
       };
 
   static List<WordNewModel> wordList = [
+    // GREETINGS AND FAREWELLS
     WordNewModel(
       word: "Hello",
       translations: ["Hallo", "Hello", "Hola"],
@@ -94,6 +95,7 @@ class WordNewModel {
       lesson: "Greetings and Farewells",
       updateTime: DateTime.now(),
     ),
+    // PERSONAL INFORMATION
     WordNewModel(
       word: "Gender",
       translations: ["Geschlect", "Gender", "Genero"],
@@ -134,6 +136,85 @@ class WordNewModel {
       translations: ["Mobilnummer", "Mobile number", "Numero movil"],
       level: "A1",
       lesson: "Personal Information",
+      updateTime: DateTime.now(),
+    ),
+    // NUMBERS
+    WordNewModel(
+      word: "Zero",
+      translations: ["Null", "Zero", "Cero"],
+      level: "A1",
+      lesson: "Numbers",
+      updateTime: DateTime.now(),
+    ),
+    WordNewModel(
+      word: "One",
+      translations: ["Eins", "One", "Uno"],
+      level: "A1",
+      lesson: "Numbers",
+      updateTime: DateTime.now(),
+    ),
+    WordNewModel(
+      word: "Two",
+      translations: ["Zwei", "Two", "Dos"],
+      level: "A1",
+      lesson: "Numbers",
+      updateTime: DateTime.now(),
+    ),
+    WordNewModel(
+      word: "Three",
+      translations: ["Drei", "Three", "Tres"],
+      level: "A1",
+      lesson: "Numbers",
+      updateTime: DateTime.now(),
+    ),
+    WordNewModel(
+      word: "Four",
+      translations: ["Vier", "Four", "Cuatro"],
+      level: "A1",
+      lesson: "Numbers",
+      updateTime: DateTime.now(),
+    ),
+    WordNewModel(
+      word: "Five",
+      translations: ["Fünf", "Five", "Cinco"],
+      level: "A1",
+      lesson: "Numbers",
+      updateTime: DateTime.now(),
+    ),
+    // COUNTRIES
+    WordNewModel(
+      word: "Germany",
+      translations: ["Deutschland", "Germany", "Alemania"],
+      level: "A1",
+      lesson: "Countries",
+      updateTime: DateTime.now(),
+    ),
+    WordNewModel(
+      word: "France",
+      translations: ["Frankreich", "France", "Francia"],
+      level: "A1",
+      lesson: "Countries",
+      updateTime: DateTime.now(),
+    ),
+    WordNewModel(
+      word: "Spain",
+      translations: ["Spanien", "Spain", "España"],
+      level: "A1",
+      lesson: "Countries",
+      updateTime: DateTime.now(),
+    ),
+    WordNewModel(
+      word: "Italy",
+      translations: ["Italien", "Italy", "Italia"],
+      level: "A1",
+      lesson: "Countries",
+      updateTime: DateTime.now(),
+    ),
+    WordNewModel(
+      word: "United Kingdom",
+      translations: ["Großbritannien", "United Kingdom", "Reino Unido"],
+      level: "A1",
+      lesson: "Countries",
       updateTime: DateTime.now(),
     ),
   ];

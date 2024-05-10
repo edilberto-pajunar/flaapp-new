@@ -48,15 +48,24 @@ class DatabaseRepository extends BaseDatabaseRepository {
     });
 
     for (WordNewModel word in wordList) {
-      _firebaseFirestore
-          .collection(tUserPath)
-          .doc(userId)
-          .collection(tWordPath)
-          .doc(word.id)
-          .set(
-            word.toJson(),
-          )
-          .then((value) => log("Successful!"));
+      Future.wait([
+        _firebaseFirestore.collection(tUserPath).doc(userId).collection(tWordPath).doc(word.word).set(word
+            .copyWith(
+              id: word.word,
+            )
+            .toJson()),
+        _firebaseFirestore.collection(tUserPath).doc(userId).collection(tLevelPath).doc(word.level).set({
+          "id": word.level,
+          "label": word.level,
+          "locked": wordList.indexOf(word) == 0 ? false : true,
+        }),
+        _firebaseFirestore.collection(tUserPath).doc(userId).collection(tLessonPath).doc(word.lesson).set({
+          "id": word.lesson,
+          "label": word.lesson,
+          "level": word.level,
+          "locked": wordList.indexOf(word) == 0 ? false : true,
+        }),
+      ]).then((value) => log("Succesful!"));
     }
   }
 
@@ -116,9 +125,61 @@ class DatabaseRepository extends BaseDatabaseRepository {
   }
 
   @override
-  Future<List<LessonModel>> getLessons(String level) {
-    return _firebaseFirestore.collection(tLessonPath).where("level", isEqualTo: level).get().then((snap) {
+  Stream<List<LessonModel>> getLessons(String level) {
+    return _firebaseFirestore.collection(tLessonPath).where("level", isEqualTo: level).snapshots().map((snap) {
       return snap.docs.map((doc) => LessonModel.fromJson(doc.data())).toList();
+    });
+  }
+
+  @override
+  Future<void> updateWords() async {
+    final wordList = WordNewModel.wordList;
+
+    for (WordNewModel word in wordList) {
+      Future.wait([
+        _firebaseFirestore.collection(tWordPath).doc(word.word).set(word
+            .copyWith(
+              id: word.word,
+            )
+            .toJson()),
+        _firebaseFirestore.collection(tLevelPath).doc(word.level).set({
+          "id": word.level,
+          "label": word.level,
+          "locked": wordList.indexOf(word) == 0 ? false : true,
+        }),
+        _firebaseFirestore.collection(tLessonPath).doc(word.lesson).set({
+          "id": word.lesson,
+          "label": word.lesson,
+          "level": word.level,
+          "locked": wordList.indexOf(word) == 0 ? false : true,
+        }),
+      ]).then((value) => log("Succesful!"));
+    }
+  }
+
+  @override
+  Future<void> unlockLesson(String userId, String lesson) async {
+    final List<LevelModel> levelList = await getUserLevels(userId).first;
+    _firebaseFirestore.collection(tUserPath).doc(userId).collection(tLessonPath).doc("").update({
+      "locked": false,
+    }).then((value) => log("Lesson unlocked! $lesson"));
+  }
+
+  @override
+  Stream<List<LevelModel>> getUserLevels(String userId) {
+    return _firebaseFirestore.collection(tUserPath).doc(userId).collection(tLevelPath).snapshots().map((event) {
+      return event.docs.map((doc) {
+        return LevelModel.fromJson(doc.data());
+      }).toList();
+    });
+  }
+
+  @override
+  Stream<List<LessonModel>> getUserLessons(String userId) {
+    return _firebaseFirestore.collection(tUserPath).doc(userId).collection(tLessonPath).snapshots().map((event) {
+      return event.docs.map((doc) {
+        return LessonModel.fromJson(doc.data());
+      }).toList();
     });
   }
 }

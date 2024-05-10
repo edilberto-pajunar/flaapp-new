@@ -35,5 +35,7 @@ class LessonNewModel extends Equatable {
   static List<LessonNewModel> lessonList = [
     const LessonNewModel(label: "Greetings and Farewells", locked: false),
     const LessonNewModel(label: "Personal and Information"),
+    const LessonNewModel(label: "Numbers"),
+    const LessonNewModel(label: "Countries"),
   ];
 }
