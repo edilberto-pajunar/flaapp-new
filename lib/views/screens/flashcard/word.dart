@@ -1,15 +1,15 @@
 import 'package:flaapp/bloc/auth/auth_bloc.dart';
 import 'package:flaapp/bloc/word/word_bloc.dart';
-import 'package:flaapp/model/word_new.dart';
+import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/local/local_repository.dart';
+import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/values/constant/strings/image.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/views/screens/flashcard/widgets/box_card.dart';
 import 'package:flaapp/views/screens/flashcard/widgets/flash_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 
 class WordsScreen extends StatefulWidget {
   const WordsScreen({
@@ -19,7 +19,7 @@ class WordsScreen extends StatefulWidget {
   });
 
   final String level;
-  final String lesson;
+  final LessonModel lesson;
 
   @override
   State<WordsScreen> createState() => _WordsScreenState();
@@ -27,6 +27,7 @@ class WordsScreen extends StatefulWidget {
 
 class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  final NavigationServices nav = NavigationServices();
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +42,42 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
           databaseRepository: context.read<DatabaseRepository>(),
           localRepository: context.read<LocalRepository>(),
           level: widget.level,
-          lesson: widget.lesson,
+          lesson: widget.lesson.label,
         ),
-        child: BlocBuilder<WordBloc, WordState>(
+        child: BlocConsumer<WordBloc, WordState>(
+          listener: (context, state) {
+            if (state is WordComplete) {
+              nav.pop(context);
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Image.asset(
+                      PngImage.ribbon,
+                      fit: BoxFit.contain,
+                      height: 100,
+                      width: 100,
+                    ),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Congratulations you have completed beginner’s level! ",
+                          textAlign: TextAlign.center,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            nav.pop(context);
+                          },
+                          child: const Text("Continue"),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+          },
           builder: (context, state) {
             if (state is WordLoading) {
               return const Center(
@@ -53,6 +87,7 @@ class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStat
             if (state is WordLoaded) {
               return UserWords(
                 state: state,
+                lesson: widget.lesson,
               );
             } else {
               return Center(
@@ -70,9 +105,11 @@ class UserWords extends StatelessWidget {
   const UserWords({
     super.key,
     required this.state,
+    required this.lesson,
   });
 
   final WordLoaded state;
+  final LessonModel lesson;
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +195,7 @@ class UserWords extends StatelessWidget {
                                 currentWord: currentWords[0],
                                 swipeRight: false,
                                 level: currentWords[0].level,
-                                lesson: currentWords[0].lesson,
+                                lesson: lesson,
                               ));
                         } else if (details.offset.dx > 100) {
                           // word.swipeCard(id: user.uid, word: currentWords[0], swipeRight: true);
@@ -168,7 +205,7 @@ class UserWords extends StatelessWidget {
                                 currentWord: currentWords[0],
                                 swipeRight: true,
                                 level: currentWords[0].level,
-                                lesson: currentWords[0].lesson,
+                                lesson: lesson,
                               ));
                         }
                       },

@@ -82,7 +82,7 @@ class SwipeCard extends WordEvent {
   final WordNewModel currentWord;
   final List<WordNewModel> wordList;
   final String level;
-  final String lesson;
+  final LessonModel lesson;
   final bool swipeRight;
 
   const SwipeCard({

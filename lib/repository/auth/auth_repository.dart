@@ -29,7 +29,8 @@ class AuthRepository extends BaseAuthRepository {
   Future<void> signup({required String email, required String password}) async {
     try {
       final cred = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      await DatabaseRepository().setUp(cred.user!.uid);
+
+      await DatabaseRepository().setUp(cred.user!);
     } catch (e) {
       log("Error: $e");
     }

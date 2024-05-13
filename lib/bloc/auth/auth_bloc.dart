@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -18,7 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthUserChanged>(_onAuthUserChanged);
 
     _userSubscription = _authRepository.user.listen((user) {
-      print("Auth user: $user");
+      log("Auth user: $user");
 
       add(AuthUserChanged(user: user));
     });

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flaapp/bloc/auth/auth_bloc.dart';
+import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word_new.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
@@ -51,10 +52,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
   void _onLoadUserWords(LoadUserWords event, emit) async {
     final String id = "${event.level}-${event.lesson}";
 
-    print(id);
-
     await _localRepository.getTime(id).then((time) {
-      print(time);
       if (time.isNotEmpty) {
         final parsedTime = DateTime.tryParse(time)!;
 
@@ -136,7 +134,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
     if (event.wordList.length == 1 && state.boxIndex != 4) {
       emit(WordLoading());
-
       await _databaseRepository.swipeCard(id, event.currentWord, event.swipeRight);
 
       if (event.currentWord.box == 0) {
@@ -151,7 +148,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
       await _localRepository.setTime("${event.currentWord.level}-${event.currentWord.lesson}", time);
 
-      emit(WordLoading());
       await _databaseRepository.getUserWords(id, level, lesson).first.then((value) {
         add(LoadUserWords(wordList: value, userId: id, level: level, lesson: lesson));
       });
@@ -159,16 +155,10 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       await _databaseRepository.swipeCard(_authBloc.state.user!.uid, event.currentWord, event.swipeRight);
     }
 
-    if (event.wordList.every((element) => element.box == 4)) {
-      await _databaseRepository.unlockLesson(id, event.currentWord.lesson);
+    if (event.wordList.length == 1 && state.boxIndex == 3) {
+      await _databaseRepository.unlockLesson(id, event.lesson, event.currentWord.level);
+      emit(WordComplete());
     }
-
-    // await _databaseRepository
-    //     .getUserWords(_authBloc.state.user!.uid, event.level, event.lesson)
-    //     .first
-    //     .then((words) async {
-    //   // final int lastIndex = words.lastWhere((element) => element.box == state.boxIndex).box;
-    // });
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
@@ -18,7 +20,7 @@ class SignupCubit extends Cubit<SignupState> {
     try {
       await _authRepository.signup(email: email, password: password);
     } catch (e) {
-      print("Error: $e");
+      log("Error: $e");
     }
   }
 }

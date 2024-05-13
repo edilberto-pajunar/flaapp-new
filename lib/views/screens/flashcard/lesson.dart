@@ -1,8 +1,7 @@
 import 'package:flaapp/bloc/auth/auth_bloc.dart';
 import 'package:flaapp/bloc/lesson/lesson_bloc.dart';
 import 'package:flaapp/bloc/level/level_bloc.dart';
-import 'package:flaapp/bloc/word/word_bloc.dart';
-import 'package:flaapp/model/lesson_new.dart';
+import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
@@ -41,7 +40,7 @@ class _LessonScreenState extends State<LessonScreen> {
           authBloc: context.read<AuthBloc>(),
           level: widget.levelId,
           levelBloc: context.read<LevelBloc>(),
-        ),
+        )..add(LessonStarted(level: widget.levelId)),
         child: BlocBuilder<LessonBloc, LessonState>(
           builder: (context, state) {
             if (state is LessonLoading) {
@@ -62,7 +61,7 @@ class _LessonScreenState extends State<LessonScreen> {
                           shrinkWrap: true,
                           itemCount: state.lessonList.length,
                           itemBuilder: (context, index) {
-                            final LessonNewModel lesson = LessonNewModel.lessonList[index];
+                            final LessonModel lesson = state.lessonList[index];
 
                             return Container(
                               margin: const EdgeInsets.only(bottom: 16.0),
@@ -91,7 +90,7 @@ class _LessonScreenState extends State<LessonScreen> {
                                         nav.pushScreen(scaffoldKey.currentContext!,
                                             screen: WordsScreen(
                                               level: widget.levelId,
-                                              lesson: lesson.label,
+                                              lesson: lesson,
                                             ));
                                       }
                                     : null,

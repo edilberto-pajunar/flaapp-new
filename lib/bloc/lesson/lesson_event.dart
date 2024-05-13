@@ -7,6 +7,17 @@ sealed class LessonEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LessonStarted extends LessonEvent {
+  final String level;
+
+  const LessonStarted({
+    required this.level,
+  });
+
+  @override
+  List<Object> get props => [level];
+}
+
 class LessonLoad extends LessonEvent {
   final List<LessonModel> lessonList;
 

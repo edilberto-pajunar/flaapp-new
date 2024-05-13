@@ -31,3 +31,5 @@ final class WordLoaded extends WordState {
         duration,
       ];
 }
+
+final class WordComplete extends WordState {}

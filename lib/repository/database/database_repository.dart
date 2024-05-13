@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word_new.dart';
@@ -40,7 +41,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
   }
 
   @override
-  Future<void> setUp(String userId) async {
+  Future<void> setUp(User user) async {
     final List<WordNewModel> wordList = await _firebaseFirestore.collection(tWordPath).get().then((docs) {
       return docs.docs.map((doc) {
         return WordNewModel.fromJson(doc.data());
@@ -49,21 +50,25 @@ class DatabaseRepository extends BaseDatabaseRepository {
 
     for (WordNewModel word in wordList) {
       Future.wait([
-        _firebaseFirestore.collection(tUserPath).doc(userId).collection(tWordPath).doc(word.word).set(word
+        _firebaseFirestore.collection(tUserPath).doc(user.uid).collection(tWordPath).doc(word.word).set(word
             .copyWith(
               id: word.word,
             )
             .toJson()),
-        _firebaseFirestore.collection(tUserPath).doc(userId).collection(tLevelPath).doc(word.level).set({
+        _firebaseFirestore.collection(tUserPath).doc(user.uid).collection(tLevelPath).doc(word.level).set({
           "id": word.level,
           "label": word.level,
           "locked": wordList.indexOf(word) == 0 ? false : true,
         }),
-        _firebaseFirestore.collection(tUserPath).doc(userId).collection(tLessonPath).doc(word.lesson).set({
+        _firebaseFirestore.collection(tUserPath).doc(user.uid).collection(tLessonPath).doc(word.lesson).set({
           "id": word.lesson,
           "label": word.lesson,
           "level": word.level,
           "locked": wordList.indexOf(word) == 0 ? false : true,
+        }),
+        _firebaseFirestore.collection(tUserPath).doc(user.uid).set({
+          "email": user.email,
+          "id": user.uid,
         }),
       ]).then((value) => log("Succesful!"));
     }
@@ -158,11 +163,18 @@ class DatabaseRepository extends BaseDatabaseRepository {
   }
 
   @override
-  Future<void> unlockLesson(String userId, String lesson) async {
-    final List<LevelModel> levelList = await getUserLevels(userId).first;
-    _firebaseFirestore.collection(tUserPath).doc(userId).collection(tLessonPath).doc("").update({
-      "locked": false,
-    }).then((value) => log("Lesson unlocked! $lesson"));
+  Future<void> unlockLesson(String userId, LessonModel lesson, String level) async {
+    final List<LessonModel> lessonList = await getUserLessons(userId, level).first;
+    final int index = lessonList.indexOf(lesson);
+    final String nextLesson = lessonList[index + 1].label;
+
+
+    _firebaseFirestore
+        .collection(tUserPath)
+        .doc(userId)
+        .collection(tLessonPath)
+        .doc(nextLesson)
+        .update({"locked": false}).then((value) => log("Lesson unlocked! $lesson"));
   }
 
   @override
@@ -175,7 +187,10 @@ class DatabaseRepository extends BaseDatabaseRepository {
   }
 
   @override
-  Stream<List<LessonModel>> getUserLessons(String userId) {
+  Stream<List<LessonModel>> getUserLessons(
+    String userId,
+    String level,
+  ) {
     return _firebaseFirestore.collection(tUserPath).doc(userId).collection(tLessonPath).snapshots().map((event) {
       return event.docs.map((doc) {
         return LessonModel.fromJson(doc.data());
