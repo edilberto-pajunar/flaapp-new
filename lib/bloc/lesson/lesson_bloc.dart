@@ -29,7 +29,7 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
     on<LessonLoad>(_onLessonLoad);
     on<LessonUnlock>(_onLessonUnlock);
 
-    _lessonSubscription = _databaseRepository.getUserLessons(_authBloc.state.user!.uid, level).listen((lessons) {
+    _lessonSubscription = _databaseRepository.getLessons(_authBloc.state.user!.uid, level).listen((lessons) {
       add(LessonLoad(lessonList: lessons));
 
       log("$lessons");

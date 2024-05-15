@@ -33,7 +33,9 @@ class _AuthWrapperScreenState extends State<AuthWrapperScreen> {
           nav.replaceScreen(context, screen: const LoginScreen());
         }
       },
-      child: Container(),
+      child: const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
 
     // return StreamBuilder<User?>(

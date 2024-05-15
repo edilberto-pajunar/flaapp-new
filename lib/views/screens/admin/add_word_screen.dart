@@ -1,5 +1,7 @@
 import 'package:flaapp/bloc/admin/admin_bloc.dart';
 import 'package:flaapp/bloc/translate/translate_bloc.dart';
+import 'package:flaapp/model/word_new.dart';
+import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/views/widgets/fields/primary_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +10,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddWordScreen extends StatefulWidget {
   const AddWordScreen({
-    required this.adminLoaded,
+    required this.state,
     super.key,
   });
 
-  final AdminLoaded adminLoaded;
+  final AdminLoaded state;
 
   @override
   State<AddWordScreen> createState() => _AddWordScreenState();
@@ -44,7 +46,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
               Text(AppLocalizations.of(context)!.chooseALevel),
               SizedBox(
                 child: DropdownButton<String>(
-                  items: widget.adminLoaded.levelList.map((level) {
+                  items: widget.state.levelList.map((level) {
                     return DropdownMenuItem(
                       value: level.label,
                       child: Text(level.label),
@@ -53,14 +55,14 @@ class _AddWordScreenState extends State<AddWordScreen> {
                   onChanged: (val) {
                     context.read<AdminBloc>().add(UpdateLevel(level: val!));
                   },
-                  value: widget.adminLoaded.level,
+                  value: widget.state.level,
                 ),
               ),
               Text(AppLocalizations.of(context)!.chooseALesson),
 
               SizedBox(
                 child: DropdownButton<String>(
-                  items: widget.adminLoaded.lessonList.map((lesson) {
+                  items: widget.state.lessonList?.map((lesson) {
                     return DropdownMenuItem(
                       value: lesson.label,
                       child: Text(lesson.label),
@@ -69,7 +71,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
                   onChanged: (val) {
                     context.read<AdminBloc>().add(UpdateLesson(lesson: val!));
                   },
-                  value: widget.adminLoaded.lesson,
+                  value: widget.state.lesson,
                 ),
               ),
               // const Text("Translation Language:"),
@@ -99,6 +101,11 @@ class _AddWordScreenState extends State<AddWordScreen> {
               const SizedBox(height: 20.0),
               BlocBuilder<TranslateBloc, TranslateState>(
                 builder: (context, state) {
+                  if (state is TranslateInitial) {
+                    return const Center(
+                      child: Text("Please input a word"),
+                    );
+                  }
                   if (state is TranslateLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -110,7 +117,9 @@ class _AddWordScreenState extends State<AddWordScreen> {
                       children: [
                         state.isEdit
                             ? TextFormField(
-                                onChanged: (val) {},
+                                onChanged: (val) {
+                                  context.read<TranslateBloc>().add(UpdateEnglish(word: val));
+                                },
                                 decoration: const InputDecoration(
                                   label: Text("English"),
                                 ),
@@ -119,22 +128,26 @@ class _AddWordScreenState extends State<AddWordScreen> {
                             : Text("English: ${state.translatedWordList[0]}"),
                         state.isEdit
                             ? TextFormField(
-                                onChanged: (val) {},
-                                decoration: const InputDecoration(
-                                  label: Text("Spanish"),
-                                ),
-                                initialValue: state.translatedWordList[1],
-                              )
-                            : Text("Spanish: ${state.translatedWordList[1]}"),
-                        state.isEdit
-                            ? TextFormField(
-                                onChanged: (val) {},
+                                onChanged: (val) {
+                                  context.read<TranslateBloc>().add(UpdateGerman(word: val));
+                                },
                                 decoration: const InputDecoration(
                                   label: Text("German"),
                                 ),
                                 initialValue: state.translatedWordList[2],
                               )
                             : Text("German: ${state.translatedWordList[2]}"),
+                        state.isEdit
+                            ? TextFormField(
+                                onChanged: (val) {
+                                  context.read<TranslateBloc>().add(UpdateSpanish(word: val));
+                                },
+                                decoration: const InputDecoration(
+                                  label: Text("Spanish"),
+                                ),
+                                initialValue: state.translatedWordList[1],
+                              )
+                            : Text("Spanish: ${state.translatedWordList[1]}"),
                         const SizedBox(height: 20.0),
                         ElevatedButton(
                           onPressed: () {
@@ -143,10 +156,20 @@ class _AddWordScreenState extends State<AddWordScreen> {
                           style: ElevatedButton.styleFrom(
                             fixedSize: Size.fromWidth(size.width * 0.9),
                           ),
-                          child: Text(state.isEdit ? "Edit" : AppLocalizations.of(context)!.save),
+                          child: Text(!state.isEdit ? "Edit" : AppLocalizations.of(context)!.save),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            final WordNewModel updatedWord = WordNewModel(
+                              level: widget.state.level!,
+                              lesson: widget.state.lesson!,
+                              word: word.text,
+                              translations: state.translatedWordList,
+                              updateTime: DateTime.now(),
+                              id: word.text,
+                            );
+                            await context.read<DatabaseRepository>().addWord(updatedWord);
+                          },
                           style: ElevatedButton.styleFrom(
                             fixedSize: Size.fromWidth(size.width * 0.9),
                           ),

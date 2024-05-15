@@ -22,7 +22,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         super(LevelLoading()) {
     on<LevelLoad>(_onLevelLoad);
 
-    _levelSubscription = _databaseRepository.getUserLevels(_authBloc.state.user!.uid).listen((levels) {
+    _levelSubscription = _databaseRepository.getLevels(_authBloc.state.user!.uid).listen((levels) {
       add(LevelLoad(levelList: levels));
     });
   }

@@ -39,7 +39,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     on<DragPosition>(_onDragPosition);
     on<SwipeCard>(_onSwipeCard);
 
-    _wordSubscription = _databaseRepository.getUserWords(_authBloc.state.user!.uid, level, lesson).listen((wordList) {
+    _wordSubscription = _databaseRepository.getWords(_authBloc.state.user!.uid, level, lesson).listen((wordList) {
       add(LoadUserWords(
         userId: _authBloc.state.user!.uid,
         level: level,
@@ -148,7 +148,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
       await _localRepository.setTime("${event.currentWord.level}-${event.currentWord.lesson}", time);
 
-      await _databaseRepository.getUserWords(id, level, lesson).first.then((value) {
+      await _databaseRepository.getWords(id, level, lesson).first.then((value) {
         add(LoadUserWords(wordList: value, userId: id, level: level, lesson: lesson));
       });
     } else {

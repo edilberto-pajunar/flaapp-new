@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flaapp/model/lesson.dart';
@@ -11,6 +13,8 @@ part 'admin_state.dart';
 
 class AdminBloc extends Bloc<AdminEvent, AdminState> {
   final DatabaseRepository _databaseRepository;
+  StreamSubscription? wordStream;
+  StreamSubscription? levelStream;
 
   AdminBloc({
     required DatabaseRepository databaseRepository,
@@ -24,20 +28,20 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<AddLesson>(_onAddLesson);
     on<UpdateLevel>(_onUpdateLevel);
     on<UpdateLesson>(_onUpdateLesson);
+
+    levelStream = _databaseRepository.getLevels(null).listen((levelList) {
+      add(UpdateHome(levelList: levelList));
+    });
   }
 
   void _onUpdateHome(UpdateHome event, emit) {
     emit(AdminLoaded(
-      wordList: event.wordList,
       levelList: event.levelList,
-      lessonList: event.lessonList,
-      level: state is AdminLoading ? null : (state as AdminLoaded).level,
-      lesson: state is AdminLoading ? null : (state as AdminLoaded).lesson,
     ));
   }
 
   void _onGetLevels(GetLevels event, emit) async {
-    await _databaseRepository.getLevels().first.then((levels) {
+    await _databaseRepository.getLevels(null).first.then((levels) {
       emit(AdminLoaded(
         wordList: const [],
         levelList: levels,
@@ -46,29 +50,31 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     });
   }
 
-  void _onUpdateWords(UpdateWords event, emit) {
+  void _onUpdateWords(UpdateWords event, emit) async {
     try {
       final state = this.state as AdminLoaded;
       if (state.level != null && state.lesson != null) {
-        _databaseRepository.getAdminWords(state.level!, state.lesson!).listen((words) {
-          add(UpdateHome(wordList: words, levelList: state.levelList, lessonList: state.lessonList));
+        await _databaseRepository.getWords(null, state.level!, state.lesson!).first.then((wordList) {
+          emit(state.copyWith(
+            wordList: wordList,
+          ));
         });
       }
     } catch (e) {}
   }
 
   void _onAddLevel(AddLevel event, emit) async {
-    await _databaseRepository.updateLevel();
+    await _databaseRepository.setLevel();
   }
 
   void _onAddLesson(AddLesson event, emit) async {
-    await _databaseRepository.updateLesson();
+    await _databaseRepository.setLesson();
   }
 
   void _onUpdateLevel(UpdateLevel event, emit) async {
     final state = this.state as AdminLoaded;
 
-    final lessons = await _databaseRepository.getLessons(event.level).first;
+    final lessons = await _databaseRepository.getLessons(null, event.level).first;
     emit(state.copyWith(
       level: event.level,
       lessonList: lessons,
@@ -82,5 +88,11 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     emit(state.copyWith(
       lesson: event.lesson,
     ));
+  }
+
+  @override
+  Future<void> close() async {
+    wordStream?.cancel();
+    super.close();
   }
 }

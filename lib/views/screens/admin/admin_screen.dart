@@ -5,6 +5,8 @@ import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';
 import 'package:flaapp/services/functions/nav.dart';
+import 'package:flaapp/views/screens/admin/add_lesson_screen.dart';
+import 'package:flaapp/views/screens/admin/add_level_screen.dart';
 import 'package:flaapp/views/screens/admin/add_word_screen.dart';
 import 'package:flaapp/views/screens/auth/login.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
@@ -18,6 +20,7 @@ class AdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NavigationServices nav = NavigationServices();
+    final ThemeData theme = Theme.of(context);
 
     void changeLanguage() {
       showDialog(
@@ -102,7 +105,6 @@ class AdminScreen extends StatelessWidget {
                 }
 
                 if (state is AdminLoaded) {
-                  print(state.lesson);
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
@@ -112,7 +114,7 @@ class AdminScreen extends StatelessWidget {
                           // PrimaryButton(
                           //   label: "Generate Level",
                           //   onTap: () {
-                          //     context.read<DatabaseRepository>().updateLevel();
+                          //     context.read<DatabaseRepository>().setLevel();
                           //   },
                           // ),
                           Text("${AppLocalizations.of(context)!.chooseALevel}:"),
@@ -131,16 +133,16 @@ class AdminScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 50.0),
-                          PrimaryButton(
-                            label: "Generate Lesson",
-                            onTap: () {
-                              context.read<DatabaseRepository>().updateLesson();
-                            },
-                          ),
+                          // PrimaryButton(
+                          //   label: "Generate Lesson",
+                          //   onTap: () {
+                          //     context.read<DatabaseRepository>().setLesson();
+                          //   },
+                          // ),
                           Text("${AppLocalizations.of(context)!.chooseALesson}:"),
                           SizedBox(
                             child: DropdownButton<String>(
-                              items: state.lessonList.map((lesson) {
+                              items: state.lessonList?.map((lesson) {
                                 return DropdownMenuItem(
                                   value: lesson.label,
                                   child: Text(lesson.label),
@@ -152,12 +154,67 @@ class AdminScreen extends StatelessWidget {
                               value: state.lesson,
                             ),
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: state.lesson != null && state.level != null
+                                      ? () {
+                                          nav.pushScreen(context, screen: const AddLevelScreen());
+                                        }
+                                      : null,
+                                  child: Text(
+                                    AppLocalizations.of(context)!.addALevel,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: state.lesson != null && state.level != null
+                                      ? () {
+                                          nav.pushScreen(context,
+                                              screen: AddLessonScreen(
+                                                state: state,
+                                              ));
+                                        }
+                                      : null,
+                                  child: Text(
+                                    AppLocalizations.of(context)!.addALesson,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: state.lesson != null && state.level != null
+                                      ? () {
+                                          nav.pushScreen(context,
+                                              screen: AddWordScreen(
+                                                state: state,
+                                              ));
+                                        }
+                                      : null,
+                                  child: Text(
+                                    AppLocalizations.of(context)!.addAWord,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                           const SizedBox(height: 50.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: Text("List of Words from ${state.level}-${state.lesson}"),
+                                child: Text(
+                                  "List of Words from ${state.level}-${state.lesson}",
+                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                               PrimaryButton(
                                 onTap: () {
@@ -166,17 +223,6 @@ class AdminScreen extends StatelessWidget {
                                 label: "Fetch",
                               ),
                               const SizedBox(width: 12.0),
-                              ElevatedButton(
-                                onPressed: state.lesson != null && state.level != null
-                                    ? () {
-                                        nav.pushScreen(context,
-                                            screen: AddWordScreen(
-                                              adminLoaded: state,
-                                            ));
-                                      }
-                                    : null,
-                                child: Text(AppLocalizations.of(context)!.addAWord),
-                              ),
                             ],
                           ),
                           const SizedBox(height: 12.0),
@@ -215,33 +261,24 @@ class _WordList extends StatelessWidget {
       child: ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: state.wordList.length,
+        itemCount: state.wordList!.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Column(
-              children: [
-                Row(
+              children: state.wordList![index].translations.map((translation) {
+                return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(state.wordList[index].word),
-                    const Text("EN"),
+                    Expanded(
+                      child: Text(translation),
+                    ),
+                    if (state.wordList![index].translations.indexOf(translation) == 0) const Text("German"),
+                    if (state.wordList![index].translations.indexOf(translation) == 1) const Text("English"),
+                    if (state.wordList![index].translations.indexOf(translation) == 2) const Text("Spanish"),
                   ],
-                ),
-                ...state.wordList[index].translations.map((translation) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(translation),
-                      ),
-                      if (state.wordList[index].translations.indexOf(translation) == 0) const Text("DE"),
-                      if (state.wordList[index].translations.indexOf(translation) == 1) const Text("ES"),
-                      if (state.wordList[index].translations.indexOf(translation) == 2) const Text("PH"),
-                    ],
-                  );
-                }).toList(),
-              ],
+                );
+              }).toList(),
             ),
           );
         },

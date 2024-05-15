@@ -7,20 +7,19 @@ sealed class AdminState extends Equatable {
   List<Object?> get props => [];
 }
 
-
 final class AdminLoading extends AdminState {}
 
 final class AdminLoaded extends AdminState {
-  final List<WordNewModel> wordList;
   final List<LevelModel> levelList;
-  final List<LessonModel> lessonList;
+  final List<LessonModel>? lessonList;
+  final List<WordNewModel>? wordList;
   final String? level;
   final String? lesson;
 
   const AdminLoaded({
-    required this.wordList,
     required this.levelList,
-    required this.lessonList,
+    this.lessonList = const [],
+    this.wordList = const [],
     this.level,
     this.lesson,
   });
@@ -37,13 +36,14 @@ final class AdminLoaded extends AdminState {
   AdminLoaded copyWith({
     List<LevelModel>? levelList,
     List<LessonModel>? lessonList,
+    List<WordNewModel>? wordList,
     String? level,
     String? lesson,
   }) {
     return AdminLoaded(
-      wordList: wordList,
       levelList: levelList ?? this.levelList,
       lessonList: lessonList ?? this.lessonList,
+      wordList: wordList ?? this.wordList,
       level: level ?? this.level,
       lesson: lesson ?? this.lesson,
     );
