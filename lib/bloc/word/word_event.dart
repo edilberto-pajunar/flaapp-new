@@ -23,7 +23,7 @@ class LoadUserWords extends WordEvent {
   final String level;
   final String lesson;
   final String? localId;
-  final List<WordNewModel> wordList;
+  final List<WordModel> wordList;
 
   const LoadUserWords({
     required this.userId,
@@ -38,7 +38,7 @@ class LoadUserWords extends WordEvent {
 }
 
 class UpdateHome extends WordEvent {
-  final List<WordNewModel> wordList;
+  final List<WordModel> wordList;
   final String? duration;
 
   const UpdateHome({
@@ -79,8 +79,8 @@ class DragPosition extends WordEvent {
 }
 
 class SwipeCard extends WordEvent {
-  final WordNewModel currentWord;
-  final List<WordNewModel> wordList;
+  final WordModel currentWord;
+  final List<WordModel> wordList;
   final String level;
   final LessonModel lesson;
   final bool swipeRight;

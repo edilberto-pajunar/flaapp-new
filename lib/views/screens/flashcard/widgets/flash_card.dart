@@ -12,7 +12,7 @@ class FlashCard extends StatelessWidget {
     required this.state,
   });
 
-  final WordNewModel wordModel;
+  final WordModel wordModel;
   final WordLoaded state;
 
   Color get backgroundColor {

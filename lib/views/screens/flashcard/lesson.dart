@@ -1,6 +1,6 @@
-import 'package:flaapp/bloc/auth/auth_bloc.dart';
+import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/bloc/lesson/lesson_bloc.dart';
-import 'package:flaapp/bloc/level/level_bloc.dart';
+import 'package:flaapp/features/level/bloc/level_bloc.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';

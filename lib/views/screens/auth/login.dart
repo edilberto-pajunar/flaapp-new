@@ -1,10 +1,9 @@
-import 'package:flaapp/bloc/auth/auth_bloc.dart';
+import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/cubit/login/login_cubit.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/views/screens/admin/admin_screen.dart';
 import 'package:flaapp/views/screens/auth/signup.dart';
-import 'package:flaapp/views/screens/flashcard/level.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
 import 'package:flaapp/views/widgets/fields/primary_text_field.dart';
 import 'package:flutter/gestures.dart';
@@ -40,15 +39,15 @@ class _LoginScreenState extends State<LoginScreen> {
         key: formKey,
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state.status == AuthStatus.authenticated) {
-              if (state.user!.uid == "0XxNPuZWIyURc1PrddS6BUNEsGX2") {
-                nav.replaceScreen(context, screen: const AdminScreen());
-              } else {
-                nav.replaceScreen(context, screen: const LevelScreen());
-              }
-            } else {
-              nav.popAll(context);
-            }
+            // if (state.status == AuthStatus.authenticated) {
+            //   if (state.user!.uid == "0XxNPuZWIyURc1PrddS6BUNEsGX2") {
+            //     nav.replaceScreen(context, screen: const AdminScreen());
+            //   } else {
+            //     nav.replaceScreen(context, screen: const LevelScreen());
+            //   }
+            // } else {
+            //   nav.popAll(context);
+            // }
           },
           child: SafeArea(
             child: Center(

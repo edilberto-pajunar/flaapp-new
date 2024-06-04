@@ -5,14 +5,10 @@ import 'package:flaapp/repository/auth/base_auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 
 class AuthRepository extends BaseAuthRepository {
-  final FirebaseAuth _firebaseAuth;
-
-  AuthRepository({
-    FirebaseAuth? firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
-  Stream<User?> get user => _firebaseAuth.userChanges();
+  Stream<User?> get user => _firebaseAuth.authStateChanges();
 
   @override
   Future<void> loginWithEmailAndPassword({
@@ -26,11 +22,25 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
-  Future<void> signup({required String email, required String password}) async {
+  Future<void> signup({
+    required String email,
+    required String password,
+    required String username,
+  }) async {
     try {
-      final cred = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      final cred = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-      await DatabaseRepository().setUp(cred.user!);
+      await DatabaseRepository().setData(
+        path: "users/${cred.user!.uid}",
+        data: {
+          "email": email,
+          "id": cred.user!.uid,
+          "username": username,
+        },
+      );
     } catch (e) {
       log("Error: $e");
     }

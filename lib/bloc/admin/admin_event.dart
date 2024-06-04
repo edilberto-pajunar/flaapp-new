@@ -8,7 +8,7 @@ class AdminEvent extends Equatable {
 }
 
 class UpdateHome extends AdminEvent {
-  final List<WordNewModel>? wordList;
+  final List<WordModel>? wordList;
   final List<LevelModel> levelList;
   final List<LessonModel>? lessonList;
 
@@ -22,7 +22,7 @@ class UpdateHome extends AdminEvent {
   List<Object?> get props => [wordList, levelList, lessonList];
 
   UpdateHome copyWith({
-    List<WordNewModel>? wordList,
+    List<WordModel>? wordList,
     List<LevelModel>? levelList,
     List<LessonModel>? lessonList,
   }) {
@@ -42,21 +42,24 @@ class GetLevels extends AdminEvent {
 }
 
 class AddLevel extends AdminEvent {
-  const AddLevel();
-
-  @override
-  List<Object> get props => [];
-}
-
-class AddLesson extends AdminEvent {
-  final LessonModel lessonModel;
-
-  const AddLesson({
-    required this.lessonModel,
+  final LevelModel level;
+  const AddLevel({
+    required this.level,
   });
 
   @override
-  List<Object> get props => [lessonModel];
+  List<Object> get props => [level];
+}
+
+class AddLesson extends AdminEvent {
+  final LessonModel lesson;
+
+  const AddLesson({
+    required this.lesson,
+  });
+
+  @override
+  List<Object> get props => [lesson];
 }
 
 class UpdateWords extends AdminEvent {

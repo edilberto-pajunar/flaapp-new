@@ -8,7 +8,7 @@ class WordState extends Equatable {
 final class WordLoading extends WordState {}
 
 final class WordLoaded extends WordState {
-  final List<WordNewModel> userWords;
+  final List<WordModel> userWords;
   final int boxIndex;
   final bool isFrontSide;
   final double position;

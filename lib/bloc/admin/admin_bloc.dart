@@ -64,11 +64,11 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   }
 
   void _onAddLevel(AddLevel event, emit) async {
-    await _databaseRepository.setLevel();
+    await _databaseRepository.addLevel(event.level);
   }
 
   void _onAddLesson(AddLesson event, emit) async {
-    await _databaseRepository.setLesson();
+    await _databaseRepository.addLesson(event.lesson);
   }
 
   void _onUpdateLevel(UpdateLevel event, emit) async {

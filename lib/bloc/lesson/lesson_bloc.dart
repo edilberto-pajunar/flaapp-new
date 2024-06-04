@@ -3,8 +3,8 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flaapp/bloc/auth/auth_bloc.dart';
-import 'package:flaapp/bloc/level/level_bloc.dart';
+import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
+import 'package:flaapp/features/level/bloc/level_bloc.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 

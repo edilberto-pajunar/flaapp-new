@@ -8,11 +8,9 @@ class BoxCard extends StatelessWidget {
   const BoxCard({
     super.key,
     required this.wordStream,
-    required this.state,
   });
 
-  final List<WordNewModel> wordStream;
-  final WordLoaded state;
+  final List<WordModel> wordStream;
 
   @override
   Widget build(BuildContext context) {
@@ -60,28 +58,31 @@ class BoxCard extends StatelessWidget {
                             color: Colors.black.withOpacity(0.25),
                           ),
                         ],
-                        border: state.boxIndex == index
-                            ? Border.all(
-                                color: ColorTheme.tBlueColor,
-                                width: 2.0,
-                              )
-                            : null,
+                        // border: state.boxIndex == index
+                        //     ? Border.all(
+                        //         color: ColorTheme.tBlueColor,
+                        //         width: 2.0,
+                        //       )
+                        //     : null,
                       ),
                       child: Center(
-                        child: wordStream.where((element) => element.box == index).isEmpty
+                        child: wordStream
+                                .where((element) => element.box == index)
+                                .isEmpty
                             ? const Icon(Icons.lock)
                             : Stack(
                                 children: [
-                                  Center(
-                                    child: index == state.boxIndex
-                                        ? Image.asset(PngImage.card)
-                                        : Image.asset(PngImage.cardDeactivated),
-                                  ),
+                                  // Center(
+                                  //   child: index == state.boxIndex
+                                  //       ? Image.asset(PngImage.card)
+                                  //       : Image.asset(PngImage.cardDeactivated),
+                                  // ),
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
                                       "${wordStream.where((element) => element.box == index).length}",
-                                      style: theme.textTheme.bodyMedium!.copyWith(
+                                      style:
+                                          theme.textTheme.bodyMedium!.copyWith(
                                         color: ColorTheme.tWhiteColor,
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
@@ -94,27 +95,27 @@ class BoxCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  left: 28,
-                  child: Visibility(
-                    visible: state.duration != null && index == state.userWords.last.box,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
-                        color: ColorTheme.tLightBlueColor,
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Text(
-                        "${state.duration}",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: -0.2,
-                          fontSize: 8.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   left: 28,
+                //   child: Visibility(
+                //     visible: state.duration != null && index == state.userWords.last.box,
+                //     child: Container(
+                //       padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
+                //       decoration: BoxDecoration(
+                //         color: ColorTheme.tLightBlueColor,
+                //         borderRadius: BorderRadius.circular(12.0),
+                //       ),
+                //       child: Text(
+                //         "${state.duration}",
+                //         style: const TextStyle(
+                //           fontWeight: FontWeight.bold,
+                //           letterSpacing: -0.2,
+                //           fontSize: 8.0,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           );

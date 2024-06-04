@@ -1,6 +1,7 @@
 import 'package:flaapp/bloc/admin/admin_bloc.dart';
-import 'package:flaapp/bloc/auth/auth_bloc.dart';
+import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/cubit/lang/lang_cubit.dart';
+import 'package:flaapp/model/word_new.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';
@@ -85,9 +86,9 @@ class AdminScreen extends StatelessWidget {
         ),
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state.status == AuthStatus.unauthenticated) {
-              nav.replaceScreen(context, screen: const LoginScreen());
-            }
+            // if (state.status == AuthStatus.unauthenticated) {
+            //   nav.replaceScreen(context, screen: const LoginScreen());
+            // }
           },
           child: BlocProvider(
             create: (context) => AdminBloc(
@@ -111,13 +112,20 @@ class AdminScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          PrimaryButton(
+                            label: "Generate Word",
+                            onTap: () {
+                              context.read<DatabaseRepository>().updateWords();
+                            },
+                          ),
                           // PrimaryButton(
                           //   label: "Generate Level",
                           //   onTap: () {
                           //     context.read<DatabaseRepository>().setLevel();
                           //   },
                           // ),
-                          Text("${AppLocalizations.of(context)!.chooseALevel}:"),
+                          Text(
+                              "${AppLocalizations.of(context)!.chooseALevel}:"),
                           SizedBox(
                             child: DropdownButton<String>(
                               items: state.levelList.map((level) {
@@ -127,19 +135,20 @@ class AdminScreen extends StatelessWidget {
                                 );
                               }).toList(),
                               onChanged: (val) {
-                                context.read<AdminBloc>().add(UpdateLevel(level: val!));
+                                context
+                                    .read<AdminBloc>()
+                                    .add(UpdateLevel(level: val!));
                               },
                               value: state.level,
                             ),
                           ),
                           const SizedBox(height: 50.0),
-                          // PrimaryButton(
-                          //   label: "Generate Lesson",
-                          //   onTap: () {
-                          //     context.read<DatabaseRepository>().setLesson();
-                          //   },
-                          // ),
-                          Text("${AppLocalizations.of(context)!.chooseALesson}:"),
+                          PrimaryButton(
+                            label: "Generate Lesson",
+                            onTap: () {},
+                          ),
+                          Text(
+                              "${AppLocalizations.of(context)!.chooseALesson}:"),
                           SizedBox(
                             child: DropdownButton<String>(
                               items: state.lessonList?.map((lesson) {
@@ -149,7 +158,9 @@ class AdminScreen extends StatelessWidget {
                                 );
                               }).toList(),
                               onChanged: (val) {
-                                context.read<AdminBloc>().add(UpdateLesson(lesson: val!));
+                                context
+                                    .read<AdminBloc>()
+                                    .add(UpdateLesson(lesson: val!));
                               },
                               value: state.lesson,
                             ),
@@ -159,9 +170,11 @@ class AdminScreen extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: state.lesson != null && state.level != null
+                                  onPressed: state.lesson != null &&
+                                          state.level != null
                                       ? () {
-                                          nav.pushScreen(context, screen: const AddLevelScreen());
+                                          nav.pushScreen(context,
+                                              screen: const AddLevelScreen());
                                         }
                                       : null,
                                   child: Text(
@@ -172,7 +185,8 @@ class AdminScreen extends StatelessWidget {
                               ),
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: state.lesson != null && state.level != null
+                                  onPressed: state.lesson != null &&
+                                          state.level != null
                                       ? () {
                                           nav.pushScreen(context,
                                               screen: AddLessonScreen(
@@ -188,7 +202,8 @@ class AdminScreen extends StatelessWidget {
                               ),
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: state.lesson != null && state.level != null
+                                  onPressed: state.lesson != null &&
+                                          state.level != null
                                       ? () {
                                           nav.pushScreen(context,
                                               screen: AddWordScreen(
@@ -218,7 +233,9 @@ class AdminScreen extends StatelessWidget {
                               ),
                               PrimaryButton(
                                 onTap: () {
-                                  context.read<AdminBloc>().add(const UpdateWords());
+                                  context
+                                      .read<AdminBloc>()
+                                      .add(const UpdateWords());
                                 },
                                 label: "Fetch",
                               ),
@@ -273,9 +290,18 @@ class _WordList extends StatelessWidget {
                     Expanded(
                       child: Text(translation),
                     ),
-                    if (state.wordList![index].translations.indexOf(translation) == 0) const Text("German"),
-                    if (state.wordList![index].translations.indexOf(translation) == 1) const Text("English"),
-                    if (state.wordList![index].translations.indexOf(translation) == 2) const Text("Spanish"),
+                    if (state.wordList![index].translations
+                            .indexOf(translation) ==
+                        0)
+                      const Text("German"),
+                    if (state.wordList![index].translations
+                            .indexOf(translation) ==
+                        1)
+                      const Text("English"),
+                    if (state.wordList![index].translations
+                            .indexOf(translation) ==
+                        2)
+                      const Text("Spanish"),
                   ],
                 );
               }).toList(),

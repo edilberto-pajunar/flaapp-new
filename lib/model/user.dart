@@ -1,28 +1,34 @@
-class UserModel {
+class AppUserInfo {
+  final String id;
   final String email;
-  final String name;
+  final String username;
 
-  UserModel({
+  AppUserInfo({
+    required this.id,
     required this.email,
-    required this.name,
+    required this.username,
   });
 
-  UserModel copyWith({
+  AppUserInfo copyWith({
+    String? id,
     String? email,
-    String? name,
+    String? username,
   }) =>
-      UserModel(
+      AppUserInfo(
+        id: id ?? this.id,
         email: email ?? this.email,
-        name: name ?? this.name,
+        username: username ?? this.username,
       );
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    email: json["email"],
-    name: json["name"],
-  );
+  factory AppUserInfo.fromJson(Map<String, dynamic> json) => AppUserInfo(
+        id: json["id"],
+        email: json["email"],
+        username: json["username"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "email": email,
-    "name": name,
-  };
+        "id": id,
+        "email": email,
+        "username": username,
+      };
 }

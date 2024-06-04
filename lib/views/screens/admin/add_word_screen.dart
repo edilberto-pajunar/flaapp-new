@@ -160,7 +160,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
                         ),
                         ElevatedButton(
                           onPressed: () async {
-                            final WordNewModel updatedWord = WordNewModel(
+                            final WordModel updatedWord = WordModel(
                               level: widget.state.level!,
                               lesson: widget.state.lesson!,
                               word: word.text,

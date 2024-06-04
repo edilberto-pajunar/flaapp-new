@@ -1,4 +1,4 @@
-import 'package:flaapp/bloc/auth/auth_bloc.dart';
+import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/bloc/word/word_bloc.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
@@ -6,7 +6,7 @@ import 'package:flaapp/repository/local/local_repository.dart';
 import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/values/constant/strings/image.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
-import 'package:flaapp/views/screens/flashcard/widgets/box_card.dart';
+import 'package:flaapp/features/word/widget/box_card.dart';
 import 'package:flaapp/views/screens/flashcard/widgets/flash_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +25,8 @@ class WordsScreen extends StatefulWidget {
   State<WordsScreen> createState() => _WordsScreenState();
 }
 
-class _WordsScreenState extends State<WordsScreen> with SingleTickerProviderStateMixin {
+class _WordsScreenState extends State<WordsScreen>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   final NavigationServices nav = NavigationServices();
 
@@ -115,7 +116,9 @@ class UserWords extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final wordStream = state.userWords;
-    final currentWords = state.userWords.where((element) => element.box == state.boxIndex).toList();
+    final currentWords = state.userWords
+        .where((element) => element.box == state.boxIndex)
+        .toList();
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -126,7 +129,6 @@ class UserWords extends StatelessWidget {
           children: [
             BoxCard(
               wordStream: wordStream,
-              state: state,
             ),
             const SizedBox(height: 24.0),
             Row(
@@ -184,7 +186,9 @@ class UserWords extends StatelessWidget {
                         state: state,
                       ),
                       onDragUpdate: (details) {
-                        context.read<WordBloc>().add(DragPosition(details: details));
+                        context
+                            .read<WordBloc>()
+                            .add(DragPosition(details: details));
                       },
                       onDragEnd: (details) {
                         if (details.offset.dx < -100) {

@@ -12,7 +12,7 @@ final class AdminLoading extends AdminState {}
 final class AdminLoaded extends AdminState {
   final List<LevelModel> levelList;
   final List<LessonModel>? lessonList;
-  final List<WordNewModel>? wordList;
+  final List<WordModel>? wordList;
   final String? level;
   final String? lesson;
 
@@ -36,7 +36,7 @@ final class AdminLoaded extends AdminState {
   AdminLoaded copyWith({
     List<LevelModel>? levelList,
     List<LessonModel>? lessonList,
-    List<WordNewModel>? wordList,
+    List<WordModel>? wordList,
     String? level,
     String? lesson,
   }) {

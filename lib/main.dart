@@ -1,20 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flaapp/bloc/auth/auth_bloc.dart';
-import 'package:flaapp/bloc/level/level_bloc.dart';
+import 'package:flaapp/app/app_bloc_observer.dart';
+import 'package:flaapp/app/app_router.dart';
+import 'package:flaapp/app/bloc/app_bloc.dart';
+import 'package:flaapp/app/view/app.dart';
 import 'package:flaapp/bloc/translate/translate_bloc.dart';
 import 'package:flaapp/cubit/lang/lang_cubit.dart';
-import 'package:flaapp/cubit/login/login_cubit.dart';
-import 'package:flaapp/cubit/signup/signup_cubit.dart';
 import 'package:flaapp/l10n/l10n.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
+import 'package:flaapp/repository/lesson/lesson_repository.dart';
+import 'package:flaapp/repository/level/level_repository.dart';
 import 'package:flaapp/repository/local/local_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';
-import 'package:flaapp/views/screens/wrapper/auth.dart';
+import 'package:flaapp/repository/user/user_repository.dart';
+import 'package:flaapp/repository/word/word_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'firebase_options.dart';
 
@@ -32,38 +33,48 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Bloc.observer = AppBlocObserver();
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (context) => AuthRepository()),
         RepositoryProvider(create: (context) => DatabaseRepository()),
         RepositoryProvider(create: (context) => LocalRepository()),
-        RepositoryProvider(create: (context) => TranslateRepository())
+        RepositoryProvider(create: (context) => TranslateRepository()),
+        RepositoryProvider(
+          create: (context) => LessonRepository(
+            databaseRepository: context.read<DatabaseRepository>(),
+          ),
+        ),
+        RepositoryProvider(
+          create: (context) => LevelRepository(
+            databaseRepository: context.read<DatabaseRepository>(),
+          ),
+        ),
+         RepositoryProvider(
+          create: (context) => WordRepository(
+            databaseRepository: context.read<DatabaseRepository>(),
+          ),
+        ),
+
+        RepositoryProvider(
+          create: (context) => UserRepository(
+            databaseRepository: context.read<DatabaseRepository>(),
+          ),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => AuthBloc(authRepository: context.read<AuthRepository>())),
-          BlocProvider(create: (context) => LangCubit()),
+          // BlocProvider(
+          //   create: (context) => TranslateBloc(
+          //       translateRepository: context.read<TranslateRepository>()),
+          // ),
           BlocProvider(
-              create: (context) => LevelBloc(
-                  databaseRepository: context.read<DatabaseRepository>(), authBloc: context.read<AuthBloc>())),
-          BlocProvider(create: (context) => LoginCubit(authRepository: context.read<AuthRepository>())),
-          BlocProvider(create: (context) => SignupCubit(authRepository: context.read<AuthRepository>())),
-          BlocProvider(create: (context) => TranslateBloc(translateRepository: context.read<TranslateRepository>())),
+            create: (context) => LangCubit(),
+          ),
         ],
-        child: BlocBuilder<LangCubit, LangState>(
-          builder: (context, state) {
-            return MaterialApp(
-              supportedLocales: L10n.all,
-              locale: Locale(state.langType.name),
-              home: const AuthWrapperScreen(),
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-            );
-          },
+        child: App(
+          authRepository: AuthRepository(),
         ),
       ),
     );

@@ -31,11 +31,4 @@ class LevelModel {
         "locked": locked,
         "id": id,
       };
-
-  static List<LevelModel> levelList = [
-    LevelModel(label: "A1", locked: false),
-    LevelModel(label: "A2"),
-    LevelModel(label: "B1"),
-    LevelModel(label: "B2"),
-  ];
 }

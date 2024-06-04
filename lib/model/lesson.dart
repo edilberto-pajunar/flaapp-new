@@ -47,9 +47,4 @@ class LessonModel extends Equatable {
         locked,
         id,
       ];
-
-  static List<LessonModel> lessonList = [
-    const LessonModel(label: "Greetings and Farewells", locked: false, level: "A1"),
-    const LessonModel(label: "Personal Information", level: "A1"),
-  ];
 }

@@ -18,7 +18,7 @@ class SignupCubit extends Cubit<SignupState> {
     required String password,
   }) async {
     try {
-      await _authRepository.signup(email: email, password: password);
+      // await _authRepository.signup(email: email, password: password);
     } catch (e) {
       log("Error: $e");
     }
