@@ -1,11 +1,22 @@
+import 'package:flaapp/app/bloc/app_bloc.dart';
+import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
 import 'package:flaapp/features/word/widget/box_card.dart';
+import 'package:flaapp/features/word/widget/flash_card.dart';
+import 'package:flaapp/features/word/widget/locked_card.dart';
+import 'package:flaapp/model/lesson.dart';
+import 'package:flaapp/model/word.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WordView extends StatelessWidget {
-  const WordView({super.key});
+  final LessonModel lesson;
+
+  const WordView({
+    required this.lesson,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +28,8 @@ class WordView extends StatelessWidget {
       ),
       body: BlocBuilder<WordBloc, WordState>(
         builder: (context, state) {
+          final words =
+              state.words.where((word) => word.box == state.boxIndex).toList();
           return state.words.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -29,7 +42,7 @@ class WordView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         BoxCard(
-                          wordStream: state.words,
+                          state: state,
                         ),
                         const SizedBox(height: 24.0),
                         Row(
@@ -75,57 +88,42 @@ class WordView extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 12.0),
-                        // state.duration != null
-                        //     ? FlashCard(wordModel: currentWords[0], state: state)
-                        //     : InkWell(
-                        //         onTap: () {
-                        //           context.read<WordBloc>().add(const UpdateFrontSide());
-                        //         },
-                        //         child: Draggable(
-                        //           feedback: FlashCard(
-                        //             wordModel: currentWords[0],
-                        //             state: state,
-                        //           ),
-                        //           onDragUpdate: (details) {
-                        //             context
-                        //                 .read<WordBloc>()
-                        //                 .add(DragPosition(details: details));
-                        //           },
-                        //           onDragEnd: (details) {
-                        //             if (details.offset.dx < -100) {
-                        //               print("Swipe left");
-                        //               // word.swipeCard(id: user.uid, word: currentWords[0]);
-                        //               context.read<WordBloc>().add(SwipeCard(
-                        //                     wordList: currentWords,
-                        //                     currentWord: currentWords[0],
-                        //                     swipeRight: false,
-                        //                     level: currentWords[0].level,
-                        //                     lesson: lesson,
-                        //                   ));
-                        //             } else if (details.offset.dx > 100) {
-                        //               // word.swipeCard(id: user.uid, word: currentWords[0], swipeRight: true);
-                        //               print("Swipe right");
-                        //               context.read<WordBloc>().add(SwipeCard(
-                        //                     wordList: currentWords,
-                        //                     currentWord: currentWords[0],
-                        //                     swipeRight: true,
-                        //                     level: currentWords[0].level,
-                        //                     lesson: lesson,
-                        //                   ));
-                        //             }
-                        //           },
-                        //           childWhenDragging: currentWords.length > 1
-                        //               ? FlashCard(
-                        //                   state: state,
-                        //                   wordModel: currentWords[1],
-                        //                 )
-                        //               : Container(),
-                        //           child: FlashCard(
-                        //             state: state,
-                        //             wordModel: currentWords[0],
-                        //           ),
-                        //         ),
-                        //       ),
+                        state.lockedTime != null
+                            ? const LockedCard()
+                            : Draggable(
+                                feedback: FlashCard(
+                                  word: words[0],
+                                  state: state,
+                                ),
+                                onDragUpdate: (details) {
+                                  context.read<WordBloc>().add(
+                                      WordCardUpdateDragged(details: details));
+                                },
+                                onDragEnd: (details) {
+                                  context
+                                      .read<WordBloc>()
+                                      .add(WordCardEndDragged(
+                                        details: details,
+                                        word: words[0],
+                                        user: context
+                                            .read<AppBloc>()
+                                            .state
+                                            .currentUser!,
+                                      ));
+
+                                  unlockLesson(context, words);
+                                },
+                                childWhenDragging: words.length > 1
+                                    ? FlashCard(
+                                        word: words[1],
+                                        state: state,
+                                      )
+                                    : Container(),
+                                child: FlashCard(
+                                  word: words[0],
+                                  state: state,
+                                ),
+                              ),
                         const SizedBox(height: 12.0),
                       ],
                     ),
@@ -134,5 +132,18 @@ class WordView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void unlockLesson(
+    BuildContext context,
+    List<WordModel> words,
+  ) {
+    if (words.length == 1 && words[0].box == 3) {
+      context.read<LessonBloc>().add(LessonUnlockTriggered(
+            user: context.read<AppBloc>().state.currentUser!,
+            lessons: context.read<LessonBloc>().state.lessons,
+            lesson: lesson,
+          ));
+    }
   }
 }

@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
-import 'package:flaapp/model/word_new.dart';
+import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/local/local_repository.dart';
 import 'package:flutter/gestures.dart';

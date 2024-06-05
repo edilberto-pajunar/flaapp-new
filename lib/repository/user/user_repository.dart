@@ -1,7 +1,7 @@
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/user.dart';
-import 'package:flaapp/model/word_new.dart';
+import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/user/base_user_repository.dart';
 

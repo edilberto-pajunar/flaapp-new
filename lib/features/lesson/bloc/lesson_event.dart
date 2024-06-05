@@ -16,3 +16,15 @@ final class LessonInitRequested extends LessonEvent {
     required this.level,
   });
 }
+
+final class LessonUnlockTriggered extends LessonEvent {
+  final User user;
+  final List<LessonModel> lessons;
+  final LessonModel lesson;
+
+  const LessonUnlockTriggered({
+    required this.user,
+    required this.lessons,
+    required this.lesson,
+  });
+}

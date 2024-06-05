@@ -1,7 +1,7 @@
 import 'package:flaapp/bloc/admin/admin_bloc.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/cubit/lang/lang_cubit.dart';
-import 'package:flaapp/model/word_new.dart';
+import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';

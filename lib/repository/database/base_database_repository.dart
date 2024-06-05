@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
-import 'package:flaapp/model/word_new.dart';
+import 'package:flaapp/model/word.dart';
 
 abstract class BaseDatabaseRepository {
   Future<T?> getData<T>({

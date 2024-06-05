@@ -45,6 +45,7 @@ class AppRouter {
             return WordPage(
               level: extra["level"] as LevelModel,
               lesson: extra["lesson"] as LessonModel,
+              lessonBloc: extra["lessonBloc"],
             );
           },
         ),

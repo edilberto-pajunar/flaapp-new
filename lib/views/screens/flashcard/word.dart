@@ -7,7 +7,7 @@ import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/values/constant/strings/image.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/features/word/widget/box_card.dart';
-import 'package:flaapp/views/screens/flashcard/widgets/flash_card.dart';
+import 'package:flaapp/features/word/widget/flash_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -127,9 +127,9 @@ class UserWords extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            BoxCard(
-              wordStream: wordStream,
-            ),
+            // BoxCard(
+            //   wordStream: wordStream,
+            // ),
             const SizedBox(height: 24.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -174,57 +174,57 @@ class UserWords extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12.0),
-            state.duration != null
-                ? FlashCard(wordModel: currentWords[0], state: state)
-                : InkWell(
-                    onTap: () {
-                      context.read<WordBloc>().add(const UpdateFrontSide());
-                    },
-                    child: Draggable(
-                      feedback: FlashCard(
-                        wordModel: currentWords[0],
-                        state: state,
-                      ),
-                      onDragUpdate: (details) {
-                        context
-                            .read<WordBloc>()
-                            .add(DragPosition(details: details));
-                      },
-                      onDragEnd: (details) {
-                        if (details.offset.dx < -100) {
-                          print("Swipe left");
-                          // word.swipeCard(id: user.uid, word: currentWords[0]);
-                          context.read<WordBloc>().add(SwipeCard(
-                                wordList: currentWords,
-                                currentWord: currentWords[0],
-                                swipeRight: false,
-                                level: currentWords[0].level,
-                                lesson: lesson,
-                              ));
-                        } else if (details.offset.dx > 100) {
-                          // word.swipeCard(id: user.uid, word: currentWords[0], swipeRight: true);
-                          print("Swipe right");
-                          context.read<WordBloc>().add(SwipeCard(
-                                wordList: currentWords,
-                                currentWord: currentWords[0],
-                                swipeRight: true,
-                                level: currentWords[0].level,
-                                lesson: lesson,
-                              ));
-                        }
-                      },
-                      childWhenDragging: currentWords.length > 1
-                          ? FlashCard(
-                              state: state,
-                              wordModel: currentWords[1],
-                            )
-                          : Container(),
-                      child: FlashCard(
-                        state: state,
-                        wordModel: currentWords[0],
-                      ),
-                    ),
-                  ),
+            // state.duration != null
+            //     ? FlashCard(wordModel: currentWords[0], state: state)
+            //     : InkWell(
+            //         onTap: () {
+            //           context.read<WordBloc>().add(const UpdateFrontSide());
+            //         },
+            //         child: Draggable(
+            //           feedback: FlashCard(
+            //             wordModel: currentWords[0],
+            //             state: state,
+            //           ),
+            //           onDragUpdate: (details) {
+            //             context
+            //                 .read<WordBloc>()
+            //                 .add(DragPosition(details: details));
+            //           },
+            //           onDragEnd: (details) {
+            //             if (details.offset.dx < -100) {
+            //               print("Swipe left");
+            //               // word.swipeCard(id: user.uid, word: currentWords[0]);
+            //               context.read<WordBloc>().add(SwipeCard(
+            //                     wordList: currentWords,
+            //                     currentWord: currentWords[0],
+            //                     swipeRight: false,
+            //                     level: currentWords[0].level,
+            //                     lesson: lesson,
+            //                   ));
+            //             } else if (details.offset.dx > 100) {
+            //               // word.swipeCard(id: user.uid, word: currentWords[0], swipeRight: true);
+            //               print("Swipe right");
+            //               context.read<WordBloc>().add(SwipeCard(
+            //                     wordList: currentWords,
+            //                     currentWord: currentWords[0],
+            //                     swipeRight: true,
+            //                     level: currentWords[0].level,
+            //                     lesson: lesson,
+            //                   ));
+            //             }
+            //           },
+            //           childWhenDragging: currentWords.length > 1
+            //               ? FlashCard(
+            //                   state: state,
+            //                   wordModel: currentWords[1],
+            //                 )
+            //               : Container(),
+            //           child: FlashCard(
+            //             state: state,
+            //             wordModel: currentWords[0],
+            //           ),
+            //         ),
+            //       ),
             const SizedBox(height: 12.0),
           ],
         ),

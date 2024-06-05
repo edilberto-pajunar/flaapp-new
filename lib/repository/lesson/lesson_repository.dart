@@ -17,4 +17,14 @@ class LessonRepository extends BaseLessonRepository {
       builder: (data, _) => LessonModel.fromJson(data),
     );
   }
+
+  @override
+  Future<void> unlockLesson(String userId, LessonModel lesson) async {
+    print("Lesson: ${lesson.toJson()}");
+
+    await databaseRepository.setData(
+      path: "users/$userId/lessons/${lesson.label}",
+      data: lesson.copyWith(locked: false).toJson(),
+    );
+  }
 }

@@ -1,5 +1,4 @@
-import 'package:flaapp/bloc/word/word_bloc.dart';
-import 'package:flaapp/model/word_new.dart';
+import 'package:flaapp/features/word/bloc/word_bloc.dart';
 import 'package:flaapp/values/constant/strings/image.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +6,10 @@ import 'package:flutter/material.dart';
 class BoxCard extends StatelessWidget {
   const BoxCard({
     super.key,
-    required this.wordStream,
+    required this.state,
   });
 
-  final List<WordModel> wordStream;
+  final WordState state;
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +23,9 @@ class BoxCard extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          // return Padding(
-          //   padding: EdgeInsets.only(
-          //     left: index == 0 ? 0 : 5.0,
-          //   ),
-          //   child: BoxCard(
-          //     index: index,
-          //     wordList: wordList,
-          //     lessonModel: widget.lessonModel,
-          //     time: remainingTime(lesson),
-          //   ),
-          // );
+          final currentWords =
+              state.words.where((element) => element.box == index);
+
           return SizedBox(
             width: size.width * 0.19,
             child: Stack(
@@ -42,9 +33,12 @@ class BoxCard extends StatelessWidget {
                 Positioned(
                   top: 12,
                   child: InkWell(
-                    // onTap: wordStream.where((element) => element.box == index).isEmpty
+                    // onTap: currentWords.isEmpty ||
+                    //         currentWords.length != nextWords.length
                     //     ? null
-                    //     : () => context.read<WordBloc>().add(UpdateBox(boxIndex: index)),
+                    //     : () => context
+                    //         .read<WordBloc>()
+                    //         .add(WordBoxTapped(boxIndex: index)),
                     child: Container(
                       height: 80,
                       width: size.width * 0.17,
@@ -58,29 +52,27 @@ class BoxCard extends StatelessWidget {
                             color: Colors.black.withOpacity(0.25),
                           ),
                         ],
-                        // border: state.boxIndex == index
-                        //     ? Border.all(
-                        //         color: ColorTheme.tBlueColor,
-                        //         width: 2.0,
-                        //       )
-                        //     : null,
+                        border: state.boxIndex == index
+                            ? Border.all(
+                                color: ColorTheme.tBlueColor,
+                                width: 2.0,
+                              )
+                            : null,
                       ),
                       child: Center(
-                        child: wordStream
-                                .where((element) => element.box == index)
-                                .isEmpty
+                        child: currentWords.isEmpty
                             ? const Icon(Icons.lock)
                             : Stack(
                                 children: [
-                                  // Center(
-                                  //   child: index == state.boxIndex
-                                  //       ? Image.asset(PngImage.card)
-                                  //       : Image.asset(PngImage.cardDeactivated),
-                                  // ),
+                                  Center(
+                                    child: index == state.boxIndex
+                                        ? Image.asset(PngImage.card)
+                                        : Image.asset(PngImage.cardDeactivated),
+                                  ),
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      "${wordStream.where((element) => element.box == index).length}",
+                                      "${currentWords.length}",
                                       style:
                                           theme.textTheme.bodyMedium!.copyWith(
                                         color: ColorTheme.tWhiteColor,
@@ -95,27 +87,29 @@ class BoxCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Positioned(
-                //   left: 28,
-                //   child: Visibility(
-                //     visible: state.duration != null && index == state.userWords.last.box,
-                //     child: Container(
-                //       padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
-                //       decoration: BoxDecoration(
-                //         color: ColorTheme.tLightBlueColor,
-                //         borderRadius: BorderRadius.circular(12.0),
-                //       ),
-                //       child: Text(
-                //         "${state.duration}",
-                //         style: const TextStyle(
-                //           fontWeight: FontWeight.bold,
-                //           letterSpacing: -0.2,
-                //           fontSize: 8.0,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                Positioned(
+                  left: 28,
+                  child: Visibility(
+                    visible: state.lockedTime != null &&
+                        index == state.words.last.box,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        color: ColorTheme.tLightBlueColor,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Text(
+                        "${state.lockedTime}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.2,
+                          fontSize: 8.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           );

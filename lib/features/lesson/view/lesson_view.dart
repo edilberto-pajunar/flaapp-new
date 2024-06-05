@@ -78,6 +78,8 @@ class LessonView extends StatelessWidget {
                                           context.push(WordPage.route, extra: {
                                             "level": level,
                                             "lesson": lesson,
+                                            "lessonBloc":
+                                                context.read<LessonBloc>(),
                                           });
                                         }
                                       : null,
