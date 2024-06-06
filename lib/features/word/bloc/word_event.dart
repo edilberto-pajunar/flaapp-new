@@ -65,3 +65,4 @@ final class WordTimerInitRequested extends WordEvent {
   });
 }
 
+final class WordCompleteTriggered extends WordEvent {}

@@ -12,13 +12,11 @@ part 'word_state.dart';
 
 class WordBloc extends Bloc<WordEvent, WordState> {
   final WordRepository _wordRepository;
-  final LessonRepository _lessonRepository;
 
   WordBloc({
     required WordRepository wordRepository,
     required LessonRepository lessonRepository,
   })  : _wordRepository = wordRepository,
-        _lessonRepository = lessonRepository,
         super(const WordState()) {
     on<WordInitRequested>(_onInitRequested);
     on<WordFlipCardTapped>(_onFlipCardTapped);
@@ -27,6 +25,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     on<WordBoxTapped>(_onBoxTapped);
     on<WordLockedCardTriggered>(_onLockedCardTriggered);
     on<WordTimerInitRequested>(_onTimerInitRequested);
+    on<WordCompleteTriggered>(_onCompleteTriggered);
   }
 
   void _onInitRequested(
@@ -82,8 +81,10 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         if (currentWords.length == 1) {
           add(WordBoxTapped(boxIndex: state.boxIndex + 1));
           add(WordLockedCardTriggered(user: event.user));
+        }
 
-          if (event.word.box == 3) {}
+        if (currentWords.length == 1 && event.word.box == 3) {
+          add(WordCompleteTriggered());
         }
 
         await _wordRepository.swipeCard(
@@ -103,7 +104,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         swipeStatus: SwipeStatus.success,
       ));
     } catch (e) {
-      print("Error: $e");
       emit(state.copyWith(
         swipeStatus: SwipeStatus.failed,
       ));
@@ -142,11 +142,21 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         userId: event.user.uid,
       ),
       onData: (second) {
-        if (second == null) return state.copyWith(lockedTime: null);
-        return state.copyWith(lockedTime: second);
+        if (second != 0) {
+          return state.copyWith(
+              lockedTime: second, lockedStatus: LockedStatus.locked);
+        } else {
+          return state.copyWith(
+              lockedTime: null, lockedStatus: LockedStatus.unlocked);
+        }
       },
     );
   }
 
- 
+  void _onCompleteTriggered(
+    WordCompleteTriggered event,
+    Emitter<WordState> emit,
+  ) {
+    emit(state.copyWith(completeStatus: CompleteStatus.finished));
+  }
 }

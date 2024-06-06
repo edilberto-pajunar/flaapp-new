@@ -83,11 +83,26 @@ class WordRepository extends BaseWordRepository {
       final now = DateTime.now();
       final lockedTime = word.lockedTime;
 
-      if (lockedTime == null) return null;
-
-      if (lockedTime.isBefore(now)) return null;
+      if (lockedTime == null || lockedTime.isBefore(now)) {
+        return null;
+      }
 
       return lockedTime.difference(now).inSeconds;
-    });
+    }).takeWhile((remainingSeconds) => remainingSeconds != null);
+  }
+
+  @override
+  Future<void> unLockCard({
+    required WordModel word,
+    required String userId,
+  }) async {
+    await databaseRepository.setData(
+      path: "users/$userId/words/${word.word}",
+      data: word
+          .copyWith(
+            lockedTime: null,
+          )
+          .toJson(),
+    );
   }
 }

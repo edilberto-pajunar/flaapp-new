@@ -18,6 +18,11 @@ abstract class BaseWordRepository {
     required String userId,
   });
 
+  Future<void> unLockCard({
+    required WordModel word,
+    required String userId,
+  });
+
   Stream<int?> lockCardStream({
     required WordModel word,
     required String userId,

@@ -90,7 +90,7 @@ class BoxCard extends StatelessWidget {
                 Positioned(
                   left: 28,
                   child: Visibility(
-                    visible: state.lockedTime != null &&
+                    visible: state.lockedStatus == LockedStatus.locked &&
                         index == state.words.last.box,
                     child: Container(
                       padding: const EdgeInsets.symmetric(

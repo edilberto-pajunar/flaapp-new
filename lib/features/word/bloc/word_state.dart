@@ -2,6 +2,10 @@ part of 'word_bloc.dart';
 
 enum SwipeStatus { idle, loading, success, failed }
 
+enum LockedStatus { locked, unlocked }
+
+enum CompleteStatus { unfinished, finished }
+
 final class WordState extends Equatable {
   final List<WordModel> words;
   final bool frontVisible;
@@ -9,6 +13,8 @@ final class WordState extends Equatable {
   final int boxIndex;
   final SwipeStatus swipeStatus;
   final int? lockedTime;
+  final LockedStatus lockedStatus;
+  final CompleteStatus completeStatus;
 
   const WordState({
     this.words = const [],
@@ -17,6 +23,8 @@ final class WordState extends Equatable {
     this.boxIndex = 0,
     this.swipeStatus = SwipeStatus.idle,
     this.lockedTime,
+    this.lockedStatus = LockedStatus.unlocked,
+    this.completeStatus = CompleteStatus.unfinished,
   });
 
   WordState copyWith({
@@ -26,6 +34,8 @@ final class WordState extends Equatable {
     int? boxIndex,
     SwipeStatus? swipeStatus,
     int? lockedTime,
+    LockedStatus? lockedStatus,
+    CompleteStatus? completeStatus,
   }) {
     return WordState(
       words: words ?? this.words,
@@ -34,6 +44,8 @@ final class WordState extends Equatable {
       boxIndex: boxIndex ?? this.boxIndex,
       swipeStatus: swipeStatus ?? this.swipeStatus,
       lockedTime: lockedTime ?? this.lockedTime,
+      lockedStatus: lockedStatus ?? this.lockedStatus,
+      completeStatus: completeStatus ?? this.completeStatus,
     );
   }
 
@@ -45,5 +57,7 @@ final class WordState extends Equatable {
         boxIndex,
         swipeStatus,
         lockedTime,
+        lockedStatus,
+        completeStatus,
       ];
 }

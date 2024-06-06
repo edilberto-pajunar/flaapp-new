@@ -1,5 +1,3 @@
-import 'package:flaapp/cubit/login/login_cubit.dart';
-import 'package:flaapp/cubit/signup/signup_cubit.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';

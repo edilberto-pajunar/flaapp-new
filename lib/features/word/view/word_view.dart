@@ -6,9 +6,11 @@ import 'package:flaapp/features/word/widget/flash_card.dart';
 import 'package:flaapp/features/word/widget/locked_card.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/word.dart';
+import 'package:flaapp/values/constant/strings/image.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class WordView extends StatelessWidget {
   final LessonModel lesson;
@@ -26,7 +28,13 @@ class WordView extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Word"),
       ),
-      body: BlocBuilder<WordBloc, WordState>(
+      body: BlocConsumer<WordBloc, WordState>(
+        listener: (context, state) {
+          if (state.completeStatus == CompleteStatus.finished) {
+            context.pop();
+            showCompleteDialog(context);
+          }
+        },
         builder: (context, state) {
           final words =
               state.words.where((word) => word.box == state.boxIndex).toList();
@@ -88,7 +96,7 @@ class WordView extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 12.0),
-                        state.lockedTime != null
+                        state.lockedStatus == LockedStatus.locked
                             ? const LockedCard()
                             : Draggable(
                                 feedback: FlashCard(
@@ -145,5 +153,32 @@ class WordView extends StatelessWidget {
             lesson: lesson,
           ));
     }
+  }
+
+  void showCompleteDialog(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Image.asset(PngImage.ribbon),
+            content: const Text(
+              "Congratulations, you have completed this lesson!",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24.0,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  context.pop();
+                },
+                child: const Text(
+                  "Go to next level",
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

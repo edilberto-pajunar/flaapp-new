@@ -1,15 +1,12 @@
 import 'package:flaapp/bloc/admin/admin_bloc.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/cubit/lang/lang_cubit.dart';
-import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';
-import 'package:flaapp/services/functions/nav.dart';
 import 'package:flaapp/views/screens/admin/add_lesson_screen.dart';
 import 'package:flaapp/views/screens/admin/add_level_screen.dart';
 import 'package:flaapp/views/screens/admin/add_word_screen.dart';
-import 'package:flaapp/views/screens/auth/login.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +17,6 @@ class AdminScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NavigationServices nav = NavigationServices();
     final ThemeData theme = Theme.of(context);
 
     void changeLanguage() {
@@ -34,21 +30,18 @@ class AdminScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     context.read<LangCubit>().updateLanguage("en");
-                    nav.pop(context);
                   },
                   child: const Text("English"),
                 ),
                 TextButton(
                   onPressed: () {
                     context.read<LangCubit>().updateLanguage("es");
-                    nav.pop(context);
                   },
                   child: const Text("Spanish"),
                 ),
                 TextButton(
                   onPressed: () {
                     context.read<LangCubit>().updateLanguage("de");
-                    nav.pop(context);
                   },
                   child: const Text("German"),
                 ),
@@ -173,8 +166,8 @@ class AdminScreen extends StatelessWidget {
                                   onPressed: state.lesson != null &&
                                           state.level != null
                                       ? () {
-                                          nav.pushScreen(context,
-                                              screen: const AddLevelScreen());
+                                          // nav.pushScreen(context,
+                                          //     screen: const AddLevelScreen());
                                         }
                                       : null,
                                   child: Text(
@@ -188,10 +181,10 @@ class AdminScreen extends StatelessWidget {
                                   onPressed: state.lesson != null &&
                                           state.level != null
                                       ? () {
-                                          nav.pushScreen(context,
-                                              screen: AddLessonScreen(
-                                                state: state,
-                                              ));
+                                          // nav.pushScreen(context,
+                                          //     screen: AddLessonScreen(
+                                          //       state: state,
+                                          //     ));
                                         }
                                       : null,
                                   child: Text(
@@ -205,10 +198,10 @@ class AdminScreen extends StatelessWidget {
                                   onPressed: state.lesson != null &&
                                           state.level != null
                                       ? () {
-                                          nav.pushScreen(context,
-                                              screen: AddWordScreen(
-                                                state: state,
-                                              ));
+                                          // nav.pushScreen(context,
+                                          //     screen: AddWordScreen(
+                                          //       state: state,
+                                          //     ));
                                         }
                                       : null,
                                   child: Text(
