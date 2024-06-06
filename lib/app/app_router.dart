@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flaapp/features/admin/view/admin_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/view/level_page.dart';
@@ -23,6 +24,11 @@ class AppRouter {
           name: AuthPage.route,
           path: "/login",
           builder: (context, state) => const AuthPage(),
+        ),
+        GoRoute(
+          name: AdminPage.route,
+          path: "/admin",
+          builder: (context, state) => const AdminPage(),
         ),
         GoRoute(
           name: LevelPage.route,
@@ -56,11 +62,22 @@ class AppRouter {
         final isLoggedIn = currentUser != null;
         final loggingIn = state.matchedLocation.startsWith("/login");
 
-        if (!isLoggedIn) return loggingIn ? null : "/login";
+        final isAdmin = currentUser?.email == "admin@gmail.com";
+        print(currentUser);
 
-        if (loggingIn) return "/";
-
-        return null;
+        if (!isLoggedIn) {
+          if (loggingIn) {
+            return null;
+          } else {
+            return "/login";
+          }
+        } else {
+          if (isAdmin) {
+            return "/admin";
+          } else {
+            return "/";
+          }
+        }
       },
       refreshListenable: _GoRouterRefreshStream(
         authRepository.user,

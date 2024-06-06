@@ -10,11 +10,37 @@ class LevelRepository extends BaseLevelRepository {
   });
 
   @override
-  Stream<List<LevelModel>> getLevels(String userId) {
+  Stream<List<LevelModel>> getLevels(
+    String userId, {
+    bool admin = false,
+  }) {
     return databaseRepository.collectionStream(
       path: "users/$userId/levels",
       queryBuilder: (query) => query.orderBy("label", descending: false),
       builder: (data, _) => LevelModel.fromJson(data),
+    );
+  }
+
+  @override
+  Stream<List<LevelModel>> getAdminLevels() {
+    return databaseRepository.collectionStream(
+      path: "levels",
+      queryBuilder: (query) => query.orderBy("label", descending: false),
+      builder: (data, _) => LevelModel.fromJson(data),
+    );
+  }
+
+  @override
+  Future<void> adminAddLevel(String level) async {
+    final LevelModel levelModel = LevelModel(
+      label: level,
+      id: level,
+      locked: true,
+    );
+
+    await databaseRepository.setData(
+      path: "levels",
+      data: levelModel.toJson(),
     );
   }
 }

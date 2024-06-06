@@ -27,4 +27,28 @@ class LessonRepository extends BaseLessonRepository {
       data: lesson.copyWith(locked: false).toJson(),
     );
   }
+
+  @override
+  Stream<List<LessonModel>> getAdminLessons(String level) {
+    return databaseRepository.collectionStream(
+      path: "lessons",
+      queryBuilder: (query) => query.where("level", isEqualTo: level),
+      builder: (data, _) => LessonModel.fromJson(data),
+    );
+  }
+
+  @override
+  Future<void> adminAddLesson(String level, String lesson) async {
+    final LessonModel lessonModel = LessonModel(
+      label: lesson,
+      level: level,
+      id: lesson,
+      locked: true,
+    );
+
+    await databaseRepository.setData(
+      path: "lessons",
+      data: lessonModel.toJson(),
+    );
+  }
 }

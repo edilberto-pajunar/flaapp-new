@@ -7,6 +7,15 @@ abstract class BaseWordRepository {
     required String lesson,
   });
 
+  Stream<List<WordModel>> getAdminWords({
+    required String level,
+    required String lesson,
+  });
+
+  Future<void> adminAddWord({
+    required WordModel word,
+  });
+
   Future<void> swipeCard({
     required WordModel word,
     required bool swipedRight,

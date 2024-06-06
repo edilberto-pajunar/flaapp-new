@@ -1,9 +1,7 @@
-import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
 import 'package:flaapp/model/level.dart';
-import 'package:flaapp/repository/user/user_repository.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +17,7 @@ class LevelView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        title: const Text("Level"),
         actions: [
           IconButton(
             onPressed: () =>
@@ -49,12 +48,9 @@ class LevelView extends StatelessWidget {
                           return GestureDetector(
                             onTap: !level.locked
                                 ? () {
-                                    context.push(
-                                      LessonPage.route,
-                                      extra: {
-                                        "level": level,
-                                      }
-                                    );
+                                    context.push(LessonPage.route, extra: {
+                                      "level": level,
+                                    });
                                   }
                                 : null,
                             child: Container(
