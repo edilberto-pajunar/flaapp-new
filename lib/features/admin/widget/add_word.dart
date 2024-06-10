@@ -31,44 +31,86 @@ class _AddWordState extends State<AddWord> {
                   builder: (context, state) {
                     return AlertDialog(
                       title: const Text("Add a Word"),
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          DropdownButton<String>(
-                            items: state.levels.map((level) {
-                              return DropdownMenuItem(
-                                value: level.label,
-                                child: Text(level.label),
-                              );
-                            }).toList(),
-                            onChanged: (val) {
-                              context
+                      content: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            DropdownButton<String>(
+                              items: state.levels.map((level) {
+                                return DropdownMenuItem(
+                                  value: level.label,
+                                  child: Text(level.label),
+                                );
+                              }).toList(),
+                              onChanged: (val) {
+                                context.read<AdminBloc>().add(
+                                    AdminLessonStreamRequested(level: val!));
+                              },
+                              value: state.level,
+                            ),
+                            const SizedBox(height: 12.0),
+                            DropdownButton<String>(
+                              items: state.lessons.map((level) {
+                                return DropdownMenuItem(
+                                  value: level.label,
+                                  child: Text(level.label),
+                                );
+                              }).toList(),
+                              onChanged: (val) {
+                                context.read<AdminBloc>().add(
+                                    AdminWordStreamRequested(lesson: val!));
+                              },
+                              value: state.lesson,
+                            ),
+                            PrimaryTextField(
+                              label: "Word",
+                              controller: word,
+                            ),
+                            TextButton(
+                              onPressed: () => context
                                   .read<AdminBloc>()
-                                  .add(AdminLessonStreamRequested(level: val!));
-                            },
-                            value: state.level,
-                          ),
-                          const SizedBox(height: 12.0),
-                          DropdownButton<String>(
-                            items: state.lessons.map((level) {
-                              return DropdownMenuItem(
-                                value: level.label,
-                                child: Text(level.label),
-                              );
-                            }).toList(),
-                            onChanged: (val) {
-                              context
-                                  .read<AdminBloc>()
-                                  .add(AdminWordStreamRequested(lesson: val!));
-                            },
-                            value: state.lesson,
-                          ),
-                          PrimaryTextField(
-                            label: "Word",
-                            controller: word,
-                          ),
-                        ],
+                                  .add(AdminTranslateWordRequested(
+                                    word: word.text,
+                                  )),
+                              child: const Text("Translate"),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                PrimaryTextField(
+                                  controller: TextEditingController(
+                                    text: state.translatedWords.isEmpty
+                                        ? "English"
+                                        : state.translatedWords[0],
+                                  ),
+                                  onChanged: (val) {
+                                    context
+                                        .read<AdminBloc>()
+                                        .add(AdminWordChanged(word: val));
+                                  },
+                                  label: "English",
+                                ),
+                                PrimaryTextField(
+                                  controller: TextEditingController(
+                                    text: state.translatedWords.isEmpty
+                                        ? "German"
+                                        : state.translatedWords[1],
+                                  ),
+                                  label: "German",
+                                ),
+                                PrimaryTextField(
+                                  controller: TextEditingController(
+                                    text: state.translatedWords.isEmpty
+                                        ? "Spanish"
+                                        : state.translatedWords[2],
+                                  ),
+                                  label: "Spanish",
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                       actions: [
                         PrimaryButton(

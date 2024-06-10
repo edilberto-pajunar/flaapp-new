@@ -48,7 +48,7 @@ class LevelView extends StatelessWidget {
                           return GestureDetector(
                             onTap: !level.locked
                                 ? () {
-                                    context.push(LessonPage.route, extra: {
+                                    context.pushNamed(LessonPage.route, extra: {
                                       "level": level,
                                     });
                                   }

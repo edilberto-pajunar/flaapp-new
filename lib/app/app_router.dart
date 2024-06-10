@@ -63,7 +63,6 @@ class AppRouter {
         final loggingIn = state.matchedLocation.startsWith("/login");
 
         final isAdmin = currentUser?.email == "admin@gmail.com";
-        print(currentUser);
 
         if (!isLoggedIn) {
           if (loggingIn) {
@@ -71,13 +70,17 @@ class AppRouter {
           } else {
             return "/login";
           }
-        } else {
+        }
+
+        if (loggingIn) {
           if (isAdmin) {
             return "/admin";
           } else {
             return "/";
           }
         }
+
+        return null;
       },
       refreshListenable: _GoRouterRefreshStream(
         authRepository.user,

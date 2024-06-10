@@ -22,7 +22,7 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
-  Future<void> signup({
+  Future<User?> signup({
     required String email,
     required String password,
     required String username,
@@ -41,9 +41,13 @@ class AuthRepository extends BaseAuthRepository {
           "username": username,
         },
       );
+
+      return cred.user!;
     } catch (e) {
       log("Error: $e");
     }
+
+    return null;
   }
 
   @override

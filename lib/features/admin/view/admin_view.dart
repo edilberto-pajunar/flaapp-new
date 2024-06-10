@@ -3,12 +3,10 @@ import 'package:flaapp/features/admin/widget/add_lesson.dart';
 import 'package:flaapp/features/admin/widget/add_level.dart';
 import 'package:flaapp/features/admin/widget/add_word.dart';
 import 'package:flaapp/features/admin/widget/word_list.dart';
-import 'package:flaapp/views/widgets/buttons/primary_button.dart';
-import 'package:flaapp/views/widgets/fields/primary_text_field.dart';
+import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 
 class AdminView extends StatefulWidget {
   const AdminView({super.key});
@@ -40,7 +38,7 @@ class _AdminViewState extends State<AdminView> {
             ),
             IconButton(
               onPressed: () {
-                // context.read<AuthRepository>().signOut();
+                context.read<AuthBloc>().add(AuthSignOutAttempted());
               },
               icon: const Icon(
                 Icons.logout,

@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word.dart';
-import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/level/level_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';
@@ -37,6 +34,8 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<AdminAddLevelSubmitted>(_onAddLevelSubmitted);
     on<AdminAddLessonSubmitted>(_onAddLessonSubmitted);
     on<AdminAddWordSubmitted>(_onAddWordSubmitted);
+    on<AdminTranslateWordRequested>(_onTranslateWordRequested);
+    on<AdminWordChanged>(_onWordChanged);
   }
 
   void _onInitRequested(
@@ -99,6 +98,31 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     await _wordRepository.adminAddWord(
       word: event.word,
     );
+  }
+
+  void _onTranslateWordRequested(
+    AdminTranslateWordRequested event,
+    Emitter<AdminState> emit,
+  ) async {
+    if (event.word.isEmpty) return;
+    final List<String> translatedWords = [];
+
+    final german = await _translateRepository.translateWord(event.word, "de");
+    final english = await _translateRepository.translateWord(event.word, "en");
+    final spanish = await _translateRepository.translateWord(event.word, "es");
+
+    translatedWords.addAll([english, german, spanish]);
+
+    emit(state.copyWith(translatedWords: translatedWords));
+  }
+
+  void _onWordChanged(
+    AdminWordChanged event,
+    Emitter<AdminState> emit,
+  ) async {
+    state.translatedWords[0] = "hahaha";
+
+    emit(state.copyWith(translatedWords: state.translatedWords));
   }
 
   // void _onUpdateWords(UpdateWords event, emit) async {

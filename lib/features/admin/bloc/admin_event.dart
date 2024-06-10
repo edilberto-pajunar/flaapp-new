@@ -55,45 +55,18 @@ class AdminAddWordSubmitted extends AdminEvent {
   });
 }
 
+class AdminTranslateWordRequested extends AdminEvent {
+  final String word;
 
+  const AdminTranslateWordRequested({
+    required this.word,
+  });
+}
 
+class AdminWordChanged extends AdminEvent {
+  final String word;
 
-// class AddLesson extends AdminEvent {
-//   final LessonModel lesson;
-
-//   const AddLesson({
-//     required this.lesson,
-//   });
-
-//   @override
-//   List<Object> get props => [lesson];
-// }
-
-// class UpdateWords extends AdminEvent {
-//   const UpdateWords();
-
-//   @override
-//   List<Object> get props => [];
-// }
-
-// class UpdateLevel extends AdminEvent {
-//   final String level;
-
-//   const UpdateLevel({
-//     required this.level,
-//   });
-
-//   @override
-//   List<Object> get props => [level];
-// }
-
-// class UpdateLesson extends AdminEvent {
-//   final String lesson;
-
-//   const UpdateLesson({
-//     required this.lesson,
-//   });
-
-//   @override
-//   List<Object> get props => [lesson];
-// }
+  const AdminWordChanged({
+    required this.word,
+  });
+}

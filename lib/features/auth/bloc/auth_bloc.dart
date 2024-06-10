@@ -1,19 +1,21 @@
-import 'dart:async';
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
+import 'package:flaapp/repository/user/user_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
+  final UserRepository _userRepository;
 
-  AuthBloc({required AuthRepository authRepository})
-      : _authRepository = authRepository,
+  AuthBloc({
+    required AuthRepository authRepository,
+    required UserRepository userRepository,
+  })  : _authRepository = authRepository,
+        _userRepository = userRepository,
         super(const AuthState()) {
     on<AuthLoginAttempted>(_onLoginAttempted);
     on<AuthCreateAccountAttempted>(_onCreateAccountAttempted);
@@ -43,11 +45,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       emit(state.copyWith(status: AuthStatus.loading));
-      await _authRepository.signup(
+      final user = await _authRepository.signup(
         email: event.email,
         password: event.password,
         username: event.username,
       );
+
+      Future.wait([
+        _userRepository.addInitialLessons(user!.uid),
+        _userRepository.addInitialLevels(user.uid),
+        _userRepository.addInitialWords(user.uid),
+      ]);
 
       emit(state.copyWith(status: AuthStatus.success));
     } catch (e) {

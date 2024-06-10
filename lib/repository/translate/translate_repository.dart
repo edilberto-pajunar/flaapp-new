@@ -33,9 +33,9 @@ class TranslateRepository extends BaseTranslateRepository {
     log("Response: ${response.reasonPhrase}");
 
     if (response.statusCode == 200) {
-      final body = response.body;
+      final body = jsonDecode(response.body);
 
-      return body;
+      return body["translations"][0]["text"];
     } else {
       throw Exception(response.reasonPhrase);
     }
