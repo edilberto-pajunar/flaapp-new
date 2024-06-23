@@ -97,11 +97,9 @@ class FlashCard extends StatelessWidget {
                         // 46 : es
                         final List languages = await flutterTts.getLanguages;
                         await flutterTts.setLanguage(languages[46]);
-                        // await flutterTts.speak(
-                        //   state.isFrontSide
-                        //       ? word.word
-                        //       : word.translations[0],
-                        // );
+                        await flutterTts.speak(
+                          state.frontVisible ? word.word : word.translations[0],
+                        );
                       },
                       iconSize: 30.0,
                       icon: const Icon(

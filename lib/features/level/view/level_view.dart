@@ -1,4 +1,5 @@
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
+import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
 import 'package:flaapp/model/level.dart';
@@ -27,6 +28,40 @@ class LevelView extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Container(
+              height: 300,
+              width: double.infinity,
+              color: ColorTheme.tBlueColor,
+              child: DrawerHeader(
+                child: Center(
+                  child: Text(
+                    "Flaapp",
+                    style: theme.textTheme.titleLarge!.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12.0),
+            ListTile(
+              title: const Text("Favorites"),
+              leading: const Icon(Icons.star),
+              onTap: () => context.pushNamed(FavoritePage.route),
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text("About"),
+              leading: const Icon(Icons.info),
+              onTap: () {},
+            ),
+            const Divider(),
+          ],
+        ),
       ),
       body: BlocSelector<LevelBloc, LevelState, List<LevelModel>>(
         selector: (state) => state.levels,

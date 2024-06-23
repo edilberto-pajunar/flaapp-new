@@ -19,6 +19,18 @@ final class WordInitRequested extends WordEvent {
   });
 }
 
+final class WordLoadedRequested extends WordEvent {
+  final User user;
+  final String level;
+  final String lesson;
+
+  const WordLoadedRequested({
+    required this.user,
+    required this.level,
+    required this.lesson,
+  });
+}
+
 final class WordFlipCardTapped extends WordEvent {}
 
 final class WordCardUpdateDragged extends WordEvent {
@@ -59,10 +71,20 @@ final class WordLockedCardTriggered extends WordEvent {
 
 final class WordTimerInitRequested extends WordEvent {
   final User user;
+  final List<WordModel> words;
 
   const WordTimerInitRequested({
     required this.user,
+    required this.words,
   });
 }
 
 final class WordCompleteTriggered extends WordEvent {}
+
+final class WordFailedTriggered extends WordEvent {
+  final String error;
+
+  const WordFailedTriggered({
+    required this.error,
+  });
+}

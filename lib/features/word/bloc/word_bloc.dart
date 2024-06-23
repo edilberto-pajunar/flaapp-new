@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +13,7 @@ part 'word_state.dart';
 
 class WordBloc extends Bloc<WordEvent, WordState> {
   final WordRepository _wordRepository;
+  StreamSubscription<int?>? timer;
 
   WordBloc({
     required WordRepository wordRepository,
@@ -18,6 +21,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
   })  : _wordRepository = wordRepository,
         super(const WordState()) {
     on<WordInitRequested>(_onInitRequested);
+    on<WordLoadedRequested>(_onLoadedRequested);
     on<WordFlipCardTapped>(_onFlipCardTapped);
     on<WordCardUpdateDragged>(_onCardUpdateDragged);
     on<WordCardEndDragged>(_onCardEndDragged);
@@ -25,26 +29,63 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     on<WordLockedCardTriggered>(_onLockedCardTriggered);
     on<WordTimerInitRequested>(_onTimerInitRequested);
     on<WordCompleteTriggered>(_onCompleteTriggered);
+    on<WordFailedTriggered>(_onFailedTriggered);
   }
 
   void _onInitRequested(
     WordInitRequested event,
     Emitter<WordState> emit,
   ) async {
-    await emit.forEach(
-      _wordRepository.getWords(
-        userId: event.user.uid,
-        level: event.level,
-        lesson: event.lesson,
-      ),
-      onData: (words) {
-        final currentMin = words.reduce((currentMin, word) =>
-            word.box < currentMin.box ? word : currentMin);
+    add(WordLoadedRequested(
+      user: event.user,
+      level: event.level,
+      lesson: event.lesson,
+    ));
+  }
 
-        add(WordTimerInitRequested(user: event.user));
-        return state.copyWith(words: words, boxIndex: currentMin.box);
-      },
-    );
+  void _onLoadedRequested(
+    WordLoadedRequested event,
+    Emitter<WordState> emit,
+  ) async {
+    emit(state.copyWith(
+      wordLoadingStatus: WordLoadingStatus.loading,
+    ));
+
+    try {
+      await emit.forEach(
+        _wordRepository.getWords(
+          userId: event.user.uid,
+          level: event.level,
+          lesson: event.lesson,
+        ),
+        onData: (words) {
+          final DateTime now = DateTime.now();
+          final currentMin = words.reduce((currentMin, word) =>
+              word.box < currentMin.box ? word : currentMin);
+
+          if (words[0].lockedTime != null &&
+              words[0].lockedTime!.isAfter(now)) {
+            return state.copyWith(
+              words: words,
+              boxIndex: currentMin.box,
+              lockedStatus: LockedStatus.locked,
+            );
+          } else {
+            return state.copyWith(
+              words: words,
+              boxIndex: currentMin.box,
+              wordLoadingStatus: WordLoadingStatus.success,
+              lockedStatus: LockedStatus.unlocked,
+              lockedTime: null,
+            );
+          }
+        },
+      );
+    } catch (e) {
+      add(WordFailedTriggered(
+        error: "Word failed to load: $e",
+      ));
+    }
   }
 
   void _onFlipCardTapped(
@@ -123,12 +164,21 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     final currentWords =
         state.words.where((word) => word.box == state.boxIndex).toList();
 
+    emit(state.copyWith(wordLoadingStatus: WordLoadingStatus.loading));
+
     try {
       await _wordRepository.lockCard(
         word: currentWords[0],
         userId: event.user.uid,
       );
-    } catch (e) {}
+
+      emit(state.copyWith(
+        lockedStatus: LockedStatus.locked,
+        wordLoadingStatus: WordLoadingStatus.success,
+      ));
+    } catch (e) {
+      add(WordFailedTriggered(error: "Failed to locked the card. $e"));
+    }
   }
 
   void _onTimerInitRequested(
@@ -137,17 +187,30 @@ class WordBloc extends Bloc<WordEvent, WordState> {
   ) async {
     await emit.forEach(
       _wordRepository.lockCardStream(
-        word: state.words[0],
         userId: event.user.uid,
+        word: state.words[0],
       ),
-      onData: (second) {
-        if (second != 0) {
+      onData: (remainingSecond) {
+        print(remainingSecond);
+        if (remainingSecond != null && remainingSecond > 0) {
           return state.copyWith(
-              lockedTime: second, lockedStatus: LockedStatus.locked);
-        } else {
+            lockedTime: remainingSecond,
+            lockedStatus: LockedStatus.locked,
+            wordLoadingStatus: WordLoadingStatus.success,
+          );
+        } else if (remainingSecond == 0) {
           return state.copyWith(
-              lockedTime: null, lockedStatus: LockedStatus.unlocked);
+            lockedTime: null,
+            lockedStatus: LockedStatus.unlocked,
+            wordLoadingStatus: WordLoadingStatus.success,
+          );
         }
+
+        return state.copyWith(
+          lockedTime: null,
+          lockedStatus: LockedStatus.unlocked,
+          wordLoadingStatus: WordLoadingStatus.success,
+        );
       },
     );
   }
@@ -156,6 +219,18 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     WordCompleteTriggered event,
     Emitter<WordState> emit,
   ) {
-    emit(state.copyWith(completeStatus: CompleteStatus.finished));
+    emit(state.copyWith(
+      completeStatus: CompleteStatus.finished,
+    ));
+  }
+
+  void _onFailedTriggered(
+    WordFailedTriggered event,
+    Emitter<WordState> emit,
+  ) {
+    emit(state.copyWith(
+      wordLoadingStatus: WordLoadingStatus.failed,
+      error: event.error,
+    ));
   }
 }

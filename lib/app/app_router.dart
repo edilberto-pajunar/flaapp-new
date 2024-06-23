@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flaapp/features/admin/view/admin_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
+import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/view/level_page.dart';
 import 'package:flaapp/features/word/view/word_page.dart';
@@ -34,51 +35,78 @@ class AppRouter {
           name: LevelPage.route,
           path: "/",
           builder: (context, state) => const LevelPage(),
-        ),
-        GoRoute(
-          name: LessonPage.route,
-          path: LessonPage.route,
-          builder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>;
-            return LessonPage(level: extra["level"] as LevelModel);
-          },
-        ),
-        GoRoute(
-          name: WordPage.route,
-          path: WordPage.route,
-          builder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>;
-            return WordPage(
-              level: extra["level"] as LevelModel,
-              lesson: extra["lesson"] as LessonModel,
-              lessonBloc: extra["lessonBloc"],
-            );
-          },
+          routes: [
+            GoRoute(
+              name: FavoritePage.route,
+              path: "favorite",
+              builder: (context, state) => const FavoritePage(),
+            ),
+            GoRoute(
+              name: LessonPage.route,
+              path: "lesson",
+              builder: (context, state) {
+                final extra = state.extra as Map<String, dynamic>;
+                return LessonPage(level: extra["level"] as LevelModel);
+              },
+            ),
+            GoRoute(
+              name: WordPage.route,
+              path: "word",
+              builder: (context, state) {
+                final extra = state.extra as Map<String, dynamic>;
+                return WordPage(
+                  level: extra["level"] as LevelModel,
+                  lesson: extra["lesson"] as LessonModel,
+                  lessonBloc: extra["lessonBloc"],
+                );
+              },
+            ),
+          ],
         ),
       ],
       redirect: (context, state) async {
         final currentUser = await authRepository.user.first;
+
+        print(state.matchedLocation);
 
         final isLoggedIn = currentUser != null;
         final loggingIn = state.matchedLocation.startsWith("/login");
 
         final isAdmin = currentUser?.email == "admin@gmail.com";
 
-        if (!isLoggedIn) {
-          if (loggingIn) {
-            return null;
-          } else {
-            return "/login";
+        if (isLoggedIn) {
+          // if the user is admin
+          if (isAdmin) {
+            return "/admin";
           }
+        } else if (!isLoggedIn) {
+          // if the user is not logged in, they must login
+          return "/login";
         }
 
+        // if the user is logged in but still on login screen, send them to the home
         if (loggingIn) {
           if (isAdmin) {
             return "/admin";
-          } else {
-            return "/";
           }
+          return "/";
         }
+
+        // if (!isLoggedIn) {
+        //   if (loggingIn) {
+        //     return null;
+        //   } else {
+        //     return "/login";
+        //   }
+        // }
+
+        // if (loggingIn) {
+        //   if (isAdmin) {
+        //     return "/admin";
+        //   } else {
+        //     return "/";
+        //   }
+        // }
 
         return null;
       },

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LessonPage extends StatelessWidget {
-  static String route = "/lesson_page_route";
+  static String route = "lesson_page_route";
 
   final LevelModel level;
 

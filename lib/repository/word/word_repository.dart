@@ -83,12 +83,16 @@ class WordRepository extends BaseWordRepository {
       final now = DateTime.now();
       final lockedTime = word.lockedTime;
 
-      if (lockedTime == null || lockedTime.isBefore(now)) {
-        return null;
+      if (lockedTime != null) {
+        final remainingSeconds = lockedTime.difference(now).inSeconds;
+        if (remainingSeconds <= 0) {
+          return 0;
+        }
+        return remainingSeconds;
       }
-
-      return lockedTime.difference(now).inSeconds;
-    }).takeWhile((remainingSeconds) => remainingSeconds != null);
+      return null;
+    }).takeWhile((remainingSeconds) =>
+        remainingSeconds != null && remainingSeconds >= 0);
   }
 
   @override

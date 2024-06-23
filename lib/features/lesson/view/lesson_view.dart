@@ -75,12 +75,13 @@ class LessonView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15.0),
                                   onTap: !lesson.locked
                                       ? () {
-                                          context.push(WordPage.route, extra: {
-                                            "level": level,
-                                            "lesson": lesson,
-                                            "lessonBloc":
-                                                context.read<LessonBloc>(),
-                                          });
+                                          context.pushNamed(WordPage.route,
+                                              extra: {
+                                                "level": level,
+                                                "lesson": lesson,
+                                                "lessonBloc":
+                                                    context.read<LessonBloc>(),
+                                              });
                                         }
                                       : null,
                                   child: Padding(
