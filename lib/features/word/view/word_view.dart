@@ -118,29 +118,29 @@ class WordView extends StatelessWidget {
                               word: words[0],
                               state: state,
                             ),
-                            onDragUpdate: (details) {
-                              context
-                                  .read<WordBloc>()
-                                  .add(WordCardUpdateDragged(details: details));
-                            },
-                            onDragEnd: (details) {
-                              context.read<WordBloc>().add(WordCardEndDragged(
-                                    details: details,
-                                    word: words[0],
-                                    user: context
-                                        .read<AppBloc>()
-                                        .state
-                                        .currentUser!,
-                                  ));
+                            // onDragUpdate: (details) {
+                            //   context
+                            //       .read<WordBloc>()
+                            //       .add(WordCardUpdateDragged(details: details));
+                            // },
+                            // onDragEnd: (details) {
+                            //   context.read<WordBloc>().add(WordCardEndDragged(
+                            //         details: details,
+                            //         word: words[0],
+                            //         user: context
+                            //             .read<AppBloc>()
+                            //             .state
+                            //             .currentUser!,
+                            //       ));
 
-                              unlockLesson(context, words);
-                            },
-                            childWhenDragging: words.length > 1
-                                ? FlashCard(
-                                    word: words[1],
-                                    state: state,
-                                  )
-                                : Container(),
+                            //   unlockLesson(context, words);
+                            // },
+                            // childWhenDragging: words.length > 1
+                            //     ? FlashCard(
+                            //         word: words[1],
+                            //         state: state,
+                            //       )
+                            //     : Container(),
                             child: FlashCard(
                               word: words[0],
                               state: state,

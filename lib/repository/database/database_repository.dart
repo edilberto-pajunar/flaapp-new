@@ -296,7 +296,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
             .collection(tUserPath)
             .doc(user.uid)
             .collection(tLevelPath)
-            .doc(word.level)
+            .doc(word.level.id)
             .set({
           "id": word.level,
           "label": word.level,
@@ -306,7 +306,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
             .collection(tUserPath)
             .doc(user.uid)
             .collection(tLessonPath)
-            .doc(word.lesson)
+            .doc(word.lesson.id)
             .set({
           "id": word.lesson,
           "label": word.lesson,
@@ -338,36 +338,36 @@ class DatabaseRepository extends BaseDatabaseRepository {
 
   @override
   Future<void> updateWords() async {
-    final wordList = WordModel.wordList;
+    // final wordList = WordModel.wordList;
 
-    try {
-      for (WordModel word in wordList) {
-        setData(
-          path: "$tWordPath/${word.word}",
-          data: word.copyWith(id: word.word).toJson(),
-          merge: true,
-        );
-        // _firebaseFirestore.collection(tWordPath).doc(word.word).set(
-        //       word.copyWith(id: word.word).toJson(),
-        //       SetOptions(merge: true),
-        //     );
+    // try {
+    //   for (WordModel word in wordList) {
+    //     setData(
+    //       path: "$tWordPath/${word.word}",
+    //       data: word.copyWith(id: word.word).toJson(),
+    //       merge: true,
+    //     );
+    //     // _firebaseFirestore.collection(tWordPath).doc(word.word).set(
+    //     //       word.copyWith(id: word.word).toJson(),
+    //     //       SetOptions(merge: true),
+    //     //     );
 
-        // _firebaseFirestore.collection(tLevelPath).doc(word.level).set({
-        //   "id": word.level,
-        //   "label": word.level,
-        //   "locked": wordList.indexOf(word) == 0 ? false : true,
-        // }, SetOptions(merge: true)),
+    //     // _firebaseFirestore.collection(tLevelPath).doc(word.level).set({
+    //     //   "id": word.level,
+    //     //   "label": word.level,
+    //     //   "locked": wordList.indexOf(word) == 0 ? false : true,
+    //     // }, SetOptions(merge: true)),
 
-        // _firebaseFirestore.collection(tLessonPath).doc(word.lesson).set({
-        //   "id": word.lesson,
-        //   "label": word.lesson,
-        //   "level": word.level,
-        //   "locked": wordList.indexOf(word) == 0 ? false : true,
-        // }, SetOptions(merge: true)),
-      }
-    } catch (e) {
-      print(e);
-    }
+    //     // _firebaseFirestore.collection(tLessonPath).doc(word.lesson).set({
+    //     //   "id": word.lesson,
+    //     //   "label": word.lesson,
+    //     //   "level": word.level,
+    //     //   "locked": wordList.indexOf(word) == 0 ? false : true,
+    //     // }, SetOptions(merge: true)),
+    //   }
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   @override

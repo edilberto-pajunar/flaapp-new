@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:flaapp/model/lesson.dart';
+import 'package:flaapp/model/level.dart';
+import 'package:flaapp/model/translation.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/word/base_word_repository.dart';
@@ -21,8 +24,8 @@ class WordRepository extends BaseWordRepository {
       path: "users/$userId/words",
       queryBuilder: (query) {
         return query
-            .where("level", isEqualTo: level)
-            .where("lesson", isEqualTo: lesson)
+            .where("level.id", isEqualTo: level)
+            .where("lesson.id", isEqualTo: lesson)
             .orderBy("updateTime", descending: false);
       },
       builder: (data, _) => WordModel.fromJson(data),
@@ -119,8 +122,8 @@ class WordRepository extends BaseWordRepository {
       path: "words",
       queryBuilder: (query) {
         return query
-            .where("level", isEqualTo: level)
-            .where("lesson", isEqualTo: lesson);
+            .where("level.id", isEqualTo: level)
+            .where("lesson.id", isEqualTo: lesson);
       },
       builder: (data, _) => WordModel.fromJson(data),
     );
@@ -128,19 +131,35 @@ class WordRepository extends BaseWordRepository {
 
   @override
   Future<void> adminAddWord({
-    required WordModel word,
+    required LevelModel level,
+    required LessonModel lesson,
+    required String us,
+    required String de,
+    required String es,
   }) async {
-    // final WordModel wordModel = WordModel(
-    //   word: word,
-    //   translations: const [],
-    //   level: level,
-    //   lesson: lesson,
-    //   updateTime: DateTime.now(),
-    // );
+    final int length = await databaseRepository.getCount(path: "words");
+    final id = length.toString().padLeft(4, "0");
+    final WordModel word = WordModel(
+      id: id,
+      word: us,
+      translations: [
+        Translation(word: us, language: "us"),
+        Translation(word: de, language: "de"),
+        Translation(word: es, language: "es"),
+      ],
+      level: level,
+      lesson: lesson,
+      updateTime: DateTime.now(),
+    );
 
     await databaseRepository.setData(
-      path: "words",
+      path: "words/$id",
       data: word.toJson(),
     );
+  }
+
+  @override
+  Future<void> deleteWordLesson(String word) async {
+    await databaseRepository.deleteData(collection: "words", doc: word);
   }
 }

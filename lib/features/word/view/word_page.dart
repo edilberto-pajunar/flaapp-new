@@ -33,8 +33,8 @@ class WordPage extends StatelessWidget {
             lessonRepository: context.read<LessonRepository>(),
           )..add(WordInitRequested(
               user: context.read<AppBloc>().state.currentUser!,
-              level: level.label,
-              lesson: lesson.label,
+              level: level.id,
+              lesson: lesson.id,
             )),
         ),
         BlocProvider.value(

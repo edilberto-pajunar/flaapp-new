@@ -151,6 +151,7 @@ class _AdminLessonsState extends State<AdminLessons> {
                                       AdminTypeChanged(
                                         adminType: AdminType.words,
                                         lesson: lesson,
+                                        level: state.level,
                                       ),
                                     );
                               },

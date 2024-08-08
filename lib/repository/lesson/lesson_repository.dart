@@ -14,7 +14,7 @@ class LessonRepository extends BaseLessonRepository {
   Stream<List<LessonModel>> getLessons(String userId, String level) {
     return databaseRepository.collectionStream(
       path: "users/$userId/lessons",
-      queryBuilder: (query) => query.where("level", isEqualTo: level),
+      queryBuilder: (query) => query.where("level.id", isEqualTo: level),
       builder: (data, _) => LessonModel.fromJson(data),
     );
   }

@@ -39,6 +39,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<AdminTypeChanged>(_onTypeChanged);
     on<AdminDeleteLevelRequested>(_onDeleteLevelRequested);
     on<AdminDeleteLessonRequested>(_onDeleteLessonRequested);
+    on<AdminDeleteWordRequested>(_onDeleteWordRequested);
   }
 
   void _onInitRequested(
@@ -71,13 +72,12 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     AdminWordStreamRequested event,
     Emitter<AdminState> emit,
   ) async {
-    // emit(state.copyWith(lesson: event.lesson));
-    // await emit.forEach(
-    //     _wordRepository.getAdminWords(
-    //       level: state.level!,
-    //       lesson: state.lesson!,
-    //     ),
-    //     onData: (words) => state.copyWith(words: words));
+    await emit.forEach(
+        _wordRepository.getAdminWords(
+          level: event.level.id,
+          lesson: event.lesson.id,
+        ),
+        onData: (words) => state.copyWith(words: words));
   }
 
   void _onAddLevelSubmitted(
@@ -88,7 +88,9 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
     try {
       emit(state.copyWith(adminStatus: AdminStatus.loading));
-      await _levelRepository.adminAddLevel(event.level);
+      await _levelRepository.adminAddLevel(
+        event.level.toLowerCase(),
+      );
       emit(state.copyWith(adminStatus: AdminStatus.success));
     } catch (e) {
       emit(state.copyWith(adminStatus: AdminStatus.failed));
@@ -103,7 +105,10 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
     try {
       emit(state.copyWith(adminStatus: AdminStatus.loading));
-      await _lessonRepository.adminAddLesson(event.level, event.lesson);
+      await _lessonRepository.adminAddLesson(
+        event.level,
+        event.lesson.toLowerCase(),
+      );
 
       emit(state.copyWith(adminStatus: AdminStatus.success));
     } catch (e) {
@@ -117,8 +122,13 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   ) async {
     try {
       emit(state.copyWith(adminStatus: AdminStatus.loading));
+
       await _wordRepository.adminAddWord(
-        word: event.word,
+        level: event.level,
+        lesson: event.lesson,
+        us: event.us.toLowerCase(),
+        de: event.de.toLowerCase(),
+        es: event.es.toLowerCase(),
       );
 
       emit(state.copyWith(adminStatus: AdminStatus.success));
@@ -204,7 +214,11 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       add(AdminLessonStreamRequested(level: event.level!));
       emit(state.copyWith(level: event.level!));
     } else if (event.adminType == AdminType.words) {
-      // add(AdminWordStreamRequested(lesson: event.lessonId!));
+      add(AdminWordStreamRequested(
+        lesson: event.lesson!,
+        level: event.level!,
+      ));
+      emit(state.copyWith(lesson: event.lesson));
     }
     emit(state.copyWith(adminType: event.adminType));
   }
@@ -229,6 +243,19 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     try {
       emit(state.copyWith(adminStatus: AdminStatus.loading));
       await _lessonRepository.deleteAdminLesson(event.lesson);
+      emit(state.copyWith(adminStatus: AdminStatus.success));
+    } catch (e) {
+      emit(state.copyWith(adminStatus: AdminStatus.failed));
+    }
+  }
+
+  void _onDeleteWordRequested(
+    AdminDeleteWordRequested event,
+    Emitter<AdminState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(adminStatus: AdminStatus.loading));
+      await _wordRepository.deleteWordLesson(event.word);
       emit(state.copyWith(adminStatus: AdminStatus.success));
     } catch (e) {
       emit(state.copyWith(adminStatus: AdminStatus.failed));

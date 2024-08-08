@@ -9,6 +9,7 @@ part 'level_state.dart';
 
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
   final LevelRepository _levelRepository;
+  
 
   LevelBloc({
     required LevelRepository levelRepository,

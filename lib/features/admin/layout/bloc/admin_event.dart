@@ -24,9 +24,11 @@ class AdminLessonStreamRequested extends AdminEvent {
 }
 
 class AdminWordStreamRequested extends AdminEvent {
-  final String lesson;
+  final LevelModel level;
+  final LessonModel lesson;
 
   const AdminWordStreamRequested({
+    required this.level,
     required this.lesson,
   });
 }
@@ -50,10 +52,18 @@ class AdminAddLessonSubmitted extends AdminEvent {
 }
 
 class AdminAddWordSubmitted extends AdminEvent {
-  final WordModel word;
+  final LevelModel level;
+  final LessonModel lesson;
+  final String us;
+  final String de;
+  final String es;
 
   const AdminAddWordSubmitted({
-    required this.word,
+    required this.level,
+    required this.lesson,
+    required this.us,
+    required this.de,
+    required this.es,
   });
 }
 

@@ -1,4 +1,6 @@
 import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
+import 'package:flaapp/features/admin/layout/widget/word_list.dart';
+import 'package:flaapp/model/word.dart';
 import 'package:flaapp/values/constant/theme/colors.dart';
 import 'package:flaapp/views/widgets/buttons/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -44,15 +46,43 @@ class _AdminWordsState extends State<AdminWords> {
                             key: _formKey,
                             onChanged: () => _formKey.currentState!.save(),
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 FormBuilderTextField(
-                                  name: "level",
+                                  name: "us",
                                   validator: (val) {
                                     if (val == null || val.isEmpty) {
                                       return "This field is required";
                                     }
                                     return null;
                                   },
+                                  decoration: const InputDecoration(
+                                    hintText: "English Word",
+                                  ),
+                                ),
+                                FormBuilderTextField(
+                                  name: "de",
+                                  validator: (val) {
+                                    if (val == null || val.isEmpty) {
+                                      return "This field is required";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "German Word",
+                                  ),
+                                ),
+                                FormBuilderTextField(
+                                  name: "es",
+                                  validator: (val) {
+                                    if (val == null || val.isEmpty) {
+                                      return "This field is required";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Spanish Word",
+                                  ),
                                 ),
                               ],
                             ),
@@ -62,10 +92,15 @@ class _AdminWordsState extends State<AdminWords> {
                               label: "Add",
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
+                                  final word = _formKey.currentState?.value;
+
                                   context.read<AdminBloc>().add(
                                         AdminAddWordSubmitted(
-                                          word: _formKey
-                                              .currentState!.value["level"],
+                                          level: state.level!,
+                                          lesson: state.lesson!,
+                                          us: word!["us"],
+                                          de: word["de"],
+                                          es: word["es"],
                                         ),
                                       );
                                 }
@@ -91,8 +126,9 @@ class _AdminWordsState extends State<AdminWords> {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            Text(word.word),
                             IconButton(
                               style: IconButton.styleFrom(
                                 backgroundColor: ColorTheme.tWhiteColor,
@@ -114,8 +150,8 @@ class _AdminWordsState extends State<AdminWords> {
                                           onPressed: () {
                                             context
                                                 .read<AdminBloc>()
-                                                .add(AdminDeleteLessonRequested(
-                                                  word.word,
+                                                .add(AdminDeleteWordRequested(
+                                                  word.id,
                                                 ));
                                           },
                                           child: const Text("Yes"),
@@ -132,27 +168,7 @@ class _AdminWordsState extends State<AdminWords> {
                                 );
                               },
                             ),
-                            const SizedBox(width: 4.0),
-                            IconButton(
-                              style: IconButton.styleFrom(
-                                backgroundColor: ColorTheme.tBlueColor,
-                              ),
-                              icon: Icon(
-                                color: ColorTheme.tWhiteColor,
-                                Icons.arrow_right_alt_rounded,
-                              ),
-                              onPressed: () {
-                                // context.read<AdminBloc>().add(
-                                //       AdminTypeChanged(
-                                //           adminType: AdminType.words,
-                                //           levelId: word.id),
-                                //     );
-                              },
-                            ),
                           ],
-                        ),
-                        Center(
-                          child: Text(word.word),
                         ),
                       ],
                     ),

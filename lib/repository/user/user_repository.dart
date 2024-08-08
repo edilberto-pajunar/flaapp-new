@@ -22,13 +22,12 @@ class UserRepository extends BaseUserRepository {
 
   @override
   Future<void> addInitialLevels(String userId) async {
-    final List<LevelModel> levels = await databaseRepository
-        .collectionStream(
-            path: "levels", builder: (data, _) => LevelModel.fromJson(data))
-        .first;
+    final List<LevelModel> levels = await databaseRepository.collectionToList(
+      path: "levels",
+      builder: (data, _) => LevelModel.fromJson(data),
+    );
 
-    final List<String> docIdList =
-        levels.map((level) => level.id ?? level.label).toList();
+    final List<String> docIdList = levels.map((level) => level.id).toList();
 
     await databaseRepository.setBatchDataForDocInList(
       baseColPath: "users/$userId/levels",
@@ -48,8 +47,7 @@ class UserRepository extends BaseUserRepository {
             path: "lessons", builder: (data, _) => LessonModel.fromJson(data))
         .first;
 
-    final List<String> docIdList =
-        lessons.map((lesson) => lesson.id ?? lesson.label).toList();
+    final List<String> docIdList = lessons.map((lesson) => lesson.id).toList();
 
     await databaseRepository.setBatchDataForDocInList(
       baseColPath: "users/$userId/lessons",
@@ -69,8 +67,7 @@ class UserRepository extends BaseUserRepository {
             path: "words", builder: (data, _) => WordModel.fromJson(data))
         .first;
 
-    final List<String> docIdList =
-        words.map((word) => word.id ?? word.word).toList();
+    final List<String> docIdList = words.map((word) => word.id).toList();
 
     await databaseRepository.setBatchDataForDocInList(
       baseColPath: "users/$userId/words",

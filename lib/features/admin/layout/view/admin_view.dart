@@ -47,8 +47,13 @@ class _AdminViewState extends State<AdminView> {
               children: [
                 Container(
                   width: 240,
-                  decoration: BoxDecoration(
-                    color: ColorTheme.tBlueColor,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF3F4F6),
+                    border: Border(
+                      right: BorderSide(
+                        width: 2.0,
+                      ),
+                    ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

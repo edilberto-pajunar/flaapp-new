@@ -110,7 +110,7 @@ class LevelView extends StatelessWidget {
                                   //   ),
                                   // ),
                                   Text(
-                                    level.label,
+                                    level.label.toUpperCase(),
                                     style:
                                         theme.textTheme.headlineLarge?.copyWith(
                                       color: Colors.white,

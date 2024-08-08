@@ -51,9 +51,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         username: event.username,
       );
 
+      if (user == null) {
+        throw Exception();
+      }
+
       Future.wait([
-        _userRepository.addInitialLessons(user!.uid),
         _userRepository.addInitialLevels(user.uid),
+        _userRepository.addInitialLessons(user.uid),
         _userRepository.addInitialWords(user.uid),
       ]);
 

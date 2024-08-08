@@ -1,3 +1,5 @@
+import 'package:flaapp/model/lesson.dart';
+import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word.dart';
 
 abstract class BaseWordRepository {
@@ -13,7 +15,11 @@ abstract class BaseWordRepository {
   });
 
   Future<void> adminAddWord({
-    required WordModel word,
+    required LevelModel level,
+    required LessonModel lesson,
+    required String us,
+    required String de,
+    required String es,
   });
 
   Future<void> swipeCard({
@@ -36,4 +42,6 @@ abstract class BaseWordRepository {
     required WordModel word,
     required String userId,
   });
+
+  Future<void> deleteWordLesson(String word);
 }

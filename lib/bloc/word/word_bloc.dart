@@ -39,7 +39,9 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     on<DragPosition>(_onDragPosition);
     on<SwipeCard>(_onSwipeCard);
 
-    _wordSubscription = _databaseRepository.getWords(_authBloc.state.user!.uid, level, lesson).listen((wordList) {
+    _wordSubscription = _databaseRepository
+        .getWords(_authBloc.state.user!.uid, level, lesson)
+        .listen((wordList) {
       add(LoadUserWords(
         userId: _authBloc.state.user!.uid,
         level: level,
@@ -56,7 +58,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       if (time.isNotEmpty) {
         final parsedTime = DateTime.tryParse(time)!;
 
-        _timeSubscription = Stream.periodic(const Duration(seconds: 1), (timer) {
+        _timeSubscription =
+            Stream.periodic(const Duration(seconds: 1), (timer) {
           return DateTime.now();
         }).listen((now) async {
           final difference = parsedTime.difference(now);
@@ -64,7 +67,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
           if (parsedTime.isAfter(now)) {
             add(UpdateHome(
                 wordList: event.wordList,
-                duration: '${difference.inHours}:${difference.inMinutes % 60}:${difference.inSeconds % 60}'));
+                duration:
+                    '${difference.inHours}:${difference.inMinutes % 60}:${difference.inSeconds % 60}'));
           } else {
             add(UpdateHome(
               wordList: event.wordList,
@@ -87,10 +91,13 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     emit(
       WordLoaded(
         userWords: event.wordList,
-        boxIndex: state is WordLoading ? event.wordList.first.box : (state as WordLoaded).boxIndex,
+        boxIndex: state is WordLoading
+            ? event.wordList.first.box
+            : (state as WordLoaded).boxIndex,
         duration: event.duration,
         position: 0,
-        isFrontSide: state is WordLoading ? true : (state as WordLoaded).isFrontSide,
+        isFrontSide:
+            state is WordLoading ? true : (state as WordLoaded).isFrontSide,
       ),
     );
   }
@@ -134,7 +141,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
     if (event.wordList.length == 1 && state.boxIndex != 4) {
       emit(WordLoading());
-      await _databaseRepository.swipeCard(id, event.currentWord, event.swipeRight);
+      await _databaseRepository.swipeCard(
+          id, event.currentWord, event.swipeRight);
 
       if (event.currentWord.box == 0) {
         time = 1;
@@ -146,17 +154,24 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         time = 4;
       }
 
-      await _localRepository.setTime("${event.currentWord.level}-${event.currentWord.lesson}", time);
+      await _localRepository.setTime(
+          "${event.currentWord.level}-${event.currentWord.lesson}", time);
 
       await _databaseRepository.getWords(id, level, lesson).first.then((value) {
-        add(LoadUserWords(wordList: value, userId: id, level: level, lesson: lesson));
+        add(LoadUserWords(
+            wordList: value, userId: id, level: level, lesson: lesson));
       });
     } else {
-      await _databaseRepository.swipeCard(_authBloc.state.user!.uid, event.currentWord, event.swipeRight);
+      await _databaseRepository.swipeCard(
+          _authBloc.state.user!.uid, event.currentWord, event.swipeRight);
     }
 
     if (event.wordList.length == 1 && state.boxIndex == 3) {
-      await _databaseRepository.unlockLesson(id, event.lesson, event.currentWord.level);
+      await _databaseRepository.unlockLesson(
+        id,
+        event.lesson,
+        event.currentWord.level.id,
+      );
       emit(WordComplete());
     }
   }
