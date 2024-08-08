@@ -1,5 +1,5 @@
-import 'package:flaapp/features/admin/bloc/admin_bloc.dart';
-import 'package:flaapp/features/admin/view/admin_view.dart';
+import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
+import 'package:flaapp/features/admin/layout/view/admin_view.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';

@@ -340,22 +340,33 @@ class DatabaseRepository extends BaseDatabaseRepository {
   Future<void> updateWords() async {
     final wordList = WordModel.wordList;
 
-    for (WordModel word in wordList) {
-      Future.wait([
-        _firebaseFirestore.collection(tWordPath).doc(word.word).set(
-            word.copyWith(id: word.word).toJson(), SetOptions(merge: true)),
-        _firebaseFirestore.collection(tLevelPath).doc(word.level).set({
-          "id": word.level,
-          "label": word.level,
-          "locked": wordList.indexOf(word) == 0 ? false : true,
-        }, SetOptions(merge: true)),
-        _firebaseFirestore.collection(tLessonPath).doc(word.lesson).set({
-          "id": word.lesson,
-          "label": word.lesson,
-          "level": word.level,
-          "locked": wordList.indexOf(word) == 0 ? false : true,
-        }, SetOptions(merge: true)),
-      ]).then((value) => log("Succesful!"));
+    try {
+      for (WordModel word in wordList) {
+        setData(
+          path: "$tWordPath/${word.word}",
+          data: word.copyWith(id: word.word).toJson(),
+          merge: true,
+        );
+        // _firebaseFirestore.collection(tWordPath).doc(word.word).set(
+        //       word.copyWith(id: word.word).toJson(),
+        //       SetOptions(merge: true),
+        //     );
+
+        // _firebaseFirestore.collection(tLevelPath).doc(word.level).set({
+        //   "id": word.level,
+        //   "label": word.level,
+        //   "locked": wordList.indexOf(word) == 0 ? false : true,
+        // }, SetOptions(merge: true)),
+
+        // _firebaseFirestore.collection(tLessonPath).doc(word.lesson).set({
+        //   "id": word.lesson,
+        //   "label": word.lesson,
+        //   "level": word.level,
+        //   "locked": wordList.indexOf(word) == 0 ? false : true,
+        // }, SetOptions(merge: true)),
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -418,5 +429,23 @@ class DatabaseRepository extends BaseDatabaseRepository {
         .then(
           (value) => log("Succesful!"),
         );
+  }
+
+  @override
+  Future<void> deleteData({
+    required String collection,
+    required String doc,
+  }) async {
+    _firebaseFirestore.collection(collection).doc(doc).delete();
+  }
+
+  @override
+  Future<int> getCount({
+    required String path,
+  }) async {
+    return await _firebaseFirestore
+        .collection(path)
+        .get()
+        .then((value) => value.size);
   }
 }

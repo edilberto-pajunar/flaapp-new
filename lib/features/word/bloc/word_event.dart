@@ -88,3 +88,13 @@ final class WordFailedTriggered extends WordEvent {
     required this.error,
   });
 }
+
+final class WordSpeakRequested extends WordEvent {
+  final String frontWord;
+  final String backWord;
+
+  const WordSpeakRequested({
+    required this.frontWord,
+    required this.backWord,
+  });
+}

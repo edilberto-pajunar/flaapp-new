@@ -36,6 +36,9 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<AdminAddWordSubmitted>(_onAddWordSubmitted);
     on<AdminTranslateWordRequested>(_onTranslateWordRequested);
     on<AdminWordChanged>(_onWordChanged);
+    on<AdminTypeChanged>(_onTypeChanged);
+    on<AdminDeleteLevelRequested>(_onDeleteLevelRequested);
+    on<AdminDeleteLessonRequested>(_onDeleteLessonRequested);
   }
 
   void _onInitRequested(
@@ -43,7 +46,6 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     Emitter<AdminState> emit,
   ) async {
     add(const AdminLevelStreamRequested());
-    // add(const AdminLessonStreamRequested());
     // add(const AdminWordStreamRequested());
   }
 
@@ -59,45 +61,70 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     AdminLessonStreamRequested event,
     Emitter<AdminState> emit,
   ) async {
-    emit(state.copyWith(level: event.level));
-    await emit.forEach(_lessonRepository.getAdminLessons(state.level!),
-        onData: (lessons) => state.copyWith(lessons: lessons));
+    await emit.forEach(_lessonRepository.getAdminLessons(event.level.id),
+        onData: (lessons) => state.copyWith(
+              lessons: lessons,
+            ));
   }
 
   void _onAdminWordStreamRequested(
     AdminWordStreamRequested event,
     Emitter<AdminState> emit,
   ) async {
-    emit(state.copyWith(lesson: event.lesson));
-    await emit.forEach(
-        _wordRepository.getAdminWords(
-          level: state.level!,
-          lesson: state.lesson!,
-        ),
-        onData: (words) => state.copyWith(words: words));
+    // emit(state.copyWith(lesson: event.lesson));
+    // await emit.forEach(
+    //     _wordRepository.getAdminWords(
+    //       level: state.level!,
+    //       lesson: state.lesson!,
+    //     ),
+    //     onData: (words) => state.copyWith(words: words));
   }
 
   void _onAddLevelSubmitted(
     AdminAddLevelSubmitted event,
     Emitter<AdminState> emit,
   ) async {
-    await _levelRepository.adminAddLevel(event.level);
+    if (event.level.isEmpty) return;
+
+    try {
+      emit(state.copyWith(adminStatus: AdminStatus.loading));
+      await _levelRepository.adminAddLevel(event.level);
+      emit(state.copyWith(adminStatus: AdminStatus.success));
+    } catch (e) {
+      emit(state.copyWith(adminStatus: AdminStatus.failed));
+    }
   }
 
   void _onAddLessonSubmitted(
     AdminAddLessonSubmitted event,
     Emitter<AdminState> emit,
   ) async {
-    await _lessonRepository.adminAddLesson(state.level!, event.lesson);
+    if (state.level == null || event.lesson.isEmpty) return;
+
+    try {
+      emit(state.copyWith(adminStatus: AdminStatus.loading));
+      await _lessonRepository.adminAddLesson(event.level, event.lesson);
+
+      emit(state.copyWith(adminStatus: AdminStatus.success));
+    } catch (e) {
+      emit(state.copyWith(adminStatus: AdminStatus.failed));
+    }
   }
 
   void _onAddWordSubmitted(
     AdminAddWordSubmitted event,
     Emitter<AdminState> emit,
   ) async {
-    await _wordRepository.adminAddWord(
-      word: event.word,
-    );
+    try {
+      emit(state.copyWith(adminStatus: AdminStatus.loading));
+      await _wordRepository.adminAddWord(
+        word: event.word,
+      );
+
+      emit(state.copyWith(adminStatus: AdminStatus.success));
+    } catch (e) {
+      emit(state.copyWith(adminStatus: AdminStatus.failed));
+    }
   }
 
   void _onTranslateWordRequested(
@@ -168,4 +195,43 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   //     lesson: event.lesson,
   //   ));
   // }
+
+  void _onTypeChanged(
+    AdminTypeChanged event,
+    Emitter<AdminState> emit,
+  ) {
+    if (event.adminType == AdminType.lessons) {
+      add(AdminLessonStreamRequested(level: event.level!));
+      emit(state.copyWith(level: event.level!));
+    } else if (event.adminType == AdminType.words) {
+      // add(AdminWordStreamRequested(lesson: event.lessonId!));
+    }
+    emit(state.copyWith(adminType: event.adminType));
+  }
+
+  void _onDeleteLevelRequested(
+    AdminDeleteLevelRequested event,
+    Emitter<AdminState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(adminStatus: AdminStatus.loading));
+      await _levelRepository.deleteAdminLevel(event.level);
+      emit(state.copyWith(adminStatus: AdminStatus.success));
+    } catch (e) {
+      emit(state.copyWith(adminStatus: AdminStatus.failed));
+    }
+  }
+
+  void _onDeleteLessonRequested(
+    AdminDeleteLessonRequested event,
+    Emitter<AdminState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(adminStatus: AdminStatus.loading));
+      await _lessonRepository.deleteAdminLesson(event.lesson);
+      emit(state.copyWith(adminStatus: AdminStatus.success));
+    } catch (e) {
+      emit(state.copyWith(adminStatus: AdminStatus.failed));
+    }
+  }
 }

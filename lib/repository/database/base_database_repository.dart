@@ -63,4 +63,11 @@ abstract class BaseDatabaseRepository {
   Future<void> addLevel(LevelModel level);
   Future<void> addLesson(LessonModel lesson);
   Future<void> addWord(WordModel word);
+
+  Future<void> deleteData({
+    required String collection,
+    required String doc,
+  });
+
+  Future<int> getCount({required String path});
 }

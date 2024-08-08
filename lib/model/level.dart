@@ -1,12 +1,18 @@
-class LevelModel {
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'level.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class LevelModel extends Equatable {
   final String label;
   final bool locked;
-  final String? id;
+  final String id;
 
-  LevelModel({
+  const LevelModel({
     required this.label,
     this.locked = true,
-    this.id,
+    required this.id,
   });
 
   LevelModel copyWith({
@@ -20,15 +26,15 @@ class LevelModel {
         id: id ?? this.id,
       );
 
-  factory LevelModel.fromJson(Map<String, dynamic> json) => LevelModel(
-        label: json["label"],
-        locked: json["locked"],
-        id: json["id"],
-      );
+  factory LevelModel.fromJson(Map<String, dynamic> json) =>
+      _$LevelModelFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "label": label,
-        "locked": locked,
-        "id": id,
-      };
+  Map<String, dynamic> toJson() => _$LevelModelToJson(this);
+
+  @override
+  List<Object?> get props => [
+        label,
+        locked,
+        id,
+      ];
 }

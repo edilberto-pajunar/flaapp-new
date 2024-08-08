@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/level/base_level_repository.dart';
+import 'package:flaapp/values/constant/strings/constant.dart';
 
 class LevelRepository extends BaseLevelRepository {
   final DatabaseRepository databaseRepository;
@@ -32,15 +34,24 @@ class LevelRepository extends BaseLevelRepository {
 
   @override
   Future<void> adminAddLevel(String level) async {
+    final int length = await databaseRepository.getCount(path: "levels");
+    final id = length.toString().padLeft(4, "0");
+
     final LevelModel levelModel = LevelModel(
       label: level,
-      id: level,
+      id: id,
       locked: true,
     );
 
     await databaseRepository.setData(
-      path: "levels",
+      path: "$tLevelPath/$id",
       data: levelModel.toJson(),
+      merge: true,
     );
+  }
+
+  @override
+  Future<void> deleteAdminLevel(String level) async {
+    await databaseRepository.deleteData(collection: "levels", doc: level);
   }
 }

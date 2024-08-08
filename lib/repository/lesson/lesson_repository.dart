@@ -1,4 +1,5 @@
 import 'package:flaapp/model/lesson.dart';
+import 'package:flaapp/model/level.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/lesson/base_lesson_repository.dart';
 
@@ -20,8 +21,6 @@ class LessonRepository extends BaseLessonRepository {
 
   @override
   Future<void> unlockLesson(String userId, LessonModel lesson) async {
-    print("Lesson: ${lesson.toJson()}");
-
     await databaseRepository.setData(
       path: "users/$userId/lessons/${lesson.label}",
       data: lesson.copyWith(locked: false).toJson(),
@@ -32,23 +31,31 @@ class LessonRepository extends BaseLessonRepository {
   Stream<List<LessonModel>> getAdminLessons(String level) {
     return databaseRepository.collectionStream(
       path: "lessons",
-      queryBuilder: (query) => query.where("level", isEqualTo: level),
+      queryBuilder: (query) => query.where("level.id", isEqualTo: level),
       builder: (data, _) => LessonModel.fromJson(data),
     );
   }
 
   @override
-  Future<void> adminAddLesson(String level, String lesson) async {
+  Future<void> adminAddLesson(LevelModel level, String lesson) async {
+    final int length = await databaseRepository.getCount(path: "lessons");
+    final id = length.toString().padLeft(4, "0");
+
     final LessonModel lessonModel = LessonModel(
       label: lesson,
       level: level,
-      id: lesson,
+      id: id,
       locked: true,
     );
 
     await databaseRepository.setData(
-      path: "lessons",
+      path: "lessons/$id",
       data: lessonModel.toJson(),
     );
+  }
+
+  @override
+  Future<void> deleteAdminLesson(String lesson) async {
+    await databaseRepository.deleteData(collection: "lessons", doc: lesson);
   }
 }

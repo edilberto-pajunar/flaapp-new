@@ -46,7 +46,6 @@ class WordView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          print(state.lockedStatus);
           if (state.wordLoadingStatus == WordLoadingStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(),

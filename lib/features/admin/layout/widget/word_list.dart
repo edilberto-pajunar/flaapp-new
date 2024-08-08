@@ -1,4 +1,4 @@
-import 'package:flaapp/features/admin/bloc/admin_bloc.dart';
+import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
 import 'package:flutter/material.dart';
 
 class WordList extends StatelessWidget {
@@ -27,9 +27,9 @@ class WordList extends StatelessWidget {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text(translation),
-                    ),
+                    // Expanded(
+                    //   child: Text(translation),
+                    // ),
                     if (state.words[index].translations.indexOf(translation) ==
                         0)
                       const Text("German"),

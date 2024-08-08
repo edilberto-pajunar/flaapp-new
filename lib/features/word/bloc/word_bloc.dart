@@ -7,6 +7,7 @@ import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/word/word_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 part 'word_event.dart';
 part 'word_state.dart';
@@ -30,6 +31,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     on<WordTimerInitRequested>(_onTimerInitRequested);
     on<WordCompleteTriggered>(_onCompleteTriggered);
     on<WordFailedTriggered>(_onFailedTriggered);
+    on<WordSpeakRequested>(_onSpeakRequested);
   }
 
   void _onInitRequested(
@@ -191,7 +193,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         word: state.words[0],
       ),
       onData: (remainingSecond) {
-        print(remainingSecond);
         if (remainingSecond != null && remainingSecond > 0) {
           return state.copyWith(
             lockedTime: remainingSecond,
@@ -232,5 +233,33 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       wordLoadingStatus: WordLoadingStatus.failed,
       error: event.error,
     ));
+  }
+
+  FutureOr<void> _onSpeakRequested(
+    WordSpeakRequested event,
+    Emitter<WordState> emit,
+  ) async {
+    final FlutterTts flutterTts = FlutterTts();
+
+    // 16 : us
+    // 40 : de
+    // 46 : es
+    final List languages = await flutterTts.getLanguages;
+
+    try {
+      final isAvailable = await flutterTts.isLanguageAvailable("de");
+      if (isAvailable) {
+        await flutterTts.setLanguage(languages[16]);
+        await flutterTts.speak(
+          state.frontVisible ? event.frontWord : event.backWord,
+        );
+      }
+      emit(state.copyWith(wordLoadingStatus: WordLoadingStatus.success));
+    } catch (e) {
+      emit(state.copyWith(
+        error: e.toString(),
+        wordLoadingStatus: WordLoadingStatus.failed,
+      ));
+    }
   }
 }

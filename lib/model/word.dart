@@ -1,18 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flaapp/model/translation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'word.g.dart';
+
+DateTime? timestampToDate(Timestamp timestamp) => timestamp.toDate();
+
+Timestamp? dateToTimestamp(DateTime? date) =>
+    date == null ? null : Timestamp.fromDate(date);
+
+@JsonSerializable(explicitToJson: true)
 class WordModel extends Equatable {
-  final String? id;
+  final String id;
   final String word;
   final int box;
-  final List<String> translations;
+  final List<Translation> translations;
   final String level;
   final String lesson;
-  final DateTime updateTime;
+  @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)
+  final DateTime? updateTime;
+  @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)
   final DateTime? lockedTime;
 
   const WordModel({
-    this.id,
+    required this.id,
     required this.word,
     this.box = 0,
     required this.translations,
@@ -26,7 +38,7 @@ class WordModel extends Equatable {
     String? id,
     String? word,
     int? box,
-    List<String>? translations,
+    List<Translation>? translations,
     String? level,
     String? lesson,
     DateTime? updateTime,
@@ -43,28 +55,10 @@ class WordModel extends Equatable {
         lockedTime: lockedTime ?? this.lockedTime,
       );
 
-  factory WordModel.fromJson(Map<String, dynamic> json) => WordModel(
-        id: json["id"],
-        word: json["word"],
-        box: json["box"],
-        translations: List<String>.from(json["translations"].map((x) => x)),
-        level: json["level"],
-        lesson: json["lesson"],
-        updateTime: (json["updateTime"] as Timestamp).toDate(),
-        lockedTime: (json["lockedTime"] as Timestamp?)?.toDate(),
-      );
+  factory WordModel.fromJson(Map<String, dynamic> json) =>
+      _$WordModelFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "word": word,
-        "box": box,
-        "translations": List<dynamic>.from(translations.map((x) => x)),
-        "level": level,
-        "lesson": lesson,
-        "updateTime": Timestamp.fromDate(updateTime),
-        "lockedTime":
-            lockedTime == null ? null : Timestamp.fromDate(lockedTime!),
-      };
+  Map<String, dynamic> toJson() => _$WordModelToJson(this);
 
   Duration? getLockedDuration(DateTime now) {
     if (lockedTime == null) return null;
@@ -85,352 +79,296 @@ class WordModel extends Equatable {
       ];
 
   static List<WordModel> wordList = [
-    // GREETINGS AND FAREWELLS
+    // COUNTRY
     WordModel(
-      word: "Hello",
-      translations: const ["Hallo", "Hello", "Hola"],
-      level: "A1",
-      lesson: "Greetings and Farewells",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Thank you",
-      translations: const ["Danke", "Thank you", "Gracias"],
-      level: "A1",
-      lesson: "Greetings and Farewells",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Please",
-      translations: const ["Bitte", "Please", "Por favor"],
-      level: "A1",
-      lesson: "Greetings and Farewells",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Goodbye",
-      translations: const ["Tschuss", "Goodbye", "Adios"],
-      level: "A1",
-      lesson: "Greetings and Farewells",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Come",
-      translations: const ["kommen", "Come", "Venir"],
-      level: "A1",
-      lesson: "Greetings and Farewells",
-      updateTime: DateTime.now(),
-    ),
-    // PERSONAL INFORMATION
-    WordModel(
-      word: "Gender",
-      translations: const ["Geschlect", "Gender", "Genero"],
-      level: "A1",
-      lesson: "Personal Information",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Address",
-      translations: const ["Adresse", "Address", "Direccion"],
-      level: "A1",
-      lesson: "Personal Information",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "House number",
-      translations: const ["Hausenummer", "House number", "Numero de casa"],
-      level: "A1",
-      lesson: "Personal Information",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Telephone number",
+      id: "word_country",
+      word: "Country",
       translations: const [
-        "Telefonnumer",
-        "Telephone number",
-        "Numero de telefono"
+        Translation(word: "Land", language: "German"),
+        Translation(word: "Country", language: "English"),
+        Translation(word: "País", language: "Spanish"),
       ],
       level: "A1",
-      lesson: "Personal Information",
+      lesson: "Countries",
       updateTime: DateTime.now(),
     ),
     WordModel(
-      word: "Mobile phone number",
+      id: "england",
+      word: "England",
       translations: const [
-        "Handynummer",
-        "Mobile phone number",
-        "Numero de telefono movil"
+        Translation(word: "England", language: "German"),
+        Translation(word: "England", language: "English"),
+        Translation(word: "Inglaterra", language: "Spanish"),
       ],
       level: "A1",
-      lesson: "Personal Information",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Telephone number",
-      translations: const ["Mobilnummer", "Mobile number", "Numero movil"],
-      level: "A1",
-      lesson: "Personal Information",
-      updateTime: DateTime.now(),
-    ),
-    // NUMBERS
-    WordModel(
-      word: "Zero",
-      translations: const ["Null", "Zero", "Cero"],
-      level: "A1",
-      lesson: "Numbers",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "One",
-      translations: const ["Eins", "One", "Uno"],
-      level: "A1",
-      lesson: "Numbers",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Two",
-      translations: const ["Zwei", "Two", "Dos"],
-      level: "A1",
-      lesson: "Numbers",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Three",
-      translations: const ["Drei", "Three", "Tres"],
-      level: "A1",
-      lesson: "Numbers",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Four",
-      translations: const ["Vier", "Four", "Cuatro"],
-      level: "A1",
-      lesson: "Numbers",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Five",
-      translations: const ["Fünf", "Five", "Cinco"],
-      level: "A1",
-      lesson: "Numbers",
-      updateTime: DateTime.now(),
-    ),
-    // COUNTRIES
-    WordModel(
-      word: "Germany",
-      translations: const ["Deutschland", "Germany", "Alemania"],
-      level: "A1",
       lesson: "Countries",
       updateTime: DateTime.now(),
     ),
     WordModel(
-      word: "France",
-      translations: const ["Frankreich", "France", "Francia"],
-      level: "A1",
-      lesson: "Countries",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Spain",
-      translations: const ["Spanien", "Spain", "España"],
-      level: "A1",
-      lesson: "Countries",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Italy",
-      translations: const ["Italien", "Italy", "Italia"],
-      level: "A1",
-      lesson: "Countries",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
+      id: "united_kingdom",
       word: "United Kingdom",
-      translations: const ["Großbritannien", "United Kingdom", "Reino Unido"],
+      translations: const [
+        Translation(word: "Großbritannien", language: "German"),
+        Translation(word: "United Kingdom", language: "English"),
+        Translation(word: "Reino Unido", language: "Spanish"),
+      ],
       level: "A1",
       lesson: "Countries",
       updateTime: DateTime.now(),
     ),
-
+    // CLOTHING
     WordModel(
+      id: "clothing",
       word: "Clothing",
-      translations: const ["Kleidung ", "Clothing", "Ropa"],
+      translations: const [
+        Translation(word: "Kleidung", language: "German"),
+        Translation(word: "Clothing", language: "English"),
+        Translation(word: "Ropa", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Clothing",
       updateTime: DateTime.now(),
     ),
     WordModel(
-      word: "Clothing",
-      translations: const ["Hemd ", "Shirt", "Camisa"],
+      id: "shirt",
+      word: "Shirt",
+      translations: const [
+        Translation(word: "Hemd", language: "German"),
+        Translation(word: "Shirt", language: "English"),
+        Translation(word: "Camisa", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Clothing",
       updateTime: DateTime.now(),
     ),
     WordModel(
-      word: "Clothing",
-      translations: const ["Bluse ", "Blouse", "Blusa"],
+      id: "blouse",
+      word: "Blouse",
+      translations: const [
+        Translation(word: "Bluse", language: "German"),
+        Translation(word: "Blouse", language: "English"),
+        Translation(word: "Blusa", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Clothing",
       updateTime: DateTime.now(),
     ),
     WordModel(
-      word: "Clothing",
-      translations: const ["T-Shirt ", "T-shirt", "Camiseta"],
+      id: "t_shirt",
+      word: "T-shirt",
+      translations: const [
+        Translation(word: "T-Shirt", language: "German"),
+        Translation(word: "T-shirt", language: "English"),
+        Translation(word: "Camiseta", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Clothing",
       updateTime: DateTime.now(),
     ),
     WordModel(
-      word: "Clothing",
-      translations: const ["Pullover ", "Sweater", "Suéter"],
+      id: "sweater",
+      word: "Sweater",
+      translations: const [
+        Translation(word: "Pullover", language: "German"),
+        Translation(word: "Sweater", language: "English"),
+        Translation(word: "Suéter", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Clothing",
       updateTime: DateTime.now(),
     ),
-
+    // FESTIVAL
     WordModel(
+      id: "festival",
       word: "Festival",
-      translations: const ["Fest", "Festival", "Festival"],
+      translations: const [
+        Translation(word: "Fest", language: "German"),
+        Translation(word: "Festival", language: "English"),
+        Translation(word: "Festival", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Festival",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "birthday",
       word: "Birthday",
-      translations: const ["Geburtstag", "Birthday", "Cumpleaños"],
+      translations: const [
+        Translation(word: "Geburtstag", language: "German"),
+        Translation(word: "Birthday", language: "English"),
+        Translation(word: "Cumpleaños", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Festival",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "christmas",
       word: "Christmas",
-      translations: const ["Weihnachten", "Christmas", "Navidad"],
+      translations: const [
+        Translation(word: "Weihnachten", language: "German"),
+        Translation(word: "Christmas", language: "English"),
+        Translation(word: "Navidad", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Festival",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "easter",
       word: "Easter",
-      translations: const ["Ostern", "Easter", "Pascua"],
+      translations: const [
+        Translation(word: "Ostern", language: "German"),
+        Translation(word: "Easter", language: "English"),
+        Translation(word: "Pascua", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Festival",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "new_years_eve",
       word: "New Year's Eve",
-      translations: const ["Silvester", "New Year's Eve", "Nochevieja"],
+      translations: const [
+        Translation(word: "Silvester", language: "German"),
+        Translation(word: "New Year's Eve", language: "English"),
+        Translation(word: "Nochevieja", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Festival",
       updateTime: DateTime.now(),
     ),
-
+    // GIFT
     WordModel(
+      id: "gift",
       word: "Gift",
-      translations: const ["Geschenk", "Gift", "Regalo"],
-      level: "A2 ",
+      translations: const [
+        Translation(word: "Geschenk", language: "German"),
+        Translation(word: "Gift", language: "English"),
+        Translation(word: "Regalo", language: "Spanish"),
+      ],
+      level: "A2",
       lesson: "Gift",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "to_give",
       word: "to give",
-      translations: const ["schenken", "to give", "regalar"],
+      translations: const [
+        Translation(word: "schenken", language: "German"),
+        Translation(word: "to give", language: "English"),
+        Translation(word: "regalar", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Gift",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "to_receive",
       word: "to receive",
-      translations: const ["bekommen", "to receive", "recibir"],
+      translations: const [
+        Translation(word: "bekommen", language: "German"),
+        Translation(word: "to receive", language: "English"),
+        Translation(word: "recibir", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Gift",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "surprise",
       word: "Surprise",
-      translations: const ["Überraschung", "Surprise", "Sorpresa"],
+      translations: const [
+        Translation(word: "Überraschung", language: "German"),
+        Translation(word: "Surprise", language: "English"),
+        Translation(word: "Sorpresa", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Gift",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "birthday_present",
       word: "Birthday present",
       translations: const [
-        "Geburtstagsgeschenk",
-        "Birthday present",
-        "Regalo de cumpleaños"
+        Translation(word: "Geburtstagsgeschenk", language: "German"),
+        Translation(word: "Birthday present", language: "English"),
+        Translation(word: "Regalo de cumpleaños", language: "Spanish"),
       ],
       level: "A2",
       lesson: "Gift",
       updateTime: DateTime.now(),
     ),
-
+    // FRIEND
     WordModel(
+      id: "friend",
       word: "Friend",
-      translations: const ["Freund", "Friend", "Amigo"],
+      translations: const [
+        Translation(word: "Freund", language: "German"),
+        Translation(word: "Friend", language: "English"),
+        Translation(word: "Amigo", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Friend",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "girlfriend",
       word: "Girlfriend",
-      translations: const ["Freundin", "Girlfriend", "Amiga"],
+      translations: const [
+        Translation(word: "Freundin", language: "German"),
+        Translation(word: "Girlfriend", language: "English"),
+        Translation(word: "Amiga", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Friend",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "acquaintance",
       word: "Acquaintance",
-      translations: const ["Bekannte", "Acquaintance", "Conocido"],
+      translations: const [
+        Translation(word: "Bekannte", language: "German"),
+        Translation(word: "Acquaintance", language: "English"),
+        Translation(word: "Conocido", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Friend",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "pal",
       word: "Pal",
-      translations: const ["Kumpel", "Pal", "Compañero"],
+      translations: const [
+        Translation(word: "Kumpel", language: "German"),
+        Translation(word: "Pal", language: "English"),
+        Translation(word: "Compañero", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Friend",
       updateTime: DateTime.now(),
     ),
     WordModel(
+      id: "pal_female",
       word: "Pal",
-      translations: const ["Kumpeline", "Pal", "Compañera"],
+      translations: const [
+        Translation(word: "Kumpeline", language: "German"),
+        Translation(word: "Pal", language: "English"),
+        Translation(word: "Compañera", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Friend",
       updateTime: DateTime.now(),
     ),
-
+    // SON
     WordModel(
-      word: "Parents",
-      translations: const ["Eltern", "Parents", "Padres"],
-      level: "A2",
-      lesson: "Parents",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Grandparents",
-      translations: const ["Großeltern", "Grandparents", "Abuelos"],
-      level: "A2",
-      lesson: "Parents",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Children",
-      translations: const ["Kinder", "Children", "Hijos"],
-      level: "A2",
-      lesson: "Parents",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
-      word: "Siblings",
-      translations: const ["Geschwister", "Siblings", "Hermanos"],
-      level: "A2",
-      lesson: "Parents",
-      updateTime: DateTime.now(),
-    ),
-    WordModel(
+      id: "son",
       word: "Son",
-      translations: const ["Sohn", "Son", "Hijo"],
+      translations: const [
+        Translation(word: "Sohn", language: "German"),
+        Translation(word: "Son", language: "English"),
+        Translation(word: "Hijo", language: "Spanish"),
+      ],
       level: "A2",
       lesson: "Parents",
       updateTime: DateTime.now(),

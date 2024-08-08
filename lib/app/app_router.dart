@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flaapp/features/admin/view/admin_page.dart';
+import 'package:flaapp/features/admin/layout/view/admin_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
 import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
@@ -67,8 +67,6 @@ class AppRouter {
       redirect: (context, state) async {
         final currentUser = await authRepository.user.first;
 
-        print(state.matchedLocation);
-
         final isLoggedIn = currentUser != null;
         final loggingIn = state.matchedLocation.startsWith("/login");
 
@@ -91,22 +89,6 @@ class AppRouter {
           }
           return "/";
         }
-
-        // if (!isLoggedIn) {
-        //   if (loggingIn) {
-        //     return null;
-        //   } else {
-        //     return "/login";
-        //   }
-        // }
-
-        // if (loggingIn) {
-        //   if (isAdmin) {
-        //     return "/admin";
-        //   } else {
-        //     return "/";
-        //   }
-        // }
 
         return null;
       },
