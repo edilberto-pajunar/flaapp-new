@@ -415,7 +415,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
   Future<void> addLesson(LessonModel lesson) async {
     await _firebaseFirestore
         .collection(tLessonPath)
-        .doc(lesson.label)
+        .doc(lesson.id)
         .set(lesson.toJson(), SetOptions(merge: true))
         .then((value) => log("Successful!"));
   }

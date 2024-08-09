@@ -31,8 +31,8 @@ class WordPage extends StatelessWidget {
           create: (context) => WordBloc(
             wordRepository: context.read<WordRepository>(),
             lessonRepository: context.read<LessonRepository>(),
+            currentUser: context.read<AppBloc>().state.currentUser!,
           )..add(WordInitRequested(
-              user: context.read<AppBloc>().state.currentUser!,
               level: level.id,
               lesson: lesson.id,
             )),
@@ -41,7 +41,9 @@ class WordPage extends StatelessWidget {
           value: lessonBloc,
         ),
       ],
-      child: WordView(lesson: lesson),
+      child: WordView(
+        lesson: lesson,
+      ),
     );
   }
 }

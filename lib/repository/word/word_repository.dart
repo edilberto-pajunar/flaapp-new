@@ -38,11 +38,13 @@ class WordRepository extends BaseWordRepository {
     required bool swipedRight,
     required String userId,
   }) async {
+    final updatedBox = word.box + 1;
+
     await databaseRepository.setData(
-      path: "users/$userId/words/${word.word}",
+      path: "users/$userId/words/${word.id}",
       data: word
           .copyWith(
-            box: swipedRight ? word.box + 1 : word.box,
+            box: swipedRight ? updatedBox : word.box,
             updateTime: DateTime.now(),
           )
           .toJson(),
@@ -68,7 +70,7 @@ class WordRepository extends BaseWordRepository {
     }
 
     await databaseRepository.setData(
-      path: "users/$userId/words/${word.word}",
+      path: "users/$userId/words/${word.id}",
       data: word
           .copyWith(
             lockedTime: date,
@@ -104,7 +106,7 @@ class WordRepository extends BaseWordRepository {
     required String userId,
   }) async {
     await databaseRepository.setData(
-      path: "users/$userId/words/${word.word}",
+      path: "users/$userId/words/${word.id}",
       data: word
           .copyWith(
             lockedTime: null,

@@ -35,7 +35,6 @@ class WordView extends StatelessWidget {
         listener: (context, state) {
           if (state.lockedStatus == LockedStatus.locked) {
             context.read<WordBloc>().add(WordTimerInitRequested(
-                  user: context.read<AppBloc>().state.currentUser!,
                   words: state.words,
                 ));
           }
@@ -64,9 +63,7 @@ class WordView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    BoxCard(
-                      state: state,
-                    ),
+                    const BoxCard(),
                     const SizedBox(height: 24.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,37 +113,32 @@ class WordView extends StatelessWidget {
                         : Draggable(
                             feedback: FlashCard(
                               word: words[0],
-                              state: state,
+                              wordBloc: context.read<WordBloc>(),
                             ),
-                            // onDragUpdate: (details) {
-                            //   context
-                            //       .read<WordBloc>()
-                            //       .add(WordCardUpdateDragged(details: details));
-                            // },
-                            // onDragEnd: (details) {
-                            //   context.read<WordBloc>().add(WordCardEndDragged(
-                            //         details: details,
-                            //         word: words[0],
-                            //         user: context
-                            //             .read<AppBloc>()
-                            //             .state
-                            //             .currentUser!,
-                            //       ));
+                            onDragUpdate: (details) {
+                              context
+                                  .read<WordBloc>()
+                                  .add(WordCardUpdateDragged(details: details));
+                            },
+                            onDragEnd: (details) {
+                              context.read<WordBloc>().add(WordCardEndDragged(
+                                    details: details,
+                                    word: words[0],
+                                  ));
 
-                            //   unlockLesson(context, words);
-                            // },
-                            // childWhenDragging: words.length > 1
-                            //     ? FlashCard(
-                            //         word: words[1],
-                            //         state: state,
-                            //       )
-                            //     : Container(),
+                              unlockLesson(context, words);
+                            },
+                            childWhenDragging: words.length > 1
+                                ? FlashCard(
+                                    word: words[1],
+                                    wordBloc: context.read<WordBloc>(),
+                                  )
+                                : Container(),
                             child: FlashCard(
                               word: words[0],
-                              state: state,
+                              wordBloc: context.read<WordBloc>(),
                             ),
                           ),
-                    const SizedBox(height: 12.0),
                   ],
                 ),
               ),

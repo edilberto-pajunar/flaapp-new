@@ -22,7 +22,7 @@ class LessonRepository extends BaseLessonRepository {
   @override
   Future<void> unlockLesson(String userId, LessonModel lesson) async {
     await databaseRepository.setData(
-      path: "users/$userId/lessons/${lesson.label}",
+      path: "users/$userId/lessons/${lesson.id}",
       data: lesson.copyWith(locked: false).toJson(),
     );
   }

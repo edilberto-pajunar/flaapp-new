@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flaapp/model/user.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/word/word_repository.dart';
@@ -14,12 +15,15 @@ part 'word_state.dart';
 
 class WordBloc extends Bloc<WordEvent, WordState> {
   final WordRepository _wordRepository;
+  final User _currentUser;
   StreamSubscription<int?>? timer;
 
   WordBloc({
     required WordRepository wordRepository,
     required LessonRepository lessonRepository,
+    required User currentUser,
   })  : _wordRepository = wordRepository,
+        _currentUser = currentUser,
         super(const WordState()) {
     on<WordInitRequested>(_onInitRequested);
     on<WordLoadedRequested>(_onLoadedRequested);
@@ -39,7 +43,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     Emitter<WordState> emit,
   ) async {
     add(WordLoadedRequested(
-      user: event.user,
       level: event.level,
       lesson: event.lesson,
     ));
@@ -56,7 +59,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     try {
       await emit.forEach(
         _wordRepository.getWords(
-          userId: event.user.uid,
+          userId: _currentUser.uid,
           level: event.level,
           lesson: event.lesson,
         ),
@@ -94,7 +97,9 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     WordFlipCardTapped event,
     Emitter<WordState> emit,
   ) {
-    emit(state.copyWith(frontVisible: !state.frontVisible));
+    emit(state.copyWith(
+      frontVisible: !state.frontVisible,
+    ));
   }
 
   void _onCardUpdateDragged(
@@ -122,7 +127,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       if (event.details.offset.dx > 100 && event.word.box != 4) {
         if (currentWords.length == 1) {
           add(WordBoxTapped(boxIndex: state.boxIndex + 1));
-          add(WordLockedCardTriggered(user: event.user));
+          add(const WordLockedCardTriggered());
         }
 
         if (currentWords.length == 1 && event.word.box == 3) {
@@ -132,13 +137,13 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         await _wordRepository.swipeCard(
           word: event.word,
           swipedRight: true,
-          userId: event.user.uid,
+          userId: _currentUser.uid,
         );
       } else if (event.details.offset.dx < -100 || event.word.box == 4) {
         await _wordRepository.swipeCard(
           word: event.word,
           swipedRight: false,
-          userId: event.user.uid,
+          userId: _currentUser.uid,
         );
       }
 
@@ -171,7 +176,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     try {
       await _wordRepository.lockCard(
         word: currentWords[0],
-        userId: event.user.uid,
+        userId: _currentUser.uid,
       );
 
       emit(state.copyWith(
@@ -189,7 +194,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
   ) async {
     await emit.forEach(
       _wordRepository.lockCardStream(
-        userId: event.user.uid,
+        userId: _currentUser.uid,
         word: state.words[0],
       ),
       onData: (remainingSecond) {
