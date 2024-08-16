@@ -1,5 +1,7 @@
 import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
 import 'package:flaapp/features/admin/layout/features/words/view/admin_words_view.dart';
+import 'package:flaapp/model/lesson.dart';
+import 'package:flaapp/model/level.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/level/level_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';
@@ -10,13 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AdminWordsPage extends StatelessWidget {
   static const route = "/admin/words";
   const AdminWordsPage({
-    required this.levelId,
-    required this.lessonId,
+    required this.levelModel,
+    required this.lessonModel,
     super.key,
   });
 
-  final String levelId;
-  final String lessonId;
+  final LevelModel levelModel;
+  final LessonModel lessonModel;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,13 @@ class AdminWordsPage extends StatelessWidget {
         wordRepository: context.read<WordRepository>(),
         translateRepository: context.read<TranslateRepository>(),
       )..add(AdminWordStreamRequested(
-          levelId: levelId,
-          lessonId: lessonId,
+          levelId: levelModel.id,
+          lessonId: lessonModel.id,
         )),
-      child: const AdminWordsView(),
+      child:  AdminWordsView(
+        levelModel: levelModel,
+        lessonModel: lessonModel,
+      ),
     );
   }
 }

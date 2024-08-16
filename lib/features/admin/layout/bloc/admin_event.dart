@@ -75,18 +75,6 @@ class AdminTranslateWordRequested extends AdminEvent {
   });
 }
 
-class AdminTypeChanged extends AdminEvent {
-  final AdminType adminType;
-  final LevelModel? level;
-  final LessonModel? lesson;
-
-  const AdminTypeChanged({
-    required this.adminType,
-    this.level,
-    this.lesson,
-  });
-}
-
 class AdminDeleteLevelRequested extends AdminEvent {
   final String level;
 

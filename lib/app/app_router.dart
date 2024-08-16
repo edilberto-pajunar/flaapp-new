@@ -43,15 +43,15 @@ class AppRouter {
               name: AdminLessonsPage.route,
               path: "lessons/:level_id",
               builder: (context, state) => AdminLessonsPage(
-                levelId: state.pathParameters["level_id"]!,
+                levelModel: (state.extra as Map)["levelModel"],
               ),
             ),
             GoRoute(
               name: AdminWordsPage.route,
               path: "words/:level_id/:lesson_id",
               builder: (context, state) => AdminWordsPage(
-                levelId: state.pathParameters["level_id"]!,
-                lessonId: state.pathParameters["lesson_id"]!,
+                levelModel: (state.extra as Map)["levelModel"],
+                lessonModel: (state.extra as Map)["lessonModel"],
               ),
             ),
           ],

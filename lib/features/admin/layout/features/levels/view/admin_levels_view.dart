@@ -149,10 +149,14 @@ class _AdminLevelsViewState extends State<AdminLevelsView> {
                                           //       ),
                                           //     );
                                           context.goNamed(
-                                              AdminLessonsPage.route,
-                                              pathParameters: {
-                                                "level_id": level.id.toString(),
-                                              });
+                                            AdminLessonsPage.route,
+                                            pathParameters: {
+                                              "level_id": level.id.toString(),
+                                            },
+                                            extra: {
+                                              "levelModel": level,
+                                            },
+                                          );
                                         },
                                       ),
                                     ],

@@ -1,11 +1,5 @@
 part of 'admin_bloc.dart';
 
-enum AdminType {
-  levels,
-  lessons,
-  words,
-}
-
 enum AdminStatus {
   idle,
   loading,
@@ -17,20 +11,14 @@ final class AdminState extends Equatable {
   final List<LevelModel> levels;
   final List<LessonModel> lessons;
   final List<WordModel> words;
-  final LevelModel? level;
-  final LessonModel? lesson;
   final List<String> translatedWords;
-  final AdminType adminType;
   final AdminStatus adminStatus;
 
   const AdminState({
     this.levels = const [],
     this.lessons = const [],
     this.words = const [],
-    this.level,
-    this.lesson,
     this.translatedWords = const [],
-    this.adminType = AdminType.levels,
     this.adminStatus = AdminStatus.idle,
   });
 
@@ -41,17 +29,13 @@ final class AdminState extends Equatable {
     LevelModel? level,
     LessonModel? lesson,
     List<String>? translatedWords,
-    AdminType? adminType,
     AdminStatus? adminStatus,
   }) {
     return AdminState(
       levels: levels ?? this.levels,
       lessons: lessons ?? this.lessons,
       words: words ?? this.words,
-      level: level ?? this.level,
-      lesson: lesson ?? this.lesson,
       translatedWords: translatedWords ?? this.translatedWords,
-      adminType: adminType ?? this.adminType,
       adminStatus: adminStatus ?? this.adminStatus,
     );
   }
@@ -61,10 +45,7 @@ final class AdminState extends Equatable {
         levels,
         lessons,
         words,
-        level,
-        lesson,
         translatedWords,
-        adminType,
         adminStatus,
       ];
 }
