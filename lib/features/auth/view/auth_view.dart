@@ -1,7 +1,7 @@
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
-import 'package:flaapp/values/constant/theme/colors.dart';
-import 'package:flaapp/views/widgets/buttons/primary_button.dart';
-import 'package:flaapp/views/widgets/fields/primary_text_field.dart';
+import 'package:flaapp/utils/constant/theme/colors.dart';
+import 'package:flaapp/widgets/buttons/primary_button.dart';
+import 'package:flaapp/widgets/fields/primary_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

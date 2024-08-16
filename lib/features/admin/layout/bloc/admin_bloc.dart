@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
+import 'package:flaapp/model/translation.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/level/level_repository.dart';
@@ -35,11 +36,13 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<AdminAddLessonSubmitted>(_onAddLessonSubmitted);
     on<AdminAddWordSubmitted>(_onAddWordSubmitted);
     on<AdminTranslateWordRequested>(_onTranslateWordRequested);
-    on<AdminWordChanged>(_onWordChanged);
     on<AdminTypeChanged>(_onTypeChanged);
     on<AdminDeleteLevelRequested>(_onDeleteLevelRequested);
     on<AdminDeleteLessonRequested>(_onDeleteLessonRequested);
     on<AdminDeleteWordRequested>(_onDeleteWordRequested);
+    on<AdminLevelChanged>(_onLevelChanged);
+    on<AdminLessonChanged>(_onLessonChanged);
+    on<AdminWordChanged>(_onWordChanged);
   }
 
   void _onInitRequested(
@@ -47,7 +50,6 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     Emitter<AdminState> emit,
   ) async {
     add(const AdminLevelStreamRequested());
-    // add(const AdminWordStreamRequested());
   }
 
   void _onAdminLevelStreamRequested(
@@ -62,22 +64,33 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     AdminLessonStreamRequested event,
     Emitter<AdminState> emit,
   ) async {
-    await emit.forEach(_lessonRepository.getAdminLessons(event.level.id),
-        onData: (lessons) => state.copyWith(
-              lessons: lessons,
-            ));
+    emit(state.copyWith(adminStatus: AdminStatus.loading));
+    try {
+      await emit.forEach(_lessonRepository.getAdminLessons(event.levelId),
+          onData: (lessons) => state.copyWith(
+                lessons: lessons,
+                adminStatus: AdminStatus.success,
+              ));
+    } catch (e) {}
   }
 
   void _onAdminWordStreamRequested(
     AdminWordStreamRequested event,
     Emitter<AdminState> emit,
   ) async {
-    await emit.forEach(
-        _wordRepository.getAdminWords(
-          level: event.level.id,
-          lesson: event.lesson.id,
-        ),
-        onData: (words) => state.copyWith(words: words));
+    emit(state.copyWith(adminStatus: AdminStatus.loading));
+
+    try {
+      await emit.forEach(
+          _wordRepository.getAdminWords(
+            level: event.levelId,
+            lesson: event.lessonId,
+          ),
+          onData: (words) => state.copyWith(
+                words: words,
+                adminStatus: AdminStatus.success,
+              ));
+    } catch (e) {}
   }
 
   void _onAddLevelSubmitted(
@@ -153,15 +166,6 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     emit(state.copyWith(translatedWords: translatedWords));
   }
 
-  void _onWordChanged(
-    AdminWordChanged event,
-    Emitter<AdminState> emit,
-  ) async {
-    state.translatedWords[0] = "hahaha";
-
-    emit(state.copyWith(translatedWords: state.translatedWords));
-  }
-
   // void _onUpdateWords(UpdateWords event, emit) async {
   //   try {
   //     final state = this.state as AdminLoaded;
@@ -210,16 +214,16 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     AdminTypeChanged event,
     Emitter<AdminState> emit,
   ) {
-    if (event.adminType == AdminType.lessons) {
-      add(AdminLessonStreamRequested(level: event.level!));
-      emit(state.copyWith(level: event.level!));
-    } else if (event.adminType == AdminType.words) {
-      add(AdminWordStreamRequested(
-        lesson: event.lesson!,
-        level: event.level!,
-      ));
-      emit(state.copyWith(lesson: event.lesson));
-    }
+    // if (event.adminType == AdminType.lessons) {
+    //   add(AdminLessonStreamRequested(level: event.level!));
+    //   emit(state.copyWith(level: event.level!));
+    // } else if (event.adminType == AdminType.words) {
+    //   add(AdminWordStreamRequested(
+    //     lesson: event.lesson!,
+    //     level: event.level!,
+    //   ));
+    //   emit(state.copyWith(lesson: event.lesson));
+    // }
     emit(state.copyWith(adminType: event.adminType));
   }
 
@@ -260,5 +264,35 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     } catch (e) {
       emit(state.copyWith(adminStatus: AdminStatus.failed));
     }
+  }
+
+  void _onLevelChanged(
+    AdminLevelChanged event,
+    Emitter<AdminState> emit,
+  ) async {
+    await _levelRepository.updateAdminLevel(event.level);
+  }
+
+  void _onLessonChanged(
+    AdminLessonChanged event,
+    Emitter<AdminState> emit,
+  ) async {
+    await _lessonRepository.updateAdminLesson(event.lesson);
+  }
+
+  void _onWordChanged(
+    AdminWordChanged event,
+    Emitter<AdminState> emit,
+  ) async {
+    final updatedTranslations = List<Translation>.from(event.word.translations);
+    updatedTranslations[event.index] =
+        updatedTranslations[event.index].copyWith(
+      word: event.updatedWord,
+    );
+
+    final updatedWord = event.word.copyWith(
+      translations: updatedTranslations,
+    );
+    await _wordRepository.updateAdminWord(updatedWord);
   }
 }

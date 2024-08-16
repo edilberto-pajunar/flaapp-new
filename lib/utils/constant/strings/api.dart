@@ -1,4 +1,4 @@
-import 'package:flaapp/values/constant/strings/api_key.dart';
+import 'package:flaapp/utils/constant/strings/api_key.dart';
 
 class FlaappAPI {
   static const String baseUrl = "api-free.deepl.com";

@@ -6,4 +6,6 @@ abstract class BaseLevelRepository {
 
   Future<void> adminAddLevel(String level);
   Future<void> deleteAdminLevel(String level);
+
+  Future<void> updateAdminLevel(LevelModel level);
 }

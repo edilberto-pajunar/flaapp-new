@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:flaapp/features/admin/layout/features/lessons/view/admin_lessons_page.dart';
+import 'package:flaapp/features/admin/layout/features/levels/view/admin_levels_page.dart';
+import 'package:flaapp/features/admin/layout/features/words/view/admin_words_page.dart';
 import 'package:flaapp/features/admin/layout/view/admin_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
 import 'package:flaapp/features/favorite/view/favorite_page.dart';
@@ -10,7 +13,6 @@ import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -31,6 +33,28 @@ class AppRouter {
           name: AdminPage.route,
           path: "/admin",
           builder: (context, state) => const AdminPage(),
+          routes: [
+            GoRoute(
+              name: AdminLevelsPage.route,
+              path: "levels",
+              builder: (context, state) => const AdminLevelsPage(),
+            ),
+            GoRoute(
+              name: AdminLessonsPage.route,
+              path: "lessons/:level_id",
+              builder: (context, state) => AdminLessonsPage(
+                levelId: state.pathParameters["level_id"]!,
+              ),
+            ),
+            GoRoute(
+              name: AdminWordsPage.route,
+              path: "words/:level_id/:lesson_id",
+              builder: (context, state) => AdminWordsPage(
+                levelId: state.pathParameters["level_id"]!,
+                lessonId: state.pathParameters["lesson_id"]!,
+              ),
+            ),
+          ],
         ),
         GoRoute(
           name: LevelPage.route,
@@ -76,11 +100,13 @@ class AppRouter {
         if (isLoggedIn) {
           // if the user is admin
           if (kIsWeb && isAdmin) {
-            return "/admin";
+            // return "/admin";
           }
         } else if (!isLoggedIn) {
           // if the user is not logged in, they must login
           return "/login";
+        } else {
+          return null;
         }
 
         // if the user is logged in but still on login screen, send them to the home

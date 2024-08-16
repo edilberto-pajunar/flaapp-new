@@ -22,4 +22,6 @@ class PngImage {
   static String card = "assets/images/card.png";
   static String cardDeactivated = "assets/images/card_deactivated.png";
   static String ribbon = "assets/images/ribbon.png";
+
+  static String notFound = "assets/images/not_found.png";
 }

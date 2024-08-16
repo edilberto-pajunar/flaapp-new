@@ -7,4 +7,5 @@ abstract class BaseLessonRepository {
   Future<void> adminAddLesson(LevelModel level, String lesson);
   Future<void> unlockLesson(String userId, LessonModel lesson);
   Future<void> deleteAdminLesson(String lesson);
+  Future<void> updateAdminLesson(LessonModel lesson);
 }

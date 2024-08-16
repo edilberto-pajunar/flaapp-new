@@ -7,7 +7,7 @@ import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/database/base_database_repository.dart';
-import 'package:flaapp/values/constant/strings/constant.dart';
+import 'package:flaapp/utils/constant/strings/constant.dart';
 
 class DatabaseRepository extends BaseDatabaseRepository {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;

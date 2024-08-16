@@ -3,7 +3,7 @@ import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
 import 'package:flaapp/model/level.dart';
-import 'package:flaapp/values/constant/theme/colors.dart';
+import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

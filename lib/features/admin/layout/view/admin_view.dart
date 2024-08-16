@@ -1,10 +1,5 @@
-import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
-import 'package:flaapp/features/admin/layout/widget/admin_lessons.dart';
-import 'package:flaapp/features/admin/layout/widget/admin_levels.dart';
-import 'package:flaapp/features/admin/layout/widget/admin_words.dart';
-import 'package:flaapp/values/constant/theme/colors.dart';
+import 'package:flaapp/features/admin/layout/features/levels/view/admin_levels_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminView extends StatefulWidget {
   const AdminView({super.key});
@@ -18,75 +13,75 @@ class _AdminViewState extends State<AdminView> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    // Widget buildMain(AdminState state) {
+    //   switch (state.adminType) {
+    //     case AdminType.levels:
+    //       return const AdminLevels();
+    //     case AdminType.lessons:
+    //       return const AdminLessons();
+    //     case AdminType.words:
+    //       return const AdminWords();
+    //     default:
+    //       return const AdminLevels();
+    //   }
+    // }
 
-    Widget buildMain(AdminState state) {
-      switch (state.adminType) {
-        case AdminType.levels:
-          return const AdminLevels();
-        case AdminType.lessons:
-          return const AdminLessons();
-        case AdminType.words:
-          return const AdminWords();
-        default:
-          return const AdminLevels();
-      }
-    }
+    return const AdminLevelsPage();
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: theme.colorScheme.surface,
-        body: BlocBuilder<AdminBloc, AdminState>(
-          builder: (context, state) {
-            if (state.adminStatus == AdminStatus.loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return Row(
-              children: [
-                Container(
-                  width: 240,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF3F4F6),
-                    border: Border(
-                      right: BorderSide(
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Center(
-                        child: DrawerHeader(
-                          child: Text("Admin"),
-                        ),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        onTap: () => context
-                            .read<AdminBloc>()
-                            .add(const AdminTypeChanged(
-                              adminType: AdminType.levels,
-                            )),
-                        title: const Text("Levels"),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: buildMain(state),
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
+    // return SafeArea(
+    //   child: Scaffold(
+    //     backgroundColor: theme.colorScheme.surface,
+    //     body: BlocBuilder<AdminBloc, AdminState>(
+    //       builder: (context, state) {
+    //         if (state.adminStatus == AdminStatus.loading) {
+    //           return const Center(
+    //             child: CircularProgressIndicator(),
+    //           );
+    //         }
+    //         return Row(
+    //           children: [
+    //             Container(
+    //               width: 240,
+    //               decoration: const BoxDecoration(
+    //                 color: Color(0xFFF3F4F6),
+    //                 border: Border(
+    //                   right: BorderSide(
+    //                     width: 2.0,
+    //                   ),
+    //                 ),
+    //               ),
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 children: [
+    //                   const Center(
+    //                     child: DrawerHeader(
+    //                       child: Text("Admin"),
+    //                     ),
+    //                   ),
+    //                   const Divider(),
+    //                   ListTile(
+    //                     onTap: () => context
+    //                         .read<AdminBloc>()
+    //                         .add(const AdminTypeChanged(
+    //                           adminType: AdminType.levels,
+    //                         )),
+    //                     title: const Text("Levels"),
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //             Expanded(
+    //               child: Padding(
+    //                 padding: const EdgeInsets.all(24.0),
+    //                 child: buildMain(state),
+    //               ),
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     ),
+    //   ),
+    // );
 
     // return PopScope(
     //   canPop: false,

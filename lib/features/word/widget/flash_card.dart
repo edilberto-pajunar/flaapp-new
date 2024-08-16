@@ -1,7 +1,7 @@
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
 import 'package:flaapp/model/word.dart';
-import 'package:flaapp/values/constant/strings/image.dart';
-import 'package:flaapp/values/constant/theme/colors.dart';
+import 'package:flaapp/utils/constant/strings/image.dart';
+import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';

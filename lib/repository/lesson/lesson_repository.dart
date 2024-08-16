@@ -2,6 +2,7 @@ import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/lesson/base_lesson_repository.dart';
+import 'package:flaapp/utils/constant/strings/constant.dart';
 
 class LessonRepository extends BaseLessonRepository {
   final DatabaseRepository databaseRepository;
@@ -57,5 +58,14 @@ class LessonRepository extends BaseLessonRepository {
   @override
   Future<void> deleteAdminLesson(String lesson) async {
     await databaseRepository.deleteData(collection: "lessons", doc: lesson);
+  }
+
+  @override
+  Future<void> updateAdminLesson(LessonModel lesson) async {
+    await databaseRepository.setData(
+      path: "$tLessonPath/${lesson.id}",
+      data: lesson.toJson(),
+      merge: true,
+    );
   }
 }

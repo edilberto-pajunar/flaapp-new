@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flaapp/repository/translate/base_translate_repository.dart';
-import 'package:flaapp/values/constant/strings/api.dart';
+import 'package:flaapp/utils/constant/strings/api.dart';
 import 'package:http/http.dart' as http;
 
 class TranslateRepository extends BaseTranslateRepository {

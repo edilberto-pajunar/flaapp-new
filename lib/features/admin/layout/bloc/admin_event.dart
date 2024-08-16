@@ -16,20 +16,20 @@ class AdminLevelStreamRequested extends AdminEvent {
 }
 
 class AdminLessonStreamRequested extends AdminEvent {
-  final LevelModel level;
+  final String levelId;
 
   const AdminLessonStreamRequested({
-    required this.level,
+    required this.levelId,
   });
 }
 
 class AdminWordStreamRequested extends AdminEvent {
-  final LevelModel level;
-  final LessonModel lesson;
+  final String levelId;
+  final String lessonId;
 
   const AdminWordStreamRequested({
-    required this.level,
-    required this.lesson,
+    required this.levelId,
+    required this.lessonId,
   });
 }
 
@@ -75,14 +75,6 @@ class AdminTranslateWordRequested extends AdminEvent {
   });
 }
 
-class AdminWordChanged extends AdminEvent {
-  final String word;
-
-  const AdminWordChanged({
-    required this.word,
-  });
-}
-
 class AdminTypeChanged extends AdminEvent {
   final AdminType adminType;
   final LevelModel? level;
@@ -111,4 +103,28 @@ class AdminDeleteWordRequested extends AdminEvent {
   final String word;
 
   const AdminDeleteWordRequested(this.word);
+}
+
+class AdminLevelChanged extends AdminEvent {
+  final LevelModel level;
+
+  const AdminLevelChanged(this.level);
+}
+
+class AdminLessonChanged extends AdminEvent {
+  final LessonModel lesson;
+
+  const AdminLessonChanged(this.lesson);
+}
+
+class AdminWordChanged extends AdminEvent {
+  final WordModel word;
+  final String updatedWord;
+  final int index;
+
+  const AdminWordChanged({
+    required this.word,
+    required this.updatedWord,
+    required this.index,
+  });
 }

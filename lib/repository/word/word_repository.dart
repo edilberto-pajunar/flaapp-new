@@ -6,6 +6,7 @@ import 'package:flaapp/model/translation.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/word/base_word_repository.dart';
+import 'package:flaapp/utils/constant/strings/constant.dart';
 
 class WordRepository extends BaseWordRepository {
   final DatabaseRepository databaseRepository;
@@ -163,5 +164,14 @@ class WordRepository extends BaseWordRepository {
   @override
   Future<void> deleteWordLesson(String word) async {
     await databaseRepository.deleteData(collection: "words", doc: word);
+  }
+
+  @override
+  Future<void> updateAdminWord(WordModel word) async {
+    await databaseRepository.setData(
+      path: "$tWordPath/${word.id}",
+      data: word.toJson(),
+      merge: true,
+    );
   }
 }

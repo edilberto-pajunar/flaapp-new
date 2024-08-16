@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
@@ -8,9 +6,8 @@ import 'package:flaapp/features/word/widget/flash_card.dart';
 import 'package:flaapp/features/word/widget/locked_card.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/word.dart';
-import 'package:flaapp/repository/word/word_repository.dart';
-import 'package:flaapp/values/constant/strings/image.dart';
-import 'package:flaapp/values/constant/theme/colors.dart';
+import 'package:flaapp/utils/constant/strings/image.dart';
+import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

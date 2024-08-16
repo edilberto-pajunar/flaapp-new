@@ -1,5 +1,6 @@
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
+import 'package:flaapp/model/translation.dart';
 import 'package:flaapp/model/word.dart';
 
 abstract class BaseWordRepository {
@@ -44,4 +45,6 @@ abstract class BaseWordRepository {
   });
 
   Future<void> deleteWordLesson(String word);
+
+  Future<void> updateAdminWord(WordModel word);
 }

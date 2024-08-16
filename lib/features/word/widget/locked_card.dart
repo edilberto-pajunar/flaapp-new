@@ -1,5 +1,4 @@
-import 'package:flaapp/values/constant/strings/image.dart';
-import 'package:flaapp/values/constant/theme/colors.dart';
+import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class LockedCard extends StatelessWidget {

@@ -1,7 +1,6 @@
 import 'package:flaapp/app/app_router.dart';
 import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/app/view/app_view.dart';
-import 'package:flaapp/cubit/lang/lang_cubit.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/user/user_repository.dart';
