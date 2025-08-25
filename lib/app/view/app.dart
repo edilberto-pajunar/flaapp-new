@@ -1,17 +1,14 @@
+import 'package:flaapp/app/app_locator.dart';
 import 'package:flaapp/app/app_router.dart';
 import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/app/view/app_view.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
-import 'package:flaapp/repository/user/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class App extends StatefulWidget {
-  final AuthRepository authRepository;
-
   const App({
-    required this.authRepository,
     super.key,
   });
 
@@ -20,29 +17,27 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late final AppRouter _appRouter =
-      AppRouter(authRepository: widget.authRepository);
+  late final AppRouter _appRouter = AppRouter(
+    authRepository: getIt<AuthRepository>(),
+  );
 
   @override
   Widget build(BuildContext context) {
-    final AppBloc appBloc = AppBloc(
-      userRepository: context.read<UserRepository>(),
-      authRepository: context.read<AuthRepository>(),
-    )..add(AppInitRequested());
+    // final AppBloc appBloc = AppBloc(
+    //   userRepository: context.read<UserRepository>(),
+    //   authRepository: context.read<AuthRepository>(),
+    // )..add(AppInitRequested());
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => appBloc,
+        BlocProvider.value(
+          value: getIt<AppBloc>(),
         ),
-        BlocProvider(
-          create: (context) => AuthBloc(
-            authRepository: context.read<AuthRepository>(),
-            userRepository: context.read<UserRepository>(),
-          ),
+        BlocProvider.value(
+          value: getIt<AuthBloc>(),
         ),
       ],
-      child: AppView(_appRouter),
+      child: AppView(appRouter: _appRouter),
     );
   }
 }

@@ -65,7 +65,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
           }
 
           return state.copyWith(
-            words: userWords,
+            userWords: userWords,
             wordLoadingStatus: WordLoadingStatus.success,
           );
           // final DateTime now = DateTime.now();

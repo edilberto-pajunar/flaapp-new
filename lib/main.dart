@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
 
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (context) => AuthRepository()),
         RepositoryProvider(create: (context) => DatabaseRepository()),
         RepositoryProvider(create: (context) => LocalRepository()),
         RepositoryProvider(create: (context) => TranslateRepository()),
@@ -71,9 +70,7 @@ class MyApp extends StatelessWidget {
             create: (context) => LangCubit(),
           ),
         ],
-        child: App(
-          authRepository: AuthRepository(),
-        ),
+        child: App(),
       ),
     );
   }

@@ -17,6 +17,7 @@ enum CompleteStatus { unfinished, finished }
 
 final class WordState extends Equatable {
   final List<WordModel> words;
+  final List<WordModel> userWords;
   final bool frontVisible;
   final double position;
   final int boxIndex;
@@ -29,6 +30,7 @@ final class WordState extends Equatable {
 
   const WordState({
     this.words = const [],
+    this.userWords = const [],
     this.frontVisible = true,
     this.position = 0.0,
     this.boxIndex = 0,
@@ -42,6 +44,7 @@ final class WordState extends Equatable {
 
   WordState copyWith({
     List<WordModel>? words,
+    List<WordModel>? userWords,
     bool? frontVisible,
     double? position,
     int? boxIndex,
@@ -54,6 +57,7 @@ final class WordState extends Equatable {
   }) {
     return WordState(
       words: words ?? this.words,
+      userWords: userWords ?? this.userWords,
       frontVisible: frontVisible ?? this.frontVisible,
       position: position ?? this.position,
       boxIndex: boxIndex ?? this.boxIndex,
@@ -69,6 +73,7 @@ final class WordState extends Equatable {
   @override
   List<Object?> get props => [
         words,
+        userWords,
         frontVisible,
         position,
         boxIndex,

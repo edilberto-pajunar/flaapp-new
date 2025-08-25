@@ -1,4 +1,5 @@
 import 'package:flaapp/app/app_router.dart';
+import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/cubit/lang/lang_cubit.dart';
 import 'package:flaapp/l10n/app_localizations.dart';
 import 'package:flaapp/l10n/l10n.dart';
@@ -6,10 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-class AppView extends StatelessWidget {
+class AppView extends StatefulWidget {
   final AppRouter appRouter;
 
-  const AppView(this.appRouter, {super.key});
+  const AppView({
+    required this.appRouter,
+    super.key,
+  });
+
+  @override
+  State<AppView> createState() => _AppViewState();
+}
+
+class _AppViewState extends State<AppView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AppBloc>().add(AppInitAuthStreamRequested());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +33,7 @@ class AppView extends StatelessWidget {
       builder: (context, lang) {
         return MaterialApp.router(
           supportedLocales: L10n.all,
-          routerConfig: appRouter.config,
+          routerConfig: widget.appRouter.config,
           locale: Locale(lang),
           localizationsDelegates: const [
             AppLocalizations.delegate,

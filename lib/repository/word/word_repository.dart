@@ -58,7 +58,7 @@ class WordRepository extends BaseWordRepository {
     for (var word in words) {
       await databaseRepository.setData(
         path: "users/$userId/user_words/${word.id}",
-        data: word.toJson(),
+        data: word.copyWith(box: 0).toJson(),
       );
     }
   }
