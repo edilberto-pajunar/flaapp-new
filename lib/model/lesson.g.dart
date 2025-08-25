@@ -7,16 +7,25 @@ part of 'lesson.dart';
 // **************************************************************************
 
 LessonModel _$LessonModelFromJson(Map<String, dynamic> json) => LessonModel(
-      label: json['label'] as String,
-      level: LevelModel.fromJson(json['level'] as Map<String, dynamic>),
+      label: json['label'] as String?,
+      levelId: json['levelId'] as String?,
       locked: json['locked'] as bool? ?? true,
-      id: json['id'] as String,
+      id: json['id'] as String?,
+      status: $enumDecodeNullable(_$LessonStatusEnumMap, json['status']) ??
+          LessonStatus.notStarted,
     );
 
 Map<String, dynamic> _$LessonModelToJson(LessonModel instance) =>
     <String, dynamic>{
       'label': instance.label,
-      'level': instance.level.toJson(),
+      'levelId': instance.levelId,
       'locked': instance.locked,
       'id': instance.id,
+      'status': _$LessonStatusEnumMap[instance.status],
     };
+
+const _$LessonStatusEnumMap = {
+  LessonStatus.notStarted: 'notStarted',
+  LessonStatus.inProgress: 'inProgress',
+  LessonStatus.completed: 'completed',
+};

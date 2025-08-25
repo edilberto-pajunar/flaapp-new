@@ -15,6 +15,7 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
   })  : _lessonRepository = lessonRepository,
         super(const LessonState()) {
     on<LessonInitRequested>(_onInitRequested);
+    on<LessonAddUserLessonRequested>(_onAddUserLessonRequested);
     on<LessonUnlockTriggered>(_onUnlockTriggered);
   }
 
@@ -22,11 +23,37 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
     LessonInitRequested event,
     Emitter<LessonState> emit,
   ) async {
+    final lessons = await _lessonRepository.getLessons(event.levelId);
+
+    emit(state.copyWith(lessons: lessons));
+
     await emit.forEach(
-        _lessonRepository.getLessons(event.user.uid, event.level),
-        onData: (lessons) => state.copyWith(
-              lessons: lessons,
-            ));
+      _lessonRepository.getUserLessons(
+        userId: event.user.uid,
+        level: event.levelId,
+      ),
+      onData: (userLessons) {
+        if (userLessons.isEmpty) {
+          add(LessonAddUserLessonRequested(
+            user: event.user,
+            levelId: event.levelId,
+            lessonId: lessons.first.id ?? "",
+          ));
+        }
+        return state.copyWith(userLessons: userLessons);
+      },
+    );
+  }
+
+  void _onAddUserLessonRequested(
+    LessonAddUserLessonRequested event,
+    Emitter<LessonState> emit,
+  ) async {
+    await _lessonRepository.addUserLesson(
+      userId: event.user.uid,
+      levelId: event.levelId,
+      lessonId: event.lessonId,
+    );
   }
 
   void _onUnlockTriggered(

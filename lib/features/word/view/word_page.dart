@@ -27,16 +27,16 @@ class WordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => WordBloc(
-            wordRepository: context.read<WordRepository>(),
-            lessonRepository: context.read<LessonRepository>(),
-            currentUser: context.read<AppBloc>().state.currentUser!,
-          )..add(WordInitRequested(
-              level: level.id ?? "",
-              lesson: lesson.id,
-            )),
-        ),
+        // BlocProvider(
+        //   create: (context) => WordBloc(
+        //     wordRepository: context.read<WordRepository>(),
+        //     lessonRepository: context.read<LessonRepository>(),
+        //     currentUser: context.read<AppBloc>().state.currentUser!,
+        //   )..add(WordInitRequested(
+        //       level: level.id ?? "",
+        //       lesson: lesson.id,
+        //     )),
+        // ),
         BlocProvider.value(
           value: lessonBloc,
         ),

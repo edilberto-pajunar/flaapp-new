@@ -1,34 +1,43 @@
 import 'package:equatable/equatable.dart';
-import 'package:flaapp/model/level.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lesson.g.dart';
 
+enum LessonStatus {
+  notStarted,
+  inProgress,
+  completed,
+}
+
 @JsonSerializable(explicitToJson: true)
 class LessonModel extends Equatable {
-  final String label;
-  final LevelModel level;
-  final bool locked;
-  final String id;
+  final String? label;
+  final String? levelId;
+  final bool? locked;
+  final String? id;
+  final LessonStatus? status;
 
   const LessonModel({
-    required this.label,
-    required this.level,
+    this.label,
+    this.levelId,
     this.locked = true,
-    required this.id,
+    this.id,
+    this.status = LessonStatus.notStarted,
   });
 
   LessonModel copyWith({
     String? label,
-    LevelModel? level,
+    String? levelId,
     bool? locked,
     String? id,
+    LessonStatus? status,
   }) =>
       LessonModel(
         label: label ?? this.label,
-        level: level ?? this.level,
+        levelId: levelId ?? this.levelId,
         locked: locked ?? this.locked,
         id: id ?? this.id,
+        status: status ?? this.status,
       );
 
   factory LessonModel.fromJson(Map<String, dynamic> json) =>
@@ -39,8 +48,9 @@ class LessonModel extends Equatable {
   @override
   List<Object?> get props => [
         label,
-        level,
+        levelId,
         locked,
         id,
+        status,
       ];
 }

@@ -12,11 +12,45 @@ class LessonRepository extends BaseLessonRepository {
   });
 
   @override
-  Stream<List<LessonModel>> getLessons(String userId, String level) {
-    return databaseRepository.collectionStream(
-      path: "users/$userId/lessons",
-      queryBuilder: (query) => query.where("level.id", isEqualTo: level),
+  Future<List<LessonModel>> getLessons(String levelId) async {
+    return await databaseRepository.collectionToList(
+      path: "levels/$levelId/lessons",
+      queryBuilder: (query) => query.orderBy("order", descending: false),
       builder: (data, _) => LessonModel.fromJson(data),
+    );
+  }
+
+  @override
+  Stream<List<LessonModel>> getUserLessons({
+    required String userId,
+    required String level,
+  }) {
+    return databaseRepository.collectionStream(
+      path: "users/$userId/user_lessons",
+      builder: (data, _) => LessonModel.fromJson(data),
+    );
+  }
+
+  @override
+  Future<void> addUserLesson({
+    required String userId,
+    required String levelId,
+    required String lessonId,
+  }) async {
+    final LessonModel? lesson = await databaseRepository.getData(
+      path: "levels/$levelId/lessons/$lessonId",
+      builder: (data, _) => LessonModel.fromJson(data),
+    );
+
+    if (lesson == null) {
+      throw Exception("Lesson not found");
+    }
+
+    await databaseRepository.setData(
+      path: "users/$userId/user_lessons/${lesson.id}",
+      data: lesson
+          .copyWith(locked: false, status: LessonStatus.inProgress)
+          .toJson(),
     );
   }
 
@@ -44,7 +78,7 @@ class LessonRepository extends BaseLessonRepository {
 
     final LessonModel lessonModel = LessonModel(
       label: lesson,
-      level: level,
+      levelId: level.id,
       id: id,
       locked: true,
     );

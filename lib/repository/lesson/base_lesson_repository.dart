@@ -2,7 +2,18 @@ import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 
 abstract class BaseLessonRepository {
-  Stream<List<LessonModel>> getLessons(String userId, String level);
+  Future<List<LessonModel>> getLessons(String levelId);
+  Stream<List<LessonModel>> getUserLessons({
+    required String userId,
+    required String level,
+  });
+  Future<void> addUserLesson({
+    required String userId,
+    required String levelId,
+    required String lessonId,
+  });
+
+  // ADMIN SIDE
   Stream<List<LessonModel>> getAdminLessons(String level);
   Future<void> adminAddLesson(LevelModel level, String lesson);
   Future<void> unlockLesson(String userId, LessonModel lesson);

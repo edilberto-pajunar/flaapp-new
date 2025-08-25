@@ -1,5 +1,7 @@
+import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
+import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/level/level_repository.dart';
 import 'package:get_it/get_it.dart';
 
@@ -16,9 +18,21 @@ Future<void> setupLocator() async {
     ),
   );
 
+  getIt.registerLazySingleton<LessonRepository>(
+    () => LessonRepository(
+      databaseRepository: getIt<DatabaseRepository>(),
+    ),
+  );
+
   getIt.registerLazySingleton<LevelBloc>(
     () => LevelBloc(
       levelRepository: getIt<LevelRepository>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<LessonBloc>(
+    () => LessonBloc(
+      lessonRepository: getIt<LessonRepository>(),
     ),
   );
 }

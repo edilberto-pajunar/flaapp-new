@@ -375,7 +375,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
       String userId, LessonModel lesson, String level) async {
     final List<LessonModel> lessonList = await getLessons(userId, level).first;
     final int index = lessonList.indexOf(lesson);
-    final String nextLesson = lessonList[index + 1].label;
+    final String nextLesson = lessonList[index + 1].label ?? "";
 
     _firebaseFirestore
         .collection(tUserPath)

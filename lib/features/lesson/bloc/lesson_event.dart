@@ -9,11 +9,23 @@ final class LessonEvent extends Equatable {
 
 final class LessonInitRequested extends LessonEvent {
   final User user;
-  final String level;
+  final String levelId;
 
   const LessonInitRequested({
     required this.user,
-    required this.level,
+    required this.levelId,
+  });
+}
+
+final class LessonAddUserLessonRequested extends LessonEvent {
+  final User user;
+  final String levelId;
+  final String lessonId;
+
+  const LessonAddUserLessonRequested({
+    required this.user,
+    required this.levelId,
+    required this.lessonId,
   });
 }
 

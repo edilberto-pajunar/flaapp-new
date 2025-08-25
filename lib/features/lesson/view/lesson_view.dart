@@ -1,3 +1,4 @@
+import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/word/view/word_page.dart';
 import 'package:flaapp/model/lesson.dart';
@@ -7,13 +8,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class LessonView extends StatelessWidget {
+class LessonView extends StatefulWidget {
   final LevelModel level;
 
   const LessonView({
     required this.level,
     super.key,
   });
+
+  @override
+  State<LessonView> createState() => _LessonViewState();
+}
+
+class _LessonViewState extends State<LessonView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<LessonBloc>().add(LessonInitRequested(
+          user: context.read<AppBloc>().state.currentUser!,
+          levelId: widget.level.id ?? "",
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +38,10 @@ class LessonView extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Lesson"),
       ),
-      body: BlocSelector<LessonBloc, LessonState, List<LessonModel>>(
-        selector: (state) => state.lessons,
-        builder: (context, lessons) {
+      body: BlocBuilder<LessonBloc, LessonState>(
+        builder: (context, state) {
+          final lessons = state.lessons;
+
           return lessons.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -42,6 +58,11 @@ class LessonView extends StatelessWidget {
                             itemCount: lessons.length,
                             itemBuilder: (context, index) {
                               final LessonModel lesson = lessons[index];
+                              final userLesson = state.userLessons.firstWhere(
+                                (userLesson) => userLesson.id == lesson.id,
+                                orElse: () => lesson,
+                              );
+                              final lessonLocked = userLesson.locked ?? true;
 
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 16.0),
@@ -49,23 +70,23 @@ class LessonView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15.0),
                                   border: Border(
                                     bottom: BorderSide(
-                                      color: lesson.locked
+                                      color: lessonLocked
                                           ? ColorTheme.tGreyColor
                                           : ColorTheme.tBlueColor,
                                       width: 4.0,
                                     ),
                                     top: BorderSide(
-                                      color: lesson.locked
+                                      color: lessonLocked
                                           ? ColorTheme.tGreyColor
                                           : ColorTheme.tBlueColor,
                                     ),
                                     left: BorderSide(
-                                      color: lesson.locked
+                                      color: lessonLocked
                                           ? ColorTheme.tGreyColor
                                           : ColorTheme.tBlueColor,
                                     ),
                                     right: BorderSide(
-                                      color: lesson.locked
+                                      color: lessonLocked
                                           ? ColorTheme.tGreyColor
                                           : ColorTheme.tBlueColor,
                                     ),
@@ -73,11 +94,11 @@ class LessonView extends StatelessWidget {
                                 ),
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(15.0),
-                                  onTap: !lesson.locked
+                                  onTap: !lessonLocked
                                       ? () {
                                           context.pushNamed(WordPage.route,
                                               extra: {
-                                                "level": level,
+                                                "level": widget.level,
                                                 "lesson": lesson,
                                                 "lessonBloc":
                                                     context.read<LessonBloc>(),
@@ -93,7 +114,7 @@ class LessonView extends StatelessWidget {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            lesson.label,
+                                            lesson.label ?? "",
                                             style: theme.textTheme.bodyLarge!
                                                 .copyWith(
                                               fontWeight: FontWeight.w500,
@@ -101,15 +122,16 @@ class LessonView extends StatelessWidget {
                                             ),
                                           ),
                                         ),
+                                        if (lessonLocked)
+                                          Icon(
+                                            Icons.lock_outline,
+                                            color: ColorTheme.tGreyColor,
+                                          ),
                                       ],
                                     ),
                                   ),
                                 ),
                               );
-
-                              // return isUnlocked(index)
-                              //   ? buildLessonsCard(lesson, wordProvider)
-                              //   : buildCompletedCard(lesson, wordProvider);
                             },
                           ),
                         ],
