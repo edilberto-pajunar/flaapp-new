@@ -6,8 +6,10 @@ part 'card_state.dart';
 
 class CardBloc extends Bloc<CardEvent, CardState> {
   CardBloc() : super(CardState()) {
-    on<CardEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<CardFlipped>(_onFlipped);
+  }
+
+  void _onFlipped(CardFlipped event, Emitter<CardState> emit) {
+    emit(state.copyWith(isFront: !state.isFront));
   }
 }

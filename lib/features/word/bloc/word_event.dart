@@ -31,8 +31,6 @@ final class WordAddUserWordRequested extends WordEvent {
   });
 }
 
-final class WordFlipCardTapped extends WordEvent {}
-
 final class WordCardUpdateDragged extends WordEvent {
   final DragUpdateDetails details;
 

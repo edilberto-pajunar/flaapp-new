@@ -23,7 +23,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         super(const WordState()) {
     on<WordInitRequested>(_onInitRequested);
     on<WordAddUserWordRequested>(_onAddUserWordRequested);
-    on<WordFlipCardTapped>(_onFlipCardTapped);
     on<WordCardUpdateDragged>(_onCardUpdateDragged);
     on<WordCardEndDragged>(_onCardEndDragged);
     on<WordBoxTapped>(_onBoxTapped);
@@ -107,15 +106,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       lessonId: event.lessonId,
     );
   }
-
-  void _onFlipCardTapped(
-    WordFlipCardTapped event,
-    Emitter<WordState> emit,
-  ) {
-    emit(state.copyWith(
-      frontVisible: !state.frontVisible,
-    ));
-  }
+ 
 
   void _onCardUpdateDragged(
     WordCardUpdateDragged event,

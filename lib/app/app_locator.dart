@@ -2,6 +2,7 @@ import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
+import 'package:flaapp/features/word/bloc/card_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
@@ -40,6 +41,9 @@ Future<void> setupLocator() async {
       authRepository: getIt<AuthRepository>(),
       userRepository: getIt<UserRepository>(),
     ),
+  );
+  getIt.registerLazySingleton<CardBloc>(
+    () => CardBloc(),
   );
   getIt.registerLazySingleton<LevelBloc>(
     () => LevelBloc(

@@ -6,3 +6,5 @@ class CardEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class CardFlipped extends CardEvent {}

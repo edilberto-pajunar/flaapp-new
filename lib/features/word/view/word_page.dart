@@ -1,5 +1,6 @@
 import 'package:flaapp/app/app_locator.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
+import 'package:flaapp/features/word/bloc/card_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
 import 'package:flaapp/features/word/view/word_view.dart';
 import 'package:flaapp/model/lesson.dart';
@@ -24,10 +25,13 @@ class WordPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(
-          value: getIt<WordBloc>(),
+          value: getIt<CardBloc>(),
         ),
         BlocProvider.value(
           value: getIt<LessonBloc>(),
+        ),
+        BlocProvider.value(
+          value: getIt<WordBloc>(),
         ),
       ],
       child: WordView(

@@ -10,6 +10,9 @@ AppUserInfo _$AppUserInfoFromJson(Map<String, dynamic> json) => AppUserInfo(
       id: json['id'] as String?,
       email: json['email'] as String?,
       username: json['username'] as String?,
+      language: json['language'] as String?,
+      code: json['code'] as String?,
+      codeToLearn: json['codeToLearn'] as String?,
     );
 
 Map<String, dynamic> _$AppUserInfoToJson(AppUserInfo instance) =>
@@ -17,4 +20,7 @@ Map<String, dynamic> _$AppUserInfoToJson(AppUserInfo instance) =>
       'id': instance.id,
       'email': instance.email,
       'username': instance.username,
+      'language': instance.language,
+      'code': instance.code,
+      'codeToLearn': instance.codeToLearn,
     };

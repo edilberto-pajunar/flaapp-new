@@ -1,3 +1,4 @@
+import 'package:flaapp/features/word/bloc/card_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/utils/constant/strings/image.dart';
@@ -9,11 +10,15 @@ class FlashCard extends StatelessWidget {
   const FlashCard({
     super.key,
     required this.word,
-    required this.state,
+    required this.wordState,
+    required this.cardState,
+    required this.code,
   });
 
   final WordModel word;
-  final WordState state;
+  final WordState wordState;
+  final CardState cardState;
+  final String code;
 
   Color backgroundColor(WordState state) {
     if (state.position == 0) {
@@ -29,14 +34,17 @@ class FlashCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Size size = MediaQuery.of(context).size;
+    final translatedWord = word.translations?.firstWhere(
+      (translation) => translation.code == code,
+    );
 
     return GestureDetector(
       onTap: () {
-        context.read<WordBloc>().add(WordFlipCardTapped());
+        context.read<CardBloc>().add(CardFlipped());
       },
       child: Container(
         decoration: BoxDecoration(
-          color: backgroundColor(state),
+          color: backgroundColor(wordState),
           borderRadius: BorderRadius.circular(24.0),
         ),
         height: size.height * 0.6,
@@ -44,33 +52,33 @@ class FlashCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 28.0,
-                top: 22.0,
-                right: 28.0,
-              ),
-              child: Align(
-                alignment:
-                    state.position > 0 ? Alignment.topRight : Alignment.topLeft,
-                child: Text(
-                  state.position > 0
-                      ? "Great!"
-                      : state.position < 0
-                          ? "You got this. Let's try again!"
-                          : "",
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(
+            //     left: 28.0,
+            //     top: 22.0,
+            //     right: 28.0,
+            //   ),
+            //   child: Align(
+            //     alignment:
+            //         state.position > 0 ? Alignment.topRight : Alignment.topLeft,
+            //     child: Text(
+            //       state.position > 0
+            //           ? "Great!"
+            //           : state.position < 0
+            //               ? "You got this. Let's try again!"
+            //               : "",
+            //       style: theme.textTheme.bodyMedium!.copyWith(
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Expanded(
               child: Center(
                 child: Text(
-                  state.frontVisible
+                  cardState.isFront
                       ? word.word ?? ""
-                      : word.translations?[1].word ?? "",
+                      : translatedWord?.word ?? "",
                   style: theme.textTheme.headlineLarge!.copyWith(
                     color: ColorTheme.tWhiteColor,
                     fontWeight: FontWeight.w400,
