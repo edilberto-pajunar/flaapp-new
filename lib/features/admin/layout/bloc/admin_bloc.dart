@@ -222,7 +222,8 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     AdminWordChanged event,
     Emitter<AdminState> emit,
   ) async {
-    final updatedTranslations = List<Translation>.from(event.word.translations);
+    final updatedTranslations =
+        List<Translation>.from(event.word.translations ?? []);
     updatedTranslations[event.index] =
         updatedTranslations[event.index].copyWith(
       word: event.updatedWord,

@@ -8,22 +8,26 @@ class WordEvent extends Equatable {
 }
 
 final class WordInitRequested extends WordEvent {
-  final String level;
-  final String lesson;
+  final User user;
+  final String levelId;
+  final String lessonId;
 
   const WordInitRequested({
-    required this.level,
-    required this.lesson,
+    required this.user,
+    required this.levelId,
+    required this.lessonId,
   });
 }
 
-final class WordLoadedRequested extends WordEvent {
-  final String level;
-  final String lesson;
+final class WordAddUserWordRequested extends WordEvent {
+  final User user;
+  final String levelId;
+  final String lessonId;
 
-  const WordLoadedRequested({
-    required this.level,
-    required this.lesson,
+  const WordAddUserWordRequested({
+    required this.user,
+    required this.levelId,
+    required this.lessonId,
   });
 }
 

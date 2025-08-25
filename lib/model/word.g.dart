@@ -7,14 +7,14 @@ part of 'word.dart';
 // **************************************************************************
 
 WordModel _$WordModelFromJson(Map<String, dynamic> json) => WordModel(
-      id: json['id'] as String,
-      word: json['word'] as String,
-      box: (json['box'] as num?)?.toInt() ?? 0,
-      translations: (json['translations'] as List<dynamic>)
-          .map((e) => Translation.fromJson(e as Map<String, dynamic>))
+      id: json['id'] as String?,
+      word: json['word'] as String?,
+      box: (json['box'] as num?)?.toInt(),
+      translations: (json['translations'] as List<dynamic>?)
+          ?.map((e) => Translation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      level: LevelModel.fromJson(json['level'] as Map<String, dynamic>),
-      lesson: LessonModel.fromJson(json['lesson'] as Map<String, dynamic>),
+      levelId: json['levelId'] as String?,
+      lessonId: json['lessonId'] as String?,
       updateTime: timestampToDate(json['updateTime'] as Timestamp?),
       lockedTime: timestampToDate(json['lockedTime'] as Timestamp?),
     );
@@ -23,9 +23,9 @@ Map<String, dynamic> _$WordModelToJson(WordModel instance) => <String, dynamic>{
       'id': instance.id,
       'word': instance.word,
       'box': instance.box,
-      'translations': instance.translations.map((e) => e.toJson()).toList(),
-      'level': instance.level.toJson(),
-      'lesson': instance.lesson.toJson(),
+      'translations': instance.translations?.map((e) => e.toJson()).toList(),
+      'levelId': instance.levelId,
+      'lessonId': instance.lessonId,
       'updateTime': dateToTimestamp(instance.updateTime),
       'lockedTime': dateToTimestamp(instance.lockedTime),
     };

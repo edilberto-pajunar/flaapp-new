@@ -69,7 +69,7 @@ class UserRepository extends BaseUserRepository {
             path: "words", builder: (data, _) => WordModel.fromJson(data))
         .first;
 
-    final List<String> docIdList = words.map((word) => word.id).toList();
+    final List<String> docIdList = words.map((word) => word.id ?? "").toList();
 
     await databaseRepository.setBatchDataForDocInList(
       baseColPath: "users/$userId/words",

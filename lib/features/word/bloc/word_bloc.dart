@@ -14,18 +14,15 @@ part 'word_state.dart';
 
 class WordBloc extends Bloc<WordEvent, WordState> {
   final WordRepository _wordRepository;
-  final User _currentUser;
   StreamSubscription<int?>? timer;
 
   WordBloc({
     required WordRepository wordRepository,
     required LessonRepository lessonRepository,
-    required User currentUser,
   })  : _wordRepository = wordRepository,
-        _currentUser = currentUser,
         super(const WordState()) {
     on<WordInitRequested>(_onInitRequested);
-    on<WordLoadedRequested>(_onLoadedRequested);
+    on<WordAddUserWordRequested>(_onAddUserWordRequested);
     on<WordFlipCardTapped>(_onFlipCardTapped);
     on<WordCardUpdateDragged>(_onCardUpdateDragged);
     on<WordCardEndDragged>(_onCardEndDragged);
@@ -41,48 +38,56 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     WordInitRequested event,
     Emitter<WordState> emit,
   ) async {
-    add(WordLoadedRequested(
-      level: event.level,
-      lesson: event.lesson,
-    ));
-  }
-
-  void _onLoadedRequested(
-    WordLoadedRequested event,
-    Emitter<WordState> emit,
-  ) async {
     emit(state.copyWith(
       wordLoadingStatus: WordLoadingStatus.loading,
     ));
 
+    final List<WordModel> words = await _wordRepository.getWords(
+      levelId: event.levelId,
+      lessonId: event.lessonId,
+    );
+    emit(state.copyWith(words: words));
+
     try {
       await emit.forEach(
-        _wordRepository.getWords(
-          userId: _currentUser.uid,
-          level: event.level,
-          lesson: event.lesson,
+        _wordRepository.getUserWords(
+          levelId: event.levelId,
+          lessonId: event.lessonId,
+          userId: event.user.uid,
         ),
-        onData: (words) {
-          final DateTime now = DateTime.now();
-          final currentMin = words.reduce((currentMin, word) =>
-              word.box < currentMin.box ? word : currentMin);
-
-          if (words[0].lockedTime != null &&
-              words[0].lockedTime!.isAfter(now)) {
-            return state.copyWith(
-              words: words,
-              boxIndex: currentMin.box,
-              lockedStatus: LockedStatus.locked,
-            );
-          } else {
-            return state.copyWith(
-              words: words,
-              boxIndex: currentMin.box,
-              wordLoadingStatus: WordLoadingStatus.success,
-              lockedStatus: LockedStatus.unlocked,
-              lockedTime: null,
-            );
+        onData: (userWords) {
+          if (userWords.isEmpty) {
+            add(WordAddUserWordRequested(
+              user: event.user,
+              levelId: event.levelId,
+              lessonId: event.lessonId,
+            ));
           }
+
+          return state.copyWith(
+            words: userWords,
+            wordLoadingStatus: WordLoadingStatus.success,
+          );
+          // final DateTime now = DateTime.now();
+          // final currentMin = words.reduce((currentMin, word) =>
+          //     word.box < currentMin.box ? word : currentMin);
+
+          // if (words[0].lockedTime != null &&
+          //     words[0].lockedTime!.isAfter(now)) {
+          //   return state.copyWith(
+          //     words: words,
+          //     boxIndex: currentMin.box,
+          //     lockedStatus: LockedStatus.locked,
+          //   );
+          // } else {
+          //   return state.copyWith(
+          //     words: words,
+          //     boxIndex: currentMin.box,
+          //     wordLoadingStatus: WordLoadingStatus.success,
+          //     lockedStatus: LockedStatus.unlocked,
+          //     lockedTime: null,
+          //   );
+          // }
         },
       );
     } catch (e) {
@@ -90,6 +95,17 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         error: "Word failed to load: $e",
       ));
     }
+  }
+
+  void _onAddUserWordRequested(
+    WordAddUserWordRequested event,
+    Emitter<WordState> emit,
+  ) async {
+    await _wordRepository.addUserWord(
+      userId: event.user.uid,
+      levelId: event.levelId,
+      lessonId: event.lessonId,
+    );
   }
 
   void _onFlipCardTapped(
@@ -133,17 +149,17 @@ class WordBloc extends Bloc<WordEvent, WordState> {
           add(WordCompleteTriggered());
         }
 
-        await _wordRepository.swipeCard(
-          word: event.word,
-          swipedRight: true,
-          userId: _currentUser.uid,
-        );
+        // await _wordRepository.swipeCard(
+        //   word: event.word,
+        //   swipedRight: true,
+        //   userId: _currentUser.uid,
+        // );
       } else if (event.details.offset.dx < -100 || event.word.box == 4) {
-        await _wordRepository.swipeCard(
-          word: event.word,
-          swipedRight: false,
-          userId: _currentUser.uid,
-        );
+        // await _wordRepository.swipeCard(
+        //   word: event.word,
+        //   swipedRight: false,
+        //   userId: _currentUser.uid,
+        // );
       }
 
       emit(state.copyWith(
@@ -173,10 +189,10 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     emit(state.copyWith(wordLoadingStatus: WordLoadingStatus.loading));
 
     try {
-      await _wordRepository.lockCard(
-        word: currentWords[0],
-        userId: _currentUser.uid,
-      );
+      // await _wordRepository.lockCard(
+      //   word: currentWords[0],
+      //   userId: _currentUser.uid,
+      // );
 
       emit(state.copyWith(
         lockedStatus: LockedStatus.locked,
@@ -191,33 +207,33 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     WordTimerInitRequested event,
     Emitter<WordState> emit,
   ) async {
-    await emit.forEach(
-      _wordRepository.lockCardStream(
-        userId: _currentUser.uid,
-        word: state.words[0],
-      ),
-      onData: (remainingSecond) {
-        if (remainingSecond != null && remainingSecond > 0) {
-          return state.copyWith(
-            lockedTime: remainingSecond,
-            lockedStatus: LockedStatus.locked,
-            wordLoadingStatus: WordLoadingStatus.success,
-          );
-        } else if (remainingSecond == 0) {
-          return state.copyWith(
-            lockedTime: null,
-            lockedStatus: LockedStatus.unlocked,
-            wordLoadingStatus: WordLoadingStatus.success,
-          );
-        }
+    // await emit.forEach(
+    //   _wordRepository.lockCardStream(
+    //     userId: _currentUser.uid,
+    //     word: state.words[0],
+    //   ),
+    //   onData: (remainingSecond) {
+    //     if (remainingSecond != null && remainingSecond > 0) {
+    //       return state.copyWith(
+    //         lockedTime: remainingSecond,
+    //         lockedStatus: LockedStatus.locked,
+    //         wordLoadingStatus: WordLoadingStatus.success,
+    //       );
+    //     } else if (remainingSecond == 0) {
+    //       return state.copyWith(
+    //         lockedTime: null,
+    //         lockedStatus: LockedStatus.unlocked,
+    //         wordLoadingStatus: WordLoadingStatus.success,
+    //       );
+    //     }
 
-        return state.copyWith(
-          lockedTime: null,
-          lockedStatus: LockedStatus.unlocked,
-          wordLoadingStatus: WordLoadingStatus.success,
-        );
-      },
-    );
+    //     return state.copyWith(
+    //       lockedTime: null,
+    //       lockedStatus: LockedStatus.unlocked,
+    //       wordLoadingStatus: WordLoadingStatus.success,
+    //     );
+    //   },
+    // );
   }
 
   void _onCompleteTriggered(

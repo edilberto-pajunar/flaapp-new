@@ -100,8 +100,6 @@ class _LessonViewState extends State<LessonView> {
                                               extra: {
                                                 "level": widget.level,
                                                 "lesson": lesson,
-                                                "lessonBloc":
-                                                    context.read<LessonBloc>(),
                                               });
                                         }
                                       : null,

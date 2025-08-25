@@ -7,12 +7,14 @@ part of 'translation.dart';
 // **************************************************************************
 
 Translation _$TranslationFromJson(Map<String, dynamic> json) => Translation(
-      word: json['word'] as String,
-      language: json['language'] as String,
+      word: json['word'] as String?,
+      language: json['language'] as String?,
+      code: json['code'] as String?,
     );
 
 Map<String, dynamic> _$TranslationToJson(Translation instance) =>
     <String, dynamic>{
       'word': instance.word,
       'language': instance.language,
+      'code': instance.code,
     };

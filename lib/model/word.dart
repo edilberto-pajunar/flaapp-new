@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flaapp/model/lesson.dart';
-import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/translation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -14,25 +12,25 @@ Timestamp? dateToTimestamp(DateTime? date) =>
 
 @JsonSerializable(explicitToJson: true)
 class WordModel extends Equatable {
-  final String id;
-  final String word;
-  final int box;
-  final List<Translation> translations;
-  final LevelModel level;
-  final LessonModel lesson;
+  final String? id;
+  final String? word;
+  final int? box;
+  final List<Translation>? translations;
+  final String? levelId;
+  final String? lessonId;
   @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)
   final DateTime? updateTime;
   @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)
   final DateTime? lockedTime;
 
   const WordModel({
-    required this.id,
-    required this.word,
-    this.box = 0,
-    required this.translations,
-    required this.level,
-    required this.lesson,
-    required this.updateTime,
+    this.id,
+    this.word,
+    this.box,
+    this.translations,
+    this.levelId,
+    this.lessonId,
+    this.updateTime,
     this.lockedTime,
   });
 
@@ -41,8 +39,8 @@ class WordModel extends Equatable {
     String? word,
     int? box,
     List<Translation>? translations,
-    LevelModel? level,
-    LessonModel? lesson,
+    String? levelId,
+    String? lessonId,
     DateTime? updateTime,
     DateTime? lockedTime,
   }) =>
@@ -51,8 +49,8 @@ class WordModel extends Equatable {
         word: word ?? this.word,
         box: box ?? this.box,
         translations: translations ?? this.translations,
-        level: level ?? this.level,
-        lesson: lesson ?? this.lesson,
+        levelId: levelId ?? this.levelId,
+        lessonId: lessonId ?? this.lessonId,
         updateTime: updateTime ?? this.updateTime,
         lockedTime: lockedTime ?? this.lockedTime,
       );
@@ -74,8 +72,8 @@ class WordModel extends Equatable {
         word,
         box,
         translations,
-        level,
-        lesson,
+        levelId,
+        lessonId,
         updateTime,
         lockedTime,
       ];

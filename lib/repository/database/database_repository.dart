@@ -272,56 +272,6 @@ class DatabaseRepository extends BaseDatabaseRepository {
   }
 
   @override
-  Future<void> setUp(User user) async {
-    final List<WordModel> wordList =
-        await _firebaseFirestore.collection(tWordPath).get().then((docs) {
-      return docs.docs.map((doc) {
-        return WordModel.fromJson(doc.data());
-      }).toList();
-    });
-
-    for (WordModel word in wordList) {
-      Future.wait([
-        _firebaseFirestore
-            .collection(tUserPath)
-            .doc(user.uid)
-            .collection(tWordPath)
-            .doc(word.word)
-            .set(word
-                .copyWith(
-                  id: word.word,
-                )
-                .toJson()),
-        _firebaseFirestore
-            .collection(tUserPath)
-            .doc(user.uid)
-            .collection(tLevelPath)
-            .doc(word.level.id)
-            .set({
-          "id": word.level,
-          "label": word.level,
-          "locked": wordList.indexOf(word) == 0 ? false : true,
-        }),
-        _firebaseFirestore
-            .collection(tUserPath)
-            .doc(user.uid)
-            .collection(tLessonPath)
-            .doc(word.lesson.id)
-            .set({
-          "id": word.lesson,
-          "label": word.lesson,
-          "level": word.level,
-          "locked": wordList.indexOf(word) == 0 ? false : true,
-        }),
-        _firebaseFirestore.collection(tUserPath).doc(user.uid).set({
-          "email": user.email,
-          "id": user.uid,
-        }),
-      ]).then((value) => log("Succesful!"));
-    }
-  }
-
-  @override
   Future<void> swipeCard(String userId, WordModel word, bool swipeRight) async {
     await _firebaseFirestore
         .collection(tUserPath)
@@ -329,7 +279,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
         .collection(tWordPath)
         .doc(word.id)
         .update({
-          "box": (swipeRight && word.box < 4) ? word.box + 1 : word.box,
+          "box": (swipeRight && word.box! < 4) ? word.box! + 1 : word.box!,
           "updateTime": Timestamp.fromDate(DateTime.now()),
         })
         .then((value) => log("Successful!"))

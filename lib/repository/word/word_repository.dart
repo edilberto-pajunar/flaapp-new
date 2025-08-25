@@ -16,21 +16,51 @@ class WordRepository extends BaseWordRepository {
   });
 
   @override
-  Stream<List<WordModel>> getWords({
-    required String userId,
-    required String level,
-    required String lesson,
-  }) {
-    return databaseRepository.collectionStream(
-      path: "users/$userId/words",
-      queryBuilder: (query) {
-        return query
-            .where("level.id", isEqualTo: level)
-            .where("lesson.id", isEqualTo: lesson)
-            .orderBy("updateTime", descending: false);
-      },
+  Future<List<WordModel>> getWords({
+    required String levelId,
+    required String lessonId,
+  }) async {
+    final words = await databaseRepository.collectionToList(
+      path: "levels/$levelId/lessons/$lessonId/words",
       builder: (data, _) => WordModel.fromJson(data),
     );
+
+    return words;
+  }
+
+  @override
+  Stream<List<WordModel>> getUserWords({
+    required String userId,
+    required String levelId,
+    required String lessonId,
+  }) {
+    return databaseRepository.collectionStream(
+      path: "users/$userId/user_words",
+      builder: (data, _) => WordModel.fromJson(data),
+    );
+  }
+
+  @override
+  Future<void> addUserWord({
+    required String userId,
+    required String levelId,
+    required String lessonId,
+  }) async {
+    final words = await databaseRepository.collectionToList(
+      path: "levels/$levelId/lessons/$lessonId/words",
+      builder: (data, _) => WordModel.fromJson(data),
+    );
+
+    if (words.isEmpty) {
+      throw Exception("Word not found");
+    }
+
+    for (var word in words) {
+      await databaseRepository.setData(
+        path: "users/$userId/user_words/${word.id}",
+        data: word.toJson(),
+      );
+    }
   }
 
   @override
@@ -39,7 +69,7 @@ class WordRepository extends BaseWordRepository {
     required bool swipedRight,
     required String userId,
   }) async {
-    final updatedBox = word.box + 1;
+    final updatedBox = word.box! + 1;
 
     await databaseRepository.setData(
       path: "users/$userId/words/${word.id}",
@@ -150,8 +180,8 @@ class WordRepository extends BaseWordRepository {
         Translation(word: de, language: "de"),
         Translation(word: es, language: "es"),
       ],
-      level: level,
-      lesson: lesson,
+      levelId: level.id,
+      lessonId: lesson.id,
       updateTime: DateTime.now(),
     );
 

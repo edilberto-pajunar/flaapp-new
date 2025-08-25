@@ -1,15 +1,26 @@
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
-import 'package:flaapp/model/translation.dart';
 import 'package:flaapp/model/word.dart';
 
 abstract class BaseWordRepository {
-  Stream<List<WordModel>> getWords({
-    required String userId,
-    required String level,
-    required String lesson,
+  Future<List<WordModel>> getWords({
+    required String levelId,
+    required String lessonId,
   });
 
+  Stream<List<WordModel>> getUserWords({
+    required String userId,
+    required String levelId,
+    required String lessonId,
+  });
+
+  Future<void> addUserWord({
+    required String userId,
+    required String levelId,
+    required String lessonId,
+  });
+
+  // ADMIN SIDE
   Stream<List<WordModel>> getAdminWords({
     required String level,
     required String lesson,

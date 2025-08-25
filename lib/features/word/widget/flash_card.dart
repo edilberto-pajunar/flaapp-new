@@ -79,8 +79,8 @@ class FlashCard extends StatelessWidget {
                     child: Center(
                       child: Text(
                         state.frontVisible
-                            ? word.word
-                            : word.translations[1].word,
+                            ? word.word ?? ""
+                            : word.translations?[1].word ?? "",
                         style: theme.textTheme.headlineLarge!.copyWith(
                           color: ColorTheme.tWhiteColor,
                           fontWeight: FontWeight.w400,
@@ -100,8 +100,8 @@ class FlashCard extends StatelessWidget {
                           child: IconButton(
                             onPressed: () async {
                               context.read<WordBloc>().add(WordSpeakRequested(
-                                    frontWord: word.word,
-                                    backWord: word.translations[0].word,
+                                    frontWord: word.word ?? "",
+                                    backWord: word.translations?[0].word ?? "",
                                   ));
                             },
                             iconSize: 30.0,

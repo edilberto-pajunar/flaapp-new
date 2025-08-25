@@ -168,7 +168,7 @@ class _AdminWordsViewState extends State<AdminWordsView> {
                                     rows: state.words.map((word) {
                                       return DataRow(
                                         cells: word.translations
-                                            .map((translation) {
+                                            !.map((translation) {
                                           return DataCell(
                                             SizedBox(
                                               width: double.infinity,
@@ -181,7 +181,7 @@ class _AdminWordsViewState extends State<AdminWordsView> {
                                                 onChanged: (val) {
                                                   final index = word
                                                       .translations
-                                                      .indexOf(translation);
+                                                      !.indexOf(translation);
                                                   context
                                                       .read<AdminBloc>()
                                                       .add(AdminWordChanged(

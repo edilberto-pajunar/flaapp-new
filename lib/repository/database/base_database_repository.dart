@@ -54,7 +54,6 @@ abstract class BaseDatabaseRepository {
   Stream<List<LevelModel>> getLevels(String? userId);
   Stream<List<LessonModel>> getLessons(String? userId, String level);
   Stream<List<WordModel>> getWords(String? userId, String level, String lesson);
-  Future<void> setUp(User user);
   Future<void> swipeCard(String userId, WordModel word, bool swipeRight);
   Future<void> updateWords();
   Future<void> unlockLesson(String userId, LessonModel lesson, String level);
