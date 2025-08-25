@@ -11,12 +11,18 @@ class LevelRepository extends BaseLevelRepository {
   });
 
   @override
-  Stream<List<LevelModel>> getLevels(
-    String userId, {
-    bool admin = false,
-  }) {
+  Future<List<LevelModel>> getLevels() async {
+    return await databaseRepository.collectionToList(
+      path: "levels",
+      queryBuilder: (query) => query.orderBy("order", descending: false),
+      builder: (data, _) => LevelModel.fromJson(data),
+    );
+  }
+
+  @override
+  Stream<List<LevelModel>> getUserLevels(String userId) {
     return databaseRepository.collectionStream(
-      path: "users/$userId/levels",
+      path: "users/$userId/user_levels",
       queryBuilder: (query) => query.orderBy("label", descending: false),
       builder: (data, _) => LevelModel.fromJson(data),
     );
@@ -60,6 +66,26 @@ class LevelRepository extends BaseLevelRepository {
       path: "$tLevelPath/${level.id}",
       data: level.toJson(),
       merge: true,
+    );
+  }
+
+  @override
+  Future<void> addUserLevel({
+    required String levelId,
+    required String userId,
+  }) async {
+    final level = await databaseRepository.getData(
+      path: "levels/$levelId",
+      builder: (data, _) => LevelModel.fromJson(data),
+    );
+
+    if (level == null) {
+      throw Exception("Level not found");
+    }
+
+    await databaseRepository.setData(
+      path: "users/$userId/user_levels/$levelId",
+      data: level.copyWith(locked: false).toJson(),
     );
   }
 }

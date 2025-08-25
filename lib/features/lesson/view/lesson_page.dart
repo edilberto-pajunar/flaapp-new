@@ -23,7 +23,7 @@ class LessonPage extends StatelessWidget {
         lessonRepository: context.read<LessonRepository>(),
       )..add(LessonInitRequested(
           user: context.read<AppBloc>().state.currentUser!,
-          level: level.id,
+          level: level.id ?? "",
         )),
       child: LessonView(
         level: level,

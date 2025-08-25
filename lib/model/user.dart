@@ -1,12 +1,17 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'user.g.dart';
+
+@JsonSerializable()
 class AppUserInfo {
-  final String id;
-  final String email;
-  final String username;
+  final String? id;
+  final String? email;
+  final String? username;
 
   AppUserInfo({
-    required this.id,
-    required this.email,
-    required this.username,
+    this.id,
+    this.email,
+    this.username,
   });
 
   AppUserInfo copyWith({
@@ -20,15 +25,8 @@ class AppUserInfo {
         username: username ?? this.username,
       );
 
-  factory AppUserInfo.fromJson(Map<String, dynamic> json) => AppUserInfo(
-        id: json["id"],
-        email: json["email"],
-        username: json["username"],
-      );
+  factory AppUserInfo.fromJson(Map<String, dynamic> json) =>
+      _$AppUserInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "email": email,
-        "username": username,
-      };
+  Map<String, dynamic> toJson() => _$AppUserInfoToJson(this);
 }

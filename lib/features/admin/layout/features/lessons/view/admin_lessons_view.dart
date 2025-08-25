@@ -176,7 +176,8 @@ class _AdminLessonsViewState extends State<AdminLessonsView> {
                                                       AdminWordsPage.route,
                                                       pathParameters: {
                                                         "level_id": widget
-                                                            .levelModel.id,
+                                                            .levelModel.id ??
+                                                            "",
                                                         "lesson_id": lesson.id
                                                             .toString(),
                                                       },

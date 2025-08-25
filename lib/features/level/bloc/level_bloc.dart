@@ -9,22 +9,43 @@ part 'level_state.dart';
 
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
   final LevelRepository _levelRepository;
-  
 
   LevelBloc({
     required LevelRepository levelRepository,
   })  : _levelRepository = levelRepository,
         super(const LevelState()) {
     on<LevelInitRequested>(_onInitRequested);
+    on<LevelAddUserLevelRequested>(_onAddUserLevelRequested);
   }
 
   void _onInitRequested(
     LevelInitRequested event,
     Emitter<LevelState> emit,
   ) async {
-    await emit.forEach(_levelRepository.getLevels(event.user.uid),
-        onData: (levels) {
-      return state.copyWith(levels: levels);
+    final levels = await _levelRepository.getLevels();
+    emit(state.copyWith(levels: levels));
+
+    await emit.forEach(_levelRepository.getUserLevels(event.user.uid),
+        onData: (userLevels) {
+      // if user levels is empty, initialized a level
+      if (userLevels.isEmpty) {
+        add(LevelAddUserLevelRequested(
+          levelId: state.levels.first.id ?? "",
+          userId: event.user.uid,
+        ));
+      }
+
+      return state.copyWith(userLevels: userLevels);
     });
+  }
+
+  void _onAddUserLevelRequested(
+    LevelAddUserLevelRequested event,
+    Emitter<LevelState> emit,
+  ) async {
+    await _levelRepository.addUserLevel(
+      levelId: event.levelId,
+      userId: event.userId,
+    );
   }
 }

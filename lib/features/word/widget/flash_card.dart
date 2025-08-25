@@ -4,7 +4,6 @@ import 'package:flaapp/utils/constant/strings/image.dart';
 import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class FlashCard extends StatelessWidget {
   const FlashCard({
@@ -36,7 +35,7 @@ class FlashCard extends StatelessWidget {
       child: BlocConsumer<WordBloc, WordState>(
         listener: (context, state) {
           if (state.wordLoadingStatus == WordLoadingStatus.failed) {
-            Fluttertoast.showToast(msg: state.error);
+            // Fluttertoast.showToast(msg: state.error);
           }
         },
         builder: (context, state) {

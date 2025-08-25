@@ -12,6 +12,7 @@ class UserRepository extends BaseUserRepository {
     required this.databaseRepository,
   });
 
+
   @override
   Stream<AppUserInfo?> userInfoStream(String userId) {
     return databaseRepository.documentStream(
@@ -27,7 +28,8 @@ class UserRepository extends BaseUserRepository {
       builder: (data, _) => LevelModel.fromJson(data),
     );
 
-    final List<String> docIdList = levels.map((level) => level.id).toList();
+    final List<String> docIdList =
+        levels.map((level) => level.id ?? "").toList();
 
     await databaseRepository.setBatchDataForDocInList(
       baseColPath: "users/$userId/levels",

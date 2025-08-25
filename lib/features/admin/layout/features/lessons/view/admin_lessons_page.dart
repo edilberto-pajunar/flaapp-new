@@ -25,7 +25,7 @@ class AdminLessonsPage extends StatelessWidget {
         lessonRepository: context.read<LessonRepository>(),
         wordRepository: context.read<WordRepository>(),
         translateRepository: context.read<TranslateRepository>(),
-      )..add(AdminLessonStreamRequested(levelId: levelModel.id)),
+      )..add(AdminLessonStreamRequested(levelId: levelModel.id ?? "")),
       child: AdminLessonsView(
         levelModel: levelModel,
       ),

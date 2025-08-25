@@ -29,10 +29,10 @@ class AdminWordsPage extends StatelessWidget {
         wordRepository: context.read<WordRepository>(),
         translateRepository: context.read<TranslateRepository>(),
       )..add(AdminWordStreamRequested(
-          levelId: levelModel.id,
+          levelId: levelModel.id ?? "",
           lessonId: lessonModel.id,
         )),
-      child:  AdminWordsView(
+      child: AdminWordsView(
         levelModel: levelModel,
         lessonModel: lessonModel,
       ),

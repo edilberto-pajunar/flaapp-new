@@ -1,3 +1,4 @@
+import 'package:flaapp/app/app_locator.dart';
 import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
 import 'package:flaapp/features/level/view/level_view.dart';
@@ -14,11 +15,7 @@ class LevelPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => LevelBloc(
-            levelRepository: context.read<LevelRepository>(),
-          )..add(LevelInitRequested(
-              user: context.read<AppBloc>().state.currentUser!,
-            )),
+          create: (context) => getIt<LevelBloc>(),
         ),
       ],
       child: const LevelView(),

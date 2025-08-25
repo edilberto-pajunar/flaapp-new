@@ -17,3 +17,13 @@ class LevelInitRequested extends LevelEvent {
   @override
   List<Object> get props => [user];
 }
+
+class LevelAddUserLevelRequested extends LevelEvent {
+  final String levelId;
+  final String userId;
+
+  const LevelAddUserLevelRequested({
+    required this.levelId,
+    required this.userId,
+  });
+}

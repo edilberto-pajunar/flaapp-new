@@ -1,20 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'level.dart';
+part of 'user.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-LevelModel _$LevelModelFromJson(Map<String, dynamic> json) => LevelModel(
-      label: json['label'] as String?,
-      locked: json['locked'] as bool?,
+AppUserInfo _$AppUserInfoFromJson(Map<String, dynamic> json) => AppUserInfo(
       id: json['id'] as String?,
+      email: json['email'] as String?,
+      username: json['username'] as String?,
     );
 
-Map<String, dynamic> _$LevelModelToJson(LevelModel instance) =>
+Map<String, dynamic> _$AppUserInfoToJson(AppUserInfo instance) =>
     <String, dynamic>{
-      'label': instance.label,
-      'locked': instance.locked,
       'id': instance.id,
+      'email': instance.email,
+      'username': instance.username,
     };

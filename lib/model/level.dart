@@ -5,14 +5,14 @@ part 'level.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class LevelModel extends Equatable {
-  final String label;
-  final bool locked;
-  final String id;
+  final String? label;
+  final bool? locked;
+  final String? id;
 
   const LevelModel({
-    required this.label,
-    this.locked = true,
-    required this.id,
+    this.label,
+    this.locked,
+    this.id,
   });
 
   LevelModel copyWith({

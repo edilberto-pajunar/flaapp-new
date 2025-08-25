@@ -391,7 +391,7 @@ class DatabaseRepository extends BaseDatabaseRepository {
     final List<LevelModel> levelList = await getLevels(userId).first;
     final int index = levelList.indexWhere((element) => element.label == level);
 
-    final String nextLevel = levelList[index + 1].label;
+    final String nextLevel = levelList[index + 1].label ?? "";
 
     _firebaseFirestore
         .collection(tUserPath)
