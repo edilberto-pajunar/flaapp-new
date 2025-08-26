@@ -1,15 +1,19 @@
+import 'package:flaapp/features/word/bloc/card_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
 import 'package:flaapp/utils/constant/strings/image.dart';
 import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProgressCard extends StatelessWidget {
   const ProgressCard({
     super.key,
     required this.state,
+    required this.cardState,
   });
 
   final WordState state;
+  final CardState cardState;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class ProgressCard extends StatelessWidget {
         separatorBuilder: (context, index) => const SizedBox(width: 12.0),
         itemBuilder: (context, index) {
           final currentWords =
-              state.userWords.where((element) => element.box == index);
+              state.userWords.where((element) => element.box == index).toList();
 
           return SizedBox(
             width: 70.0,
@@ -32,12 +36,12 @@ class ProgressCard extends StatelessWidget {
                 Positioned(
                   top: 12,
                   child: InkWell(
-                    // onTap: currentWords.isEmpty ||
-                    //         currentWords.length != nextWords.length
-                    //     ? null
-                    //     : () => context
-                    //         .read<WordBloc>()
-                    //         .add(WordBoxTapped(boxIndex: index)),
+                    onTap: () {
+                      if (currentWords.isEmpty) return;
+                      context.read<CardBloc>().add(CardProgressIndexChanged(
+                            currentBox: index,
+                          ));
+                    },
                     child: Container(
                       height: 80,
                       width: 70.0,
@@ -51,7 +55,7 @@ class ProgressCard extends StatelessWidget {
                             color: Colors.black.withValues(alpha: 0.25),
                           ),
                         ],
-                        border: state.boxIndex == index
+                        border: cardState.currentProgressIndex == index
                             ? Border.all(
                                 color: ColorTheme.tBlueColor,
                                 width: 2.0,

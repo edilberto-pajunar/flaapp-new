@@ -16,6 +16,7 @@ class CardBloc extends Bloc<CardEvent, CardState> {
     on<CardFlipped>(_onFlipped);
     on<CardSwipedDirectionChanged>(_onSwipedDirectionChanged);
     on<CardSwiped>(_onSwiped);
+    on<CardProgressIndexChanged>(_onProgressIndexChanged);
   }
 
   void _onFlipped(CardFlipped event, Emitter<CardState> emit) {
@@ -38,5 +39,12 @@ class CardBloc extends Bloc<CardEvent, CardState> {
     } catch (e) {
       print("Error swiping card: $e");
     }
+  }
+
+  void _onProgressIndexChanged(
+    CardProgressIndexChanged event,
+    Emitter<CardState> emit,
+  ) {
+    emit(state.copyWith(currentProgressIndex: event.currentBox));
   }
 }

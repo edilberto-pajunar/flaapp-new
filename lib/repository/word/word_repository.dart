@@ -37,6 +37,9 @@ class WordRepository extends BaseWordRepository {
   }) {
     return databaseRepository.collectionStream(
       path: "users/$userId/user_words",
+      queryBuilder: (query) => query
+          .where("levelId", isEqualTo: levelId)
+          .where("lessonId", isEqualTo: lessonId),
       builder: (data, _) => WordModel.fromJson(data),
     );
   }
@@ -59,7 +62,13 @@ class WordRepository extends BaseWordRepository {
     for (var word in words) {
       await databaseRepository.setData(
         path: "users/$userId/user_words/${word.id}",
-        data: word.copyWith(box: 0).toJson(),
+        data: word
+            .copyWith(
+              box: 0,
+              levelId: levelId,
+              lessonId: lessonId,
+            )
+            .toJson(),
       );
     }
   }

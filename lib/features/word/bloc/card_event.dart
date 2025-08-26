@@ -30,3 +30,11 @@ class CardSwiped extends CardEvent {
     required this.box,
   });
 }
+
+class CardProgressIndexChanged extends CardEvent {
+  final int currentBox;
+
+  const CardProgressIndexChanged({
+    required this.currentBox,
+  });
+}

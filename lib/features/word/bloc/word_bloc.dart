@@ -46,7 +46,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     emit(state.copyWith(words: words));
 
     try {
-      await emit.forEach(
+      emit.forEach(
         _wordRepository.getUserWords(
           levelId: event.levelId,
           lessonId: event.lessonId,
@@ -104,7 +104,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       lessonId: event.lessonId,
     );
   }
- 
 
   void _onBoxTapped(
     WordBoxTapped event,

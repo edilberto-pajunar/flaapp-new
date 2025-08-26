@@ -1,9 +1,8 @@
 import 'package:flaapp/app/bloc/app_bloc.dart';
-import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/word/bloc/card_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
-import 'package:flaapp/features/word/widget/box_card.dart';
+import 'package:flaapp/features/word/widget/progress_card.dart';
 import 'package:flaapp/features/word/widget/flash_card.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/user.dart';
@@ -49,17 +48,27 @@ class _WordViewState extends State<WordView> {
       body: BlocBuilder<CardBloc, CardState>(
         builder: (context, cardState) {
           return BlocConsumer<WordBloc, WordState>(
+            listenWhen: (previous, current) =>
+                previous.wordLoadingStatus != current.wordLoadingStatus,
             listener: (context, state) {
-              if (state.lockedStatus == LockedStatus.locked) {
-                context.read<WordBloc>().add(WordTimerInitRequested(
-                      words: state.words,
-                    ));
-              }
+              // if (state.lockedStatus == LockedStatus.locked) {
+              //   context.read<WordBloc>().add(WordTimerInitRequested(
+              //         words: state.words,
+              //       ));
+              // }
 
-              if (state.completeStatus == CompleteStatus.finished) {
-                context.pop();
-                showCompleteDialog(context);
-              }
+              // if (state.completeStatus == CompleteStatus.finished) {
+              //   context.pop();
+              //   showCompleteDialog(context);
+              // }
+              // if (state.wordLoadingStatus == WordLoadingStatus.success) {
+              //   final getUserWordsWithLeastBox = state.userWords.reduce(
+              //       (currentMin, word) =>
+              //           word.box! < currentMin.box! ? word : currentMin);
+              //   context.read<CardBloc>().add(CardProgressIndexChanged(
+              //         currentBox: getUserWordsWithLeastBox.box ?? 0,
+              //       ));
+              // }
             },
             builder: (context, state) {
               if (state.wordLoadingStatus == WordLoadingStatus.loading) {
@@ -82,6 +91,7 @@ class _WordViewState extends State<WordView> {
                   children: [
                     ProgressCard(
                       state: state,
+                      cardState: cardState,
                     ),
                     const SizedBox(height: 24.0),
                     Row(
@@ -130,7 +140,11 @@ class _WordViewState extends State<WordView> {
                     BlocSelector<AppBloc, AppState, AppUserInfo?>(
                       selector: (state) => state.currentUserInfo,
                       builder: (context, userInfo) {
-                        print("User info: ${userInfo?.id}");
+                        final currentWords = state.userWords
+                            .where((element) =>
+                                element.box == cardState.currentProgressIndex)
+                            .toList();
+
                         return Flexible(
                           child: CardSwiper(
                             allowedSwipeDirection: AllowedSwipeDirection.only(
@@ -138,7 +152,7 @@ class _WordViewState extends State<WordView> {
                               left: true,
                             ),
                             threshold: 100,
-                            numberOfCardsDisplayed: state.userWords.length,
+                            numberOfCardsDisplayed: currentWords.length,
                             onSwipe: (int previousIndex, int? currentIndex,
                                 CardSwiperDirection direction) {
                               print(
@@ -146,15 +160,21 @@ class _WordViewState extends State<WordView> {
                               );
                               context.read<CardBloc>().add(CardSwiped(
                                     wordId:
-                                        state.userWords[previousIndex].id ?? "",
+                                        currentWords[previousIndex].id ?? "",
                                     direction: direction,
                                     userId: userInfo?.id ?? "",
-                                    box:
-                                        state.userWords[previousIndex].box ?? 0,
+                                    box: currentWords[previousIndex].box ?? 0,
                                   ));
                               return true;
                             },
-                            onEnd: () {},
+                            onEnd: () {
+                              context
+                                  .read<CardBloc>()
+                                  .add(CardProgressIndexChanged(
+                                    currentBox:
+                                        cardState.currentProgressIndex + 1,
+                                  ));
+                            },
                             onUndo: (previousIndex, currentIndex, direction) {
                               print(
                                 'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
@@ -189,8 +209,9 @@ class _WordViewState extends State<WordView> {
                                   return state.currentUserInfo;
                                 },
                                 builder: (context, userInfo) {
+                                  print(currentWords[index].word);
                                   return FlashCard(
-                                    word: state.userWords[index],
+                                    word: currentWords[index],
                                     wordState: state,
                                     cardState: cardState,
                                     codeToLearn: userInfo?.codeToLearn ?? "",
@@ -198,7 +219,7 @@ class _WordViewState extends State<WordView> {
                                 },
                               );
                             },
-                            cardsCount: state.userWords.length,
+                            cardsCount: currentWords.length,
                           ),
                         );
                       },
