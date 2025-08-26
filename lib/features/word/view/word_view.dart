@@ -1,4 +1,5 @@
 import 'package:flaapp/app/bloc/app_bloc.dart';
+import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/word/bloc/card_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
@@ -126,65 +127,81 @@ class _WordViewState extends State<WordView> {
                       ],
                     ),
                     const SizedBox(height: 12.0),
-                    Flexible(
-                      child: CardSwiper(
-                        allowedSwipeDirection: AllowedSwipeDirection.only(
-                          right: true,
-                          left: true,
-                        ),
-                        threshold: 100,
-                        numberOfCardsDisplayed: state.userWords.length,
-                        onSwipe: (int previousIndex, int? currentIndex,
-                            CardSwiperDirection direction) {
-                          print(
-                            'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
-                          );
-                          return true;
-                        },
-                        onEnd: () {},
-                        onUndo: (previousIndex, currentIndex, direction) {
-                          print(
-                            'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
-                          );
-                          return true;
-                        },
-                        onSwipeDirectionChange:
-                            (horizontalDirection, verticalDirection) {
-                          if (horizontalDirection.index == 0 &&
-                              verticalDirection.index == 0) {
-                            return context
-                                .read<CardBloc>()
-                                .add(CardSwipedDirectionChanged(
-                                  direction: CardSwiperDirection.none,
-                                ));
-                          }
-                          context
-                              .read<CardBloc>()
-                              .add(CardSwipedDirectionChanged(
-                                direction: horizontalDirection ==
-                                        CardSwiperDirection.left
-                                    ? CardSwiperDirection.left
-                                    : CardSwiperDirection.right,
-                              ));
-                        },
-                        cardBuilder: (context, index, percentTresholdX,
-                            percentTresholdY) {
-                          return BlocSelector<AppBloc, AppState, AppUserInfo?>(
-                            selector: (state) {
-                              return state.currentUserInfo;
+                    BlocSelector<AppBloc, AppState, AppUserInfo?>(
+                      selector: (state) => state.currentUserInfo,
+                      builder: (context, userInfo) {
+                        print("User info: ${userInfo?.id}");
+                        return Flexible(
+                          child: CardSwiper(
+                            allowedSwipeDirection: AllowedSwipeDirection.only(
+                              right: true,
+                              left: true,
+                            ),
+                            threshold: 100,
+                            numberOfCardsDisplayed: state.userWords.length,
+                            onSwipe: (int previousIndex, int? currentIndex,
+                                CardSwiperDirection direction) {
+                              print(
+                                'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
+                              );
+                              context.read<CardBloc>().add(CardSwiped(
+                                    wordId:
+                                        state.userWords[previousIndex].id ?? "",
+                                    direction: direction,
+                                    userId: userInfo?.id ?? "",
+                                    box:
+                                        state.userWords[previousIndex].box ?? 0,
+                                  ));
+                              return true;
                             },
-                            builder: (context, userInfo) {
-                              return FlashCard(
-                                word: state.userWords[index],
-                                wordState: state,
-                                cardState: cardState,
-                                codeToLearn: userInfo?.codeToLearn ?? "",
+                            onEnd: () {},
+                            onUndo: (previousIndex, currentIndex, direction) {
+                              print(
+                                'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
+                              );
+
+                              return true;
+                            },
+                            onSwipeDirectionChange:
+                                (horizontalDirection, verticalDirection) {
+                              if (horizontalDirection.index == 0 &&
+                                  verticalDirection.index == 0) {
+                                return context
+                                    .read<CardBloc>()
+                                    .add(CardSwipedDirectionChanged(
+                                      direction: CardSwiperDirection.none,
+                                    ));
+                              }
+                              context
+                                  .read<CardBloc>()
+                                  .add(CardSwipedDirectionChanged(
+                                    direction: horizontalDirection ==
+                                            CardSwiperDirection.left
+                                        ? CardSwiperDirection.left
+                                        : CardSwiperDirection.right,
+                                  ));
+                            },
+                            cardBuilder: (context, index, percentTresholdX,
+                                percentTresholdY) {
+                              return BlocSelector<AppBloc, AppState,
+                                  AppUserInfo?>(
+                                selector: (state) {
+                                  return state.currentUserInfo;
+                                },
+                                builder: (context, userInfo) {
+                                  return FlashCard(
+                                    word: state.userWords[index],
+                                    wordState: state,
+                                    cardState: cardState,
+                                    codeToLearn: userInfo?.codeToLearn ?? "",
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                        cardsCount: state.userWords.length,
-                      ),
+                            cardsCount: state.userWords.length,
+                          ),
+                        );
+                      },
                     ),
                     // state.lockedStatus == LockedStatus.locked
                     //     ? const LockedCard()

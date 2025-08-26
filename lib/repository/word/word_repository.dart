@@ -7,6 +7,7 @@ import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/word/base_word_repository.dart';
 import 'package:flaapp/utils/constant/strings/constant.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
 class WordRepository extends BaseWordRepository {
   final DatabaseRepository databaseRepository;
@@ -65,20 +66,18 @@ class WordRepository extends BaseWordRepository {
 
   @override
   Future<void> swipeCard({
-    required WordModel word,
-    required bool swipedRight,
+    required String wordId,
+    required CardSwiperDirection direction,
     required String userId,
+    required int box,
   }) async {
-    final updatedBox = word.box! + 1;
-
+    print("swipeCard: $wordId, $direction, $userId, $box");
     await databaseRepository.setData(
-      path: "users/$userId/words/${word.id}",
-      data: word
-          .copyWith(
-            box: swipedRight ? updatedBox : word.box,
-            updateTime: DateTime.now(),
-          )
-          .toJson(),
+      path: "users/$userId/user_words/$wordId",
+      data: {
+        "box": direction == CardSwiperDirection.right ? box + 1 : box,
+        "updatedTime": DateTime.now(),
+      },
     );
   }
 
@@ -182,7 +181,7 @@ class WordRepository extends BaseWordRepository {
       ],
       levelId: level.id,
       lessonId: lesson.id,
-      updateTime: DateTime.now(),
+      updatedTime: DateTime.now(),
     );
 
     await databaseRepository.setData(

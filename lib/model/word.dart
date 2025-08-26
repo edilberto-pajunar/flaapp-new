@@ -19,7 +19,7 @@ class WordModel extends Equatable {
   final String? levelId;
   final String? lessonId;
   @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)
-  final DateTime? updateTime;
+  final DateTime? updatedTime;
   @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)
   final DateTime? lockedTime;
 
@@ -30,7 +30,7 @@ class WordModel extends Equatable {
     this.translations,
     this.levelId,
     this.lessonId,
-    this.updateTime,
+    this.updatedTime,
     this.lockedTime,
   });
 
@@ -41,7 +41,7 @@ class WordModel extends Equatable {
     List<Translation>? translations,
     String? levelId,
     String? lessonId,
-    DateTime? updateTime,
+    DateTime? updatedTime,
     DateTime? lockedTime,
   }) =>
       WordModel(
@@ -51,7 +51,7 @@ class WordModel extends Equatable {
         translations: translations ?? this.translations,
         levelId: levelId ?? this.levelId,
         lessonId: lessonId ?? this.lessonId,
-        updateTime: updateTime ?? this.updateTime,
+        updatedTime: updatedTime ?? this.updatedTime,
         lockedTime: lockedTime ?? this.lockedTime,
       );
 
@@ -74,7 +74,7 @@ class WordModel extends Equatable {
         translations,
         levelId,
         lessonId,
-        updateTime,
+        updatedTime,
         lockedTime,
       ];
 

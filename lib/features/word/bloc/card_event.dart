@@ -16,3 +16,17 @@ class CardSwipedDirectionChanged extends CardEvent {
     required this.direction,
   });
 }
+
+class CardSwiped extends CardEvent {
+  final String wordId;
+  final CardSwiperDirection direction;
+  final String userId;
+  final int box;
+
+  const CardSwiped({
+    required this.wordId,
+    required this.direction,
+    required this.userId,
+    required this.box,
+  });
+}

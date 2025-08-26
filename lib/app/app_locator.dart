@@ -43,7 +43,9 @@ Future<void> setupLocator() async {
     ),
   );
   getIt.registerLazySingleton<CardBloc>(
-    () => CardBloc(),
+    () => CardBloc(
+      wordRepository: getIt<WordRepository>(),
+    ),
   );
   getIt.registerLazySingleton<LevelBloc>(
     () => LevelBloc(

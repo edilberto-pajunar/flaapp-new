@@ -1,6 +1,7 @@
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
 abstract class BaseWordRepository {
   Future<List<WordModel>> getWords({
@@ -35,9 +36,10 @@ abstract class BaseWordRepository {
   });
 
   Future<void> swipeCard({
-    required WordModel word,
-    required bool swipedRight,
+    required String wordId,
+    required CardSwiperDirection direction,
     required String userId,
+    required int box,
   });
 
   Future<void> lockCard({

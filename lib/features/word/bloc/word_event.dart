@@ -31,24 +31,6 @@ final class WordAddUserWordRequested extends WordEvent {
   });
 }
 
-final class WordCardUpdateDragged extends WordEvent {
-  final DragUpdateDetails details;
-
-  const WordCardUpdateDragged({
-    required this.details,
-  });
-}
-
-final class WordCardEndDragged extends WordEvent {
-  final DraggableDetails details;
-  final WordModel word;
-
-  const WordCardEndDragged({
-    required this.details,
-    required this.word,
-  });
-}
-
 final class WordBoxTapped extends WordEvent {
   final int boxIndex;
 

@@ -23,8 +23,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         super(const WordState()) {
     on<WordInitRequested>(_onInitRequested);
     on<WordAddUserWordRequested>(_onAddUserWordRequested);
-    on<WordCardUpdateDragged>(_onCardUpdateDragged);
-    on<WordCardEndDragged>(_onCardEndDragged);
     on<WordBoxTapped>(_onBoxTapped);
     on<WordLockedCardTriggered>(_onLockedCardTriggered);
     on<WordTimerInitRequested>(_onTimerInitRequested);
@@ -107,61 +105,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     );
   }
  
-
-  void _onCardUpdateDragged(
-    WordCardUpdateDragged event,
-    Emitter<WordState> emit,
-  ) {
-    emit(state.copyWith(
-      position: event.details.localPosition.dx,
-    ));
-  }
-
-  void _onCardEndDragged(
-    WordCardEndDragged event,
-    Emitter<WordState> emit,
-  ) async {
-    emit(state.copyWith(
-      position: 0.0,
-      swipeStatus: SwipeStatus.loading,
-    ));
-
-    final currentWords =
-        state.words.where((word) => word.box == state.boxIndex).toList();
-
-    try {
-      if (event.details.offset.dx > 100 && event.word.box != 4) {
-        if (currentWords.length == 1) {
-          add(WordBoxTapped(boxIndex: state.boxIndex + 1));
-          add(const WordLockedCardTriggered());
-        }
-
-        if (currentWords.length == 1 && event.word.box == 3) {
-          add(WordCompleteTriggered());
-        }
-
-        // await _wordRepository.swipeCard(
-        //   word: event.word,
-        //   swipedRight: true,
-        //   userId: _currentUser.uid,
-        // );
-      } else if (event.details.offset.dx < -100 || event.word.box == 4) {
-        // await _wordRepository.swipeCard(
-        //   word: event.word,
-        //   swipedRight: false,
-        //   userId: _currentUser.uid,
-        // );
-      }
-
-      emit(state.copyWith(
-        swipeStatus: SwipeStatus.success,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        swipeStatus: SwipeStatus.failed,
-      ));
-    }
-  }
 
   void _onBoxTapped(
     WordBoxTapped event,

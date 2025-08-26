@@ -15,7 +15,7 @@ WordModel _$WordModelFromJson(Map<String, dynamic> json) => WordModel(
           .toList(),
       levelId: json['levelId'] as String?,
       lessonId: json['lessonId'] as String?,
-      updateTime: timestampToDate(json['updateTime'] as Timestamp?),
+      updatedTime: timestampToDate(json['updatedTime'] as Timestamp?),
       lockedTime: timestampToDate(json['lockedTime'] as Timestamp?),
     );
 
@@ -26,6 +26,6 @@ Map<String, dynamic> _$WordModelToJson(WordModel instance) => <String, dynamic>{
       'translations': instance.translations?.map((e) => e.toJson()).toList(),
       'levelId': instance.levelId,
       'lessonId': instance.lessonId,
-      'updateTime': dateToTimestamp(instance.updateTime),
+      'updatedTime': dateToTimestamp(instance.updatedTime),
       'lockedTime': dateToTimestamp(instance.lockedTime),
     };
