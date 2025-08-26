@@ -79,7 +79,9 @@ class _WordViewState extends State<WordView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const BoxCard(),
+                    ProgressCard(
+                      state: state,
+                    ),
                     const SizedBox(height: 24.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,6 +128,45 @@ class _WordViewState extends State<WordView> {
                     const SizedBox(height: 12.0),
                     Flexible(
                       child: CardSwiper(
+                        allowedSwipeDirection: AllowedSwipeDirection.only(
+                          right: true,
+                          left: true,
+                        ),
+                        threshold: 100,
+                        numberOfCardsDisplayed: state.userWords.length,
+                        onSwipe: (int previousIndex, int? currentIndex,
+                            CardSwiperDirection direction) {
+                          print(
+                            'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
+                          );
+                          return true;
+                        },
+                        onEnd: () {},
+                        onUndo: (previousIndex, currentIndex, direction) {
+                          print(
+                            'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
+                          );
+                          return true;
+                        },
+                        onSwipeDirectionChange:
+                            (horizontalDirection, verticalDirection) {
+                          if (horizontalDirection.index == 0 &&
+                              verticalDirection.index == 0) {
+                            return context
+                                .read<CardBloc>()
+                                .add(CardSwipedDirectionChanged(
+                                  direction: CardSwiperDirection.none,
+                                ));
+                          }
+                          context
+                              .read<CardBloc>()
+                              .add(CardSwipedDirectionChanged(
+                                direction: horizontalDirection ==
+                                        CardSwiperDirection.left
+                                    ? CardSwiperDirection.left
+                                    : CardSwiperDirection.right,
+                              ));
+                        },
                         cardBuilder: (context, index, percentTresholdX,
                             percentTresholdY) {
                           return BlocSelector<AppBloc, AppState, AppUserInfo?>(
@@ -137,7 +178,7 @@ class _WordViewState extends State<WordView> {
                                 word: state.userWords[index],
                                 wordState: state,
                                 cardState: cardState,
-                                code: userInfo?.code ?? "",
+                                codeToLearn: userInfo?.codeToLearn ?? "",
                               );
                             },
                           );

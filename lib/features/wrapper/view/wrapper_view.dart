@@ -10,6 +10,7 @@ class WrapperView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppBloc, AppState>(
+      listenWhen: (prev, curr) => prev.currentUserInfo != curr.currentUserInfo,
       listener: (context, state) {
         if (state.currentUserInfo == null) {
           context.goNamed(AuthPage.route);

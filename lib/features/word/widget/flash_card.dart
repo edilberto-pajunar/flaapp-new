@@ -5,6 +5,7 @@ import 'package:flaapp/utils/constant/strings/image.dart';
 import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
 class FlashCard extends StatelessWidget {
   const FlashCard({
@@ -12,31 +13,32 @@ class FlashCard extends StatelessWidget {
     required this.word,
     required this.wordState,
     required this.cardState,
-    required this.code,
+    required this.codeToLearn,
   });
 
   final WordModel word;
   final WordState wordState;
   final CardState cardState;
-  final String code;
+  final String codeToLearn;
 
   Color backgroundColor(WordState state) {
-    if (state.position == 0) {
-      return ColorTheme.tBlueColor;
-    } else if (state.position > 200) {
-      return ColorTheme.tGreenColor;
-    } else {
+    if (cardState.direction == CardSwiperDirection.left) {
       return ColorTheme.tRedColor;
+    } else if (cardState.direction == CardSwiperDirection.right) {
+      return ColorTheme.tGreenColor;
     }
+    return ColorTheme.tBlueColor;
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Size size = MediaQuery.of(context).size;
-    final translatedWord = word.translations?.firstWhere(
-      (translation) => translation.code == code,
-    );
+    final translatedWord = word.translations
+        ?.firstWhere(
+          (translation) => translation.code == codeToLearn,
+        )
+        .word;
 
     return GestureDetector(
       onTap: () {
@@ -76,9 +78,7 @@ class FlashCard extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Text(
-                  cardState.isFront
-                      ? word.word ?? ""
-                      : translatedWord?.word ?? "",
+                  cardState.isFront ? word.word ?? "" : translatedWord ?? "",
                   style: theme.textTheme.headlineLarge!.copyWith(
                     color: ColorTheme.tWhiteColor,
                     fontWeight: FontWeight.w400,
@@ -86,33 +86,31 @@ class FlashCard extends StatelessWidget {
                 ),
               ),
             ),
-            Visibility(
-              // visible: state.duration == null,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: ColorTheme.tBlackColor,
-                    child: IconButton(
-                      onPressed: () async {
-                        context.read<WordBloc>().add(WordSpeakRequested(
-                              frontWord: word.word ?? "",
-                              backWord: word.translations?[0].word ?? "",
-                            ));
-                      },
-                      iconSize: 30.0,
-                      icon: const Icon(
-                        Icons.volume_down,
-                        color: Colors.white,
-                      ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: ColorTheme.tBlackColor,
+                  child: IconButton(
+                    onPressed: () async {
+                      context.read<WordBloc>().add(WordSpeakRequested(
+                            frontWord: word.word ?? "",
+                            backWord: translatedWord ?? "",
+                          ));
+                    },
+                    iconSize: 30.0,
+                    icon: const Icon(
+                      Icons.volume_down,
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
             ),
             Visibility(
+              visible: cardState.isFront,
               child: Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: Container(

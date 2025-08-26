@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
 @JsonSerializable()
-class AppUserInfo {
+class AppUserInfo extends Equatable {
   final String? id;
   final String? email;
   final String? username;
@@ -11,7 +12,7 @@ class AppUserInfo {
   final String? code;
   final String? codeToLearn;
 
-  AppUserInfo({
+  const AppUserInfo({
     this.id,
     this.email,
     this.username,
@@ -41,4 +42,14 @@ class AppUserInfo {
       _$AppUserInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$AppUserInfoToJson(this);
+
+  @override
+  List<Object?> get props => [
+        id,
+        email,
+        username,
+        language,
+        code,
+        codeToLearn,
+      ];
 }
