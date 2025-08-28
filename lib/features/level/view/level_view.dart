@@ -104,43 +104,47 @@ class _LevelViewState extends State<LevelView> {
                         );
                         final levelLocked = userLevel.locked ?? true;
 
-                        return GestureDetector(
-                          onTap: !levelLocked
-                              ? () {
-                                  context.pushNamed(LessonPage.route, extra: {
-                                    "level": level,
-                                  });
-                                }
-                              : null,
-                          child: Container(
-                            padding: const EdgeInsets.all(16.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: levelLocked
-                                  ? ColorTheme.tGreyColor
-                                  : ColorTheme.tBlueColor,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Text(
-                                //   level.difficulty,
-                                //   style: theme.textTheme.bodyLarge!.copyWith(
-                                //     color: Colors.white,
-                                //   ),
-                                // ),
-                                Text(
-                                  level.label?.toUpperCase() ?? "",
-                                  style: theme.textTheme.titleLarge?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
+                        return Opacity(
+                          opacity: levelLocked ? 0.2 : 1,
+                          child: GestureDetector(
+                            onTap: !levelLocked
+                                ? () {
+                                    context.pushNamed(LessonPage.route, extra: {
+                                      "level": level,
+                                    });
+                                  }
+                                : null,
+                            child: Container(
+                              padding: const EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                color: ColorTheme.tBlueColor,
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Text(
+                                  //   level.difficulty,
+                                  //   style: theme.textTheme.bodyLarge!.copyWith(
+                                  //     color: Colors.white,
+                                  //   ),
+                                  // ),
+                                  Text(
+                                    level.label?.toUpperCase() ?? "",
+                                    style: theme.textTheme.titleLarge?.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                ),
-                                Icon(
-                                  levelLocked ? Icons.lock : Icons.check_circle,
-                                  color: Colors.white,
-                                ),
-                              ],
+                                  Icon(
+                                    levelLocked
+                                        ? Icons.lock
+                                        : Icons.check_circle,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );

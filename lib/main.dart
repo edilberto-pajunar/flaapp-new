@@ -39,26 +39,6 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => DatabaseRepository()),
         RepositoryProvider(create: (context) => LocalRepository()),
         RepositoryProvider(create: (context) => TranslateRepository()),
-        RepositoryProvider(
-          create: (context) => LessonRepository(
-            databaseRepository: context.read<DatabaseRepository>(),
-          ),
-        ),
-        RepositoryProvider(
-          create: (context) => LevelRepository(
-            databaseRepository: context.read<DatabaseRepository>(),
-          ),
-        ),
-        RepositoryProvider(
-          create: (context) => WordRepository(
-            databaseRepository: context.read<DatabaseRepository>(),
-          ),
-        ),
-        RepositoryProvider(
-          create: (context) => UserRepository(
-            databaseRepository: context.read<DatabaseRepository>(),
-          ),
-        ),
       ],
       child: MultiBlocProvider(
         providers: [

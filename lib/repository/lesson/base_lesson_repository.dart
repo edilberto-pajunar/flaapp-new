@@ -12,6 +12,11 @@ abstract class BaseLessonRepository {
     required String levelId,
     required String lessonId,
   });
+  Future<void> unlockUserLesson({
+    required String userId,
+    required String levelId,
+    required String currentLessonId,
+  });
 
   // ADMIN SIDE
   Stream<List<LessonModel>> getAdminLessons(String level);

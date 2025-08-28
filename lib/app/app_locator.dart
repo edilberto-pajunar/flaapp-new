@@ -24,10 +24,16 @@ Future<void> setupLocator() async {
     () => LevelRepository(databaseRepository: getIt<DatabaseRepository>()),
   );
   getIt.registerLazySingleton<LessonRepository>(
-    () => LessonRepository(databaseRepository: getIt<DatabaseRepository>()),
+    () => LessonRepository(
+      databaseRepository: getIt<DatabaseRepository>(),
+      levelRepository: getIt<LevelRepository>(),
+    ),
   );
   getIt.registerLazySingleton<WordRepository>(
-    () => WordRepository(databaseRepository: getIt<DatabaseRepository>()),
+    () => WordRepository(
+      databaseRepository: getIt<DatabaseRepository>(),
+      lessonRepository: getIt<LessonRepository>(),
+    ),
   );
 
   // BLOCS

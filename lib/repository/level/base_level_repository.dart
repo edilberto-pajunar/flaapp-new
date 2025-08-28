@@ -9,6 +9,10 @@ abstract class BaseLevelRepository {
     required String levelId,
     required String userId,
   });
+  Future<void> unlockUserLevel({
+    required String userId,
+    required String levelId,
+  });
 
   // ADMIN
   Stream<List<LevelModel>> getAdminLevels();

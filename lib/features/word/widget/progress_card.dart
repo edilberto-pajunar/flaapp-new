@@ -93,8 +93,7 @@ class ProgressCard extends StatelessWidget {
                 Positioned(
                   left: 28,
                   child: Visibility(
-                    visible: state.lockedStatus == LockedStatus.locked &&
-                        index == state.words.last.box,
+                    visible: index == state.words.last.box,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 5.0, horizontal: 4.0),

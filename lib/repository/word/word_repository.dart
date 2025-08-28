@@ -5,15 +5,18 @@ import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/translation.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
+import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/word/base_word_repository.dart';
 import 'package:flaapp/utils/constant/strings/constant.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
 class WordRepository extends BaseWordRepository {
   final DatabaseRepository databaseRepository;
+  final LessonRepository lessonRepository;
 
   WordRepository({
     required this.databaseRepository,
+    required this.lessonRepository,
   });
 
   @override
@@ -70,6 +73,28 @@ class WordRepository extends BaseWordRepository {
             )
             .toJson(),
       );
+    }
+  }
+
+  @override
+  Future<void> wordsByLessonCompleted({
+    required String userId,
+    required String levelId,
+    required String lessonId,
+  }) async {
+    try {
+// Mark current lesson as completed
+      await databaseRepository
+          .setData(path: "users/$userId/user_lessons/$lessonId", data: {
+        "status": "completed",
+        "completedTime": DateTime.now(),
+      });
+
+      // Add next lesson to user_lessons
+      await lessonRepository.unlockUserLesson(
+          userId: userId, levelId: levelId, currentLessonId: lessonId);
+    } catch (e) {
+      print("Error marking lesson as completed: $e");
     }
   }
 

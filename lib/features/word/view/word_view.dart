@@ -91,6 +91,14 @@ class _WordViewState extends State<WordView> {
                   .toList();
               if (currentWords.isEmpty &&
                   cardState.status == CardStateStatus.success) {
+                print(cardState.currentProgressIndex);
+                if (cardState.currentProgressIndex == 4) {
+                  context.read<WordBloc>().add(WordCompleted(
+                        userId: context.read<AppBloc>().state.currentUser!.uid,
+                        levelId: widget.lesson.levelId ?? "",
+                        lessonId: widget.lesson.id ?? "",
+                      ));
+                }
                 context.read<CardBloc>().add(CardProgressIndexChanged(
                       currentBox: cardState.currentProgressIndex + 1,
                     ));

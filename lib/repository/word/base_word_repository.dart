@@ -20,6 +20,11 @@ abstract class BaseWordRepository {
     required String levelId,
     required String lessonId,
   });
+  Future<void> wordsByLessonCompleted({
+    required String userId,
+    required String levelId,
+    required String lessonId,
+  });
 
   // ADMIN SIDE
   Stream<List<WordModel>> getAdminWords({
@@ -58,6 +63,8 @@ abstract class BaseWordRepository {
   });
 
   Future<void> deleteWordLesson(String word);
+
+  // ADMIN
 
   Future<void> updateAdminWord(WordModel word);
 }

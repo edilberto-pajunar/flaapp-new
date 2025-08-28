@@ -1,3 +1,4 @@
+import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/level/base_level_repository.dart';
@@ -87,5 +88,56 @@ class LevelRepository extends BaseLevelRepository {
       path: "users/$userId/user_levels/$levelId",
       data: level.copyWith(locked: false).toJson(),
     );
+  }
+
+  @override
+  Future<void> unlockUserLevel({
+    required String userId,
+    required String levelId,
+  }) async {
+    try {
+      // Get all levels ordered by their order field
+      final allLevels = await databaseRepository.collectionToList(
+        path: "levels",
+        queryBuilder: (query) => query.orderBy("order", descending: false),
+        builder: (data, _) => LevelModel.fromJson(data),
+      );
+
+      // Find current level index
+      final currentIndex = allLevels.indexWhere((level) => level.id == levelId);
+
+      // If there's a next level, unlock it and add its first lesson
+      if (currentIndex != -1 && currentIndex < allLevels.length - 1) {
+        final nextLevel = allLevels[currentIndex + 1];
+
+        // Add the next level to user's levels (unlocked)
+        await databaseRepository.setData(
+          path: "users/$userId/user_levels/${nextLevel.id}",
+          data: nextLevel.copyWith(locked: false).toJson(),
+        );
+
+        // // Get the first lesson of the next level and add it to user_lessons
+        // final nextLevelLessons = await databaseRepository.collectionToList(
+        //   path: "levels/${nextLevel.id}/lessons",
+        //   queryBuilder: (query) =>
+        //       query.orderBy("order", descending: false).limit(1),
+        //   builder: (data, _) => LessonModel.fromJson(data),
+        // );
+
+        // if (nextLevelLessons.isNotEmpty) {
+        //   final firstLesson = nextLevelLessons.first;
+        //   await databaseRepository.setData(
+        //     path: "users/$userId/user_lessons/${firstLesson.id}",
+        //     data: firstLesson
+        //         .copyWith(locked: false, status: LessonStatus.inProgress)
+        //         .toJson(),
+        //   );
+        //   print(
+        //       "Next level unlocked: ${nextLevel.label}, first lesson added: ${firstLesson.label}");
+        // }
+      }
+    } catch (e) {
+      print("Error checking/unlocking next level: $e");
+    }
   }
 }

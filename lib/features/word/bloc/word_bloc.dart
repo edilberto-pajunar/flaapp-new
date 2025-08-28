@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/word/word_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 part 'word_event.dart';
@@ -14,20 +13,20 @@ part 'word_state.dart';
 
 class WordBloc extends Bloc<WordEvent, WordState> {
   final WordRepository _wordRepository;
+  final LessonRepository _lessonRepository;
   StreamSubscription<int?>? timer;
 
   WordBloc({
     required WordRepository wordRepository,
     required LessonRepository lessonRepository,
   })  : _wordRepository = wordRepository,
+        _lessonRepository = lessonRepository,
         super(const WordState()) {
     on<WordInitRequested>(_onInitRequested);
     on<WordAddUserWordRequested>(_onAddUserWordRequested);
-    on<WordBoxTapped>(_onBoxTapped);
     on<WordLockedCardTriggered>(_onLockedCardTriggered);
     on<WordTimerInitRequested>(_onTimerInitRequested);
-    on<WordCompleteTriggered>(_onCompleteTriggered);
-    on<WordFailedTriggered>(_onFailedTriggered);
+    on<WordCompleted>(_onCompleted);
     on<WordSpeakRequested>(_onSpeakRequested);
   }
 
@@ -87,11 +86,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
           // }
         },
       );
-    } catch (e) {
-      add(WordFailedTriggered(
-        error: "Word failed to load: $e",
-      ));
-    }
+    } catch (e) {}
   }
 
   void _onAddUserWordRequested(
@@ -103,13 +98,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       levelId: event.levelId,
       lessonId: event.lessonId,
     );
-  }
-
-  void _onBoxTapped(
-    WordBoxTapped event,
-    Emitter<WordState> emit,
-  ) async {
-    emit(state.copyWith(boxIndex: event.boxIndex));
   }
 
   void _onLockedCardTriggered(
@@ -128,12 +116,9 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       // );
 
       emit(state.copyWith(
-        lockedStatus: LockedStatus.locked,
         wordLoadingStatus: WordLoadingStatus.success,
       ));
-    } catch (e) {
-      add(WordFailedTriggered(error: "Failed to locked the card. $e"));
-    }
+    } catch (e) {}
   }
 
   void _onTimerInitRequested(
@@ -169,23 +154,20 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     // );
   }
 
-  void _onCompleteTriggered(
-    WordCompleteTriggered event,
+  void _onCompleted(
+    WordCompleted event,
     Emitter<WordState> emit,
-  ) {
-    emit(state.copyWith(
-      completeStatus: CompleteStatus.finished,
-    ));
-  }
-
-  void _onFailedTriggered(
-    WordFailedTriggered event,
-    Emitter<WordState> emit,
-  ) {
-    emit(state.copyWith(
-      wordLoadingStatus: WordLoadingStatus.failed,
-      error: event.error,
-    ));
+  ) async {
+    print("This is called: ${event.userId} ${event.levelId} ${event.lessonId}");
+    try {
+      await _wordRepository.wordsByLessonCompleted(
+        userId: event.userId,
+        levelId: event.levelId,
+        lessonId: event.lessonId,
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   FutureOr<void> _onSpeakRequested(

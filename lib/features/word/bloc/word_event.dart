@@ -31,14 +31,6 @@ final class WordAddUserWordRequested extends WordEvent {
   });
 }
 
-final class WordBoxTapped extends WordEvent {
-  final int boxIndex;
-
-  const WordBoxTapped({
-    required this.boxIndex,
-  });
-}
-
 final class WordLockedCardTriggered extends WordEvent {
   const WordLockedCardTriggered();
 }
@@ -51,13 +43,15 @@ final class WordTimerInitRequested extends WordEvent {
   });
 }
 
-final class WordCompleteTriggered extends WordEvent {}
+final class WordCompleted extends WordEvent {
+  final String userId;
+  final String levelId;
+  final String lessonId;
 
-final class WordFailedTriggered extends WordEvent {
-  final String error;
-
-  const WordFailedTriggered({
-    required this.error,
+  const WordCompleted({
+    required this.userId,
+    required this.levelId,
+    required this.lessonId,
   });
 }
 
