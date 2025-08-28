@@ -29,6 +29,7 @@ class CardBloc extends Bloc<CardEvent, CardState> {
   }
 
   void _onSwiped(CardSwiped event, Emitter<CardState> emit) async {
+    emit(state.copyWith(status: CardStateStatus.loading));
     try {
       await _wordRepository.swipeCard(
         wordId: event.wordId,
@@ -36,8 +37,10 @@ class CardBloc extends Bloc<CardEvent, CardState> {
         userId: event.userId,
         box: event.box,
       );
+      emit(state.copyWith(status: CardStateStatus.success));
     } catch (e) {
       print("Error swiping card: $e");
+      emit(state.copyWith(status: CardStateStatus.failed));
     }
   }
 

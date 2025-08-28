@@ -45,43 +45,62 @@ class _WordViewState extends State<WordView> {
       appBar: AppBar(
         title: const Text("Word"),
       ),
-      body: BlocBuilder<CardBloc, CardState>(
-        builder: (context, cardState) {
-          return BlocConsumer<WordBloc, WordState>(
+      body: BlocConsumer<WordBloc, WordState>(
+        listenWhen: (previous, current) =>
+            previous.wordLoadingStatus != current.wordLoadingStatus,
+        listener: (context, state) {
+          // if (state.lockedStatus == LockedStatus.locked) {
+          //   context.read<WordBloc>().add(WordTimerInitRequested(
+          //         words: state.words,
+          //       ));
+          // }
+
+          // if (state.completeStatus == CompleteStatus.finished) {
+          //   context.pop();
+          //   showCompleteDialog(context);
+          // }
+          if (state.wordLoadingStatus == WordLoadingStatus.success) {
+            final getUserWordsWithLeastBox = state.userWords.reduce(
+                (currentMin, word) =>
+                    word.box! < currentMin.box! ? word : currentMin);
+            context.read<CardBloc>().add(CardProgressIndexChanged(
+                  currentBox: getUserWordsWithLeastBox.box ?? 0,
+                ));
+          }
+        },
+        builder: (context, state) {
+          if (state.wordLoadingStatus == WordLoadingStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (state.words.isEmpty) {
+            return const Center(
+              child: Text("No words found"),
+            );
+          }
+
+          return BlocConsumer<CardBloc, CardState>(
             listenWhen: (previous, current) =>
-                previous.wordLoadingStatus != current.wordLoadingStatus,
-            listener: (context, state) {
-              // if (state.lockedStatus == LockedStatus.locked) {
-              //   context.read<WordBloc>().add(WordTimerInitRequested(
-              //         words: state.words,
-              //       ));
-              // }
-
-              // if (state.completeStatus == CompleteStatus.finished) {
-              //   context.pop();
-              //   showCompleteDialog(context);
-              // }
-              // if (state.wordLoadingStatus == WordLoadingStatus.success) {
-              //   final getUserWordsWithLeastBox = state.userWords.reduce(
-              //       (currentMin, word) =>
-              //           word.box! < currentMin.box! ? word : currentMin);
-              //   context.read<CardBloc>().add(CardProgressIndexChanged(
-              //         currentBox: getUserWordsWithLeastBox.box ?? 0,
-              //       ));
-              // }
+                previous.status != current.status,
+            listener: (context, cardState) {
+              final currentWords = state.userWords
+                  .where((element) =>
+                      element.box == cardState.currentProgressIndex)
+                  .toList();
+              if (currentWords.isEmpty &&
+                  cardState.status == CardStateStatus.success) {
+                context.read<CardBloc>().add(CardProgressIndexChanged(
+                      currentBox: cardState.currentProgressIndex + 1,
+                    ));
+              }
             },
-            builder: (context, state) {
-              if (state.wordLoadingStatus == WordLoadingStatus.loading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              if (state.words.isEmpty) {
-                return const Center(
-                  child: Text("No words found"),
-                );
-              }
+            builder: (context, cardState) {
+              final currentWords = state.userWords
+                  .where((element) =>
+                      element.box == cardState.currentProgressIndex)
+                  .toList();
 
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -137,93 +156,84 @@ class _WordViewState extends State<WordView> {
                       ],
                     ),
                     const SizedBox(height: 12.0),
-                    BlocSelector<AppBloc, AppState, AppUserInfo?>(
-                      selector: (state) => state.currentUserInfo,
-                      builder: (context, userInfo) {
-                        final currentWords = state.userWords
-                            .where((element) =>
-                                element.box == cardState.currentProgressIndex)
-                            .toList();
+                    cardState.status == CardStateStatus.loading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : BlocSelector<AppBloc, AppState, AppUserInfo?>(
+                            selector: (state) => state.currentUserInfo,
+                            builder: (context, userInfo) {
+                              return Flexible(
+                                child: CardSwiper(
+                                  allowedSwipeDirection:
+                                      AllowedSwipeDirection.only(
+                                    right: true,
+                                    left: true,
+                                  ),
+                                  threshold: 100,
+                                  numberOfCardsDisplayed: currentWords.length,
+                                  isLoop: true,
+                                  onSwipe: (int previousIndex,
+                                      int? currentIndex,
+                                      CardSwiperDirection direction) {
+                                    print(
+                                      'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
+                                    );
+                                    context.read<CardBloc>().add(CardSwiped(
+                                          wordId:
+                                              currentWords[previousIndex].id ??
+                                                  "",
+                                          direction: direction,
+                                          userId: userInfo?.id ?? "",
+                                          box:
+                                              currentWords[previousIndex].box ??
+                                                  0,
+                                        ));
 
-                        return Flexible(
-                          child: CardSwiper(
-                            allowedSwipeDirection: AllowedSwipeDirection.only(
-                              right: true,
-                              left: true,
-                            ),
-                            threshold: 100,
-                            numberOfCardsDisplayed: currentWords.length,
-                            onSwipe: (int previousIndex, int? currentIndex,
-                                CardSwiperDirection direction) {
-                              print(
-                                'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
-                              );
-                              context.read<CardBloc>().add(CardSwiped(
-                                    wordId:
-                                        currentWords[previousIndex].id ?? "",
-                                    direction: direction,
-                                    userId: userInfo?.id ?? "",
-                                    box: currentWords[previousIndex].box ?? 0,
-                                  ));
-                              return true;
-                            },
-                            onEnd: () {
-                              context
-                                  .read<CardBloc>()
-                                  .add(CardProgressIndexChanged(
-                                    currentBox:
-                                        cardState.currentProgressIndex + 1,
-                                  ));
-                            },
-                            onUndo: (previousIndex, currentIndex, direction) {
-                              print(
-                                'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
-                              );
-
-                              return true;
-                            },
-                            onSwipeDirectionChange:
-                                (horizontalDirection, verticalDirection) {
-                              if (horizontalDirection.index == 0 &&
-                                  verticalDirection.index == 0) {
-                                return context
-                                    .read<CardBloc>()
-                                    .add(CardSwipedDirectionChanged(
-                                      direction: CardSwiperDirection.none,
-                                    ));
-                              }
-                              context
-                                  .read<CardBloc>()
-                                  .add(CardSwipedDirectionChanged(
-                                    direction: horizontalDirection ==
-                                            CardSwiperDirection.left
-                                        ? CardSwiperDirection.left
-                                        : CardSwiperDirection.right,
-                                  ));
-                            },
-                            cardBuilder: (context, index, percentTresholdX,
-                                percentTresholdY) {
-                              return BlocSelector<AppBloc, AppState,
-                                  AppUserInfo?>(
-                                selector: (state) {
-                                  return state.currentUserInfo;
-                                },
-                                builder: (context, userInfo) {
-                                  print(currentWords[index].word);
-                                  return FlashCard(
-                                    word: currentWords[index],
-                                    wordState: state,
-                                    cardState: cardState,
-                                    codeToLearn: userInfo?.codeToLearn ?? "",
-                                  );
-                                },
+                                    return true;
+                                  },
+                                  onSwipeDirectionChange:
+                                      (horizontalDirection, verticalDirection) {
+                                    if (horizontalDirection.index == 0 &&
+                                        verticalDirection.index == 0) {
+                                      return context
+                                          .read<CardBloc>()
+                                          .add(CardSwipedDirectionChanged(
+                                            direction: CardSwiperDirection.none,
+                                          ));
+                                    }
+                                    context
+                                        .read<CardBloc>()
+                                        .add(CardSwipedDirectionChanged(
+                                          direction: horizontalDirection ==
+                                                  CardSwiperDirection.left
+                                              ? CardSwiperDirection.left
+                                              : CardSwiperDirection.right,
+                                        ));
+                                  },
+                                  cardBuilder: (context, index,
+                                      percentTresholdX, percentTresholdY) {
+                                    return BlocSelector<AppBloc, AppState,
+                                        AppUserInfo?>(
+                                      selector: (state) {
+                                        return state.currentUserInfo;
+                                      },
+                                      builder: (context, userInfo) {
+                                        return FlashCard(
+                                          word: currentWords[index],
+                                          wordState: state,
+                                          cardState: cardState,
+                                          codeToLearn:
+                                              userInfo?.codeToLearn ?? "",
+                                        );
+                                      },
+                                    );
+                                  },
+                                  cardsCount: currentWords.length,
+                                ),
                               );
                             },
-                            cardsCount: currentWords.length,
                           ),
-                        );
-                      },
-                    ),
                     // state.lockedStatus == LockedStatus.locked
                     //     ? const LockedCard()
                     //     : Draggable(

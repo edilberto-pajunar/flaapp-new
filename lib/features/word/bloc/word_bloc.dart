@@ -46,7 +46,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     emit(state.copyWith(words: words));
 
     try {
-      emit.forEach(
+      await emit.forEach(
         _wordRepository.getUserWords(
           levelId: event.levelId,
           lessonId: event.lessonId,
