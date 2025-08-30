@@ -116,3 +116,8 @@ class AdminWordChanged extends AdminEvent {
     required this.index,
   });
 }
+
+
+class AdminLanguageStreamRequested extends AdminEvent {
+  const AdminLanguageStreamRequested();
+}

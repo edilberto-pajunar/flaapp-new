@@ -1,6 +1,8 @@
 import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
+import 'package:flaapp/features/admin/layout/features/words/view/add_word_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class AdminWordsView extends StatefulWidget {
   const AdminWordsView({
@@ -30,7 +32,12 @@ class _AdminWordsViewState extends State<AdminWordsView> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.pushNamed(AdminAddWordPage.route, pathParameters: {
+                "level_id": widget.levelId,
+                "lesson_id": widget.lessonId,
+              });
+            },
             icon: Icon(Icons.add),
           ),
         ],

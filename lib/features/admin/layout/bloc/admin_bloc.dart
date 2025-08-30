@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flaapp/model/language.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/translation.dart';
 import 'package:flaapp/model/word.dart';
+import 'package:flaapp/repository/language/language_repository.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/level/level_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';
@@ -17,16 +19,19 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   final LessonRepository _lessonRepository;
   final WordRepository _wordRepository;
   final TranslateRepository _translateRepository;
+  final LanguageRepository _languageRepository;
 
   AdminBloc({
     required LevelRepository levelRepository,
     required LessonRepository lessonRepository,
     required WordRepository wordRepository,
     required TranslateRepository translateRepository,
+    required LanguageRepository languageRepository,
   })  : _levelRepository = levelRepository,
         _lessonRepository = lessonRepository,
         _wordRepository = wordRepository,
         _translateRepository = translateRepository,
+        _languageRepository = languageRepository,
         super(const AdminState()) {
     on<AdminInitRequested>(_onInitRequested);
     on<AdminLevelStreamRequested>(_onAdminLevelStreamRequested);
@@ -42,6 +47,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<AdminLevelChanged>(_onLevelChanged);
     on<AdminLessonChanged>(_onLessonChanged);
     on<AdminWordChanged>(_onWordChanged);
+    on<AdminLanguageStreamRequested>(_onAdminLanguageStreamRequested);
   }
 
   void _onInitRequested(
@@ -57,6 +63,14 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   ) async {
     await emit.forEach(_levelRepository.getAdminLevels(),
         onData: (levels) => state.copyWith(levels: levels));
+  }
+
+  void _onAdminLanguageStreamRequested(
+    AdminLanguageStreamRequested event,
+    Emitter<AdminState> emit,
+  ) async {
+    await emit.forEach(_languageRepository.getLanguages(),
+        onData: (languages) => state.copyWith(languages: languages));
   }
 
   void _onAdminLessonStreamRequested(

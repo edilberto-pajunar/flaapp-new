@@ -19,6 +19,7 @@ class _AdminLevelsViewState extends State<AdminLevelsView> {
   void initState() {
     super.initState();
     context.read<AdminBloc>().add(AdminLevelStreamRequested());
+    context.read<AdminBloc>().add(AdminLanguageStreamRequested());
   }
 
   @override

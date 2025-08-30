@@ -13,6 +13,7 @@ final class AdminState extends Equatable {
   final List<WordModel> words;
   final List<String> translatedWords;
   final AdminStatus adminStatus;
+  final List<LanguageModel> languages;
 
   const AdminState({
     this.levels = const [],
@@ -20,6 +21,7 @@ final class AdminState extends Equatable {
     this.words = const [],
     this.translatedWords = const [],
     this.adminStatus = AdminStatus.idle,
+    this.languages = const [],
   });
 
   AdminState copyWith({
@@ -30,6 +32,7 @@ final class AdminState extends Equatable {
     LessonModel? lesson,
     List<String>? translatedWords,
     AdminStatus? adminStatus,
+    List<LanguageModel>? languages,
   }) {
     return AdminState(
       levels: levels ?? this.levels,
@@ -37,6 +40,7 @@ final class AdminState extends Equatable {
       words: words ?? this.words,
       translatedWords: translatedWords ?? this.translatedWords,
       adminStatus: adminStatus ?? this.adminStatus,
+      languages: languages ?? this.languages,
     );
   }
 
@@ -47,5 +51,6 @@ final class AdminState extends Equatable {
         words,
         translatedWords,
         adminStatus,
+        languages,
       ];
 }

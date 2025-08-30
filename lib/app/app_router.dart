@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flaapp/features/admin/layout/features/lessons/view/admin_lessons_page.dart';
 import 'package:flaapp/features/admin/layout/features/levels/view/admin_levels_page.dart';
 import 'package:flaapp/features/admin/layout/features/profile/view/admin_profile_page.dart';
+import 'package:flaapp/features/admin/layout/features/words/view/add_word_page.dart';
 import 'package:flaapp/features/admin/layout/features/words/view/admin_words_page.dart';
-import 'package:flaapp/features/admin/layout/view/admin_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
 import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
@@ -42,15 +42,10 @@ class AppRouter {
               builder: (context, state) => const LevelPage(),
             ),
             GoRoute(
-              name: AdminPage.route,
-              path: "/admin",
-              builder: (context, state) => const AdminPage(),
+              name: AdminLevelsPage.route,
+              path: "/admin-levels",
+              builder: (context, state) => const AdminLevelsPage(),
               routes: [
-                GoRoute(
-                  name: AdminLevelsPage.route,
-                  path: "levels",
-                  builder: (context, state) => const AdminLevelsPage(),
-                ),
                 GoRoute(
                   name: AdminLessonsPage.route,
                   path: "lessons/:level_id",
@@ -66,6 +61,13 @@ class AppRouter {
                     levelId: (state.pathParameters as Map)["level_id"],
                     lessonId: (state.pathParameters as Map)["lesson_id"],
                   ),
+                  routes: [
+                    GoRoute(
+                      name: AdminAddWordPage.route,
+                      path: "add_word",
+                      builder: (context, state) => const AdminAddWordPage(),
+                    ),
+                  ],
                 ),
                 GoRoute(
                   name: AdminProfilePage.route,

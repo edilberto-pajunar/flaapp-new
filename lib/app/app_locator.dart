@@ -2,12 +2,14 @@ import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
+import 'package:flaapp/features/language/bloc/language_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
 import 'package:flaapp/features/word/bloc/card_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
+import 'package:flaapp/repository/language/language_repository.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/level/level_repository.dart';
 import 'package:flaapp/repository/translate/translate_repository.dart';
@@ -23,6 +25,9 @@ Future<void> setupLocator() async {
     () => UserRepository(databaseRepository: getIt<DatabaseRepository>()),
   );
   getIt.registerLazySingleton<DatabaseRepository>(() => DatabaseRepository());
+  getIt.registerLazySingleton<LanguageRepository>(
+    () => LanguageRepository(databaseRepository: getIt<DatabaseRepository>()),
+  );
   getIt.registerLazySingleton<LevelRepository>(
     () => LevelRepository(
         databaseRepository: getIt<DatabaseRepository>(),
@@ -52,6 +57,7 @@ Future<void> setupLocator() async {
       lessonRepository: getIt<LessonRepository>(),
       wordRepository: getIt<WordRepository>(),
       translateRepository: getIt<TranslateRepository>(),
+      languageRepository: getIt<LanguageRepository>(),
     ),
   );
   getIt.registerLazySingleton<AppBloc>(
@@ -69,6 +75,9 @@ Future<void> setupLocator() async {
     () => CardBloc(
       wordRepository: getIt<WordRepository>(),
     ),
+  );
+  getIt.registerLazySingleton<LanguageBloc>(
+    () => LanguageBloc(),
   );
   getIt.registerLazySingleton<LevelBloc>(
     () => LevelBloc(
