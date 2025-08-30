@@ -3,6 +3,7 @@ import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
+import 'package:flaapp/features/profile/view/profile_page.dart';
 import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,15 +30,6 @@ class _LevelViewState extends State<LevelView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Level"),
-        actions: [
-          IconButton(
-            onPressed: () =>
-                context.read<AuthBloc>().add(AuthSignOutAttempted()),
-            icon: const Icon(
-              Icons.logout,
-            ),
-          ),
-        ],
       ),
       drawer: Drawer(
         child: Column(
@@ -70,6 +62,17 @@ class _LevelViewState extends State<LevelView> {
               onTap: () {},
             ),
             const Divider(),
+            ListTile(
+              title: const Text("Profile"),
+              leading: const Icon(Icons.person),
+              onTap: () => context.pushNamed(ProfilePage.route),
+            ),
+            Divider(),
+            ListTile(
+              title: const Text("Logout"),
+              leading: const Icon(Icons.logout),
+              onTap: () => context.read<AuthBloc>().add(AuthSignOutAttempted()),
+            ),
           ],
         ),
       ),

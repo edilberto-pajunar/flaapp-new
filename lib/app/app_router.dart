@@ -10,6 +10,7 @@ import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/language/view/language_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/view/level_page.dart';
+import 'package:flaapp/features/profile/view/profile_page.dart';
 import 'package:flaapp/features/word/view/word_page.dart';
 import 'package:flaapp/features/wrapper/view/wrapper_page.dart';
 import 'package:flaapp/model/lesson.dart';
@@ -90,6 +91,13 @@ class AppRouter {
               path: "language",
               builder: (context, state) {
                 return const LanguagePage();
+              },
+            ),
+            GoRoute(
+              name: ProfilePage.route,
+              path: "profile",
+              builder: (context, state) {
+                return const ProfilePage();
               },
             ),
             GoRoute(
