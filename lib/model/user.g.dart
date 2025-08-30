@@ -14,6 +14,7 @@ AppUserInfo _$AppUserInfoFromJson(Map<String, dynamic> json) => AppUserInfo(
       code: json['code'] as String?,
       codeToLearn: json['codeToLearn'] as String?,
       role: json['role'] as String?,
+      updatedTime: timestampToDate(json['updatedTime'] as Timestamp?),
     );
 
 Map<String, dynamic> _$AppUserInfoToJson(AppUserInfo instance) =>
@@ -25,4 +26,5 @@ Map<String, dynamic> _$AppUserInfoToJson(AppUserInfo instance) =>
       'code': instance.code,
       'codeToLearn': instance.codeToLearn,
       'role': instance.role,
+      'updatedTime': dateToTimestamp(instance.updatedTime),
     };

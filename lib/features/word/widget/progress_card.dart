@@ -1,5 +1,6 @@
 import 'package:flaapp/features/word/bloc/card_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
+import 'package:flaapp/features/word/utils/word_sheet.dart';
 import 'package:flaapp/utils/constant/strings/image.dart';
 import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,8 @@ class ProgressCard extends StatelessWidget {
                             : Stack(
                                 children: [
                                   Center(
-                                    child: index == state.boxIndex
+                                    child: index ==
+                                            cardState.currentProgressIndex
                                         ? Image.asset(PngImage.card)
                                         : Image.asset(PngImage.cardDeactivated),
                                   ),

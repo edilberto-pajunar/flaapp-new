@@ -6,3 +6,5 @@ sealed class FavoriteEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class FavoriteInitRequested extends FavoriteEvent {}

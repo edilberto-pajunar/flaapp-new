@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:flaapp/model/lesson.dart';
-import 'package:flaapp/model/level.dart';
-import 'package:flaapp/model/translation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
@@ -13,10 +11,12 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 class WordRepository extends BaseWordRepository {
   final DatabaseRepository databaseRepository;
   final LessonRepository lessonRepository;
+  final FirebaseAuth firebaseAuth;
 
   WordRepository({
     required this.databaseRepository,
     required this.lessonRepository,
+    required this.firebaseAuth,
   });
 
   @override
@@ -214,5 +214,33 @@ class WordRepository extends BaseWordRepository {
       data: word.toJson(),
       merge: true,
     );
+  }
+
+  @override
+  Future<void> addFavoriteWord({
+    required WordModel word,
+  }) async {
+    final userId = firebaseAuth.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
+    await databaseRepository.addData(
+        path: "users/$userId/favorites", data: word.toJson());
+  }
+
+  @override
+  Stream<List<WordModel>> getFavorites() {
+    final userId = firebaseAuth.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
+    final favorites = databaseRepository.collectionStream(
+      path: "users/$userId/favorites",
+      builder: (data, _) => WordModel.fromJson(data),
+    );
+
+    return favorites;
   }
 }

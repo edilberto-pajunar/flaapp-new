@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flaapp/model/lesson.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
+
+
 
 @JsonSerializable()
 class AppUserInfo extends Equatable {
@@ -12,6 +16,8 @@ class AppUserInfo extends Equatable {
   final String? code;
   final String? codeToLearn;
   final String? role;
+  @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)
+  final DateTime? updatedTime;
 
   const AppUserInfo({
     this.id,
@@ -21,6 +27,7 @@ class AppUserInfo extends Equatable {
     this.code,
     this.codeToLearn,
     this.role,
+    this.updatedTime,
   });
 
   AppUserInfo copyWith({
@@ -31,6 +38,7 @@ class AppUserInfo extends Equatable {
     String? code,
     String? codeToLearn,
     String? role,
+    DateTime? updatedTime,
   }) =>
       AppUserInfo(
         id: id ?? this.id,
@@ -40,6 +48,7 @@ class AppUserInfo extends Equatable {
         code: code ?? this.code,
         codeToLearn: codeToLearn ?? this.codeToLearn,
         role: role ?? this.role,
+        updatedTime: updatedTime ?? this.updatedTime,
       );
 
   factory AppUserInfo.fromJson(Map<String, dynamic> json) =>
@@ -56,5 +65,6 @@ class AppUserInfo extends Equatable {
         code,
         codeToLearn,
         role,
+        updatedTime,
       ];
 }

@@ -2,6 +2,7 @@ import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/admin/features/bloc/admin_bloc.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
+import 'package:flaapp/features/favorite/bloc/favorite_bloc.dart';
 import 'package:flaapp/features/language/bloc/language_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
@@ -26,7 +27,9 @@ Future<void> setupLocator() async {
   );
   getIt.registerLazySingleton<DatabaseRepository>(() => DatabaseRepository());
   getIt.registerLazySingleton<LanguageRepository>(
-    () => LanguageRepository(databaseRepository: getIt<DatabaseRepository>()),
+    () => LanguageRepository(
+        databaseRepository: getIt<DatabaseRepository>(),
+        firebaseAuth: FirebaseAuth.instance),
   );
   getIt.registerLazySingleton<LevelRepository>(
     () => LevelRepository(
@@ -47,6 +50,7 @@ Future<void> setupLocator() async {
     () => WordRepository(
       databaseRepository: getIt<DatabaseRepository>(),
       lessonRepository: getIt<LessonRepository>(),
+      firebaseAuth: FirebaseAuth.instance,
     ),
   );
 
@@ -76,8 +80,11 @@ Future<void> setupLocator() async {
       wordRepository: getIt<WordRepository>(),
     ),
   );
+  getIt.registerLazySingleton<FavoriteBloc>(
+    () => FavoriteBloc(wordRepository: getIt<WordRepository>()),
+  );
   getIt.registerLazySingleton<LanguageBloc>(
-    () => LanguageBloc(),
+    () => LanguageBloc(languageRepository: getIt<LanguageRepository>()),
   );
   getIt.registerLazySingleton<LevelBloc>(
     () => LevelBloc(

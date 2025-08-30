@@ -37,6 +37,8 @@ class AuthRepository extends BaseAuthRepository {
           "email": email,
           "id": cred.user!.uid,
           "username": username,
+          "language": "English",
+          "code": "en",
         },
       );
 

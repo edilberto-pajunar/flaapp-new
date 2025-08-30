@@ -63,4 +63,9 @@ abstract class BaseWordRepository {
   // ADMIN
 
   Future<void> updateAdminWord(WordModel word);
+
+  Future<void> addFavoriteWord({
+    required WordModel word,
+  });
+  Stream<List<WordModel>> getFavorites();
 }

@@ -28,6 +28,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     on<WordTimerInitRequested>(_onTimerInitRequested);
     on<WordCompleted>(_onCompleted);
     on<WordSpeakRequested>(_onSpeakRequested);
+    on<WordFavoriteAdded>(_onFavoriteAdded);
   }
 
   void _onInitRequested(
@@ -194,6 +195,24 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       emit(state.copyWith(
         error: e.toString(),
         wordLoadingStatus: WordLoadingStatus.failed,
+      ));
+    }
+  }
+
+  FutureOr<void> _onFavoriteAdded(
+    WordFavoriteAdded event,
+    Emitter<WordState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(wordFavoriteStatus: WordFavoriteStatus.loading));
+      await _wordRepository.addFavoriteWord(
+        word: event.word,
+      );
+      emit(state.copyWith(wordFavoriteStatus: WordFavoriteStatus.success));
+    } catch (e) {
+      emit(state.copyWith(
+        error: e.toString(),
+        wordFavoriteStatus: WordFavoriteStatus.failed,
       ));
     }
   }

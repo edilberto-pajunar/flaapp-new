@@ -7,6 +7,7 @@ import 'package:flaapp/admin/features/features/words/view/add_word_page.dart';
 import 'package:flaapp/admin/features/features/words/view/admin_words_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
 import 'package:flaapp/features/favorite/view/favorite_page.dart';
+import 'package:flaapp/features/language/view/language_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/view/level_page.dart';
 import 'package:flaapp/features/word/view/word_page.dart';
@@ -83,6 +84,13 @@ class AppRouter {
               name: FavoritePage.route,
               path: "favorite",
               builder: (context, state) => const FavoritePage(),
+            ),
+            GoRoute(
+              name: LanguagePage.route,
+              path: "language",
+              builder: (context, state) {
+                return const LanguagePage();
+              },
             ),
             GoRoute(
               name: LessonPage.route,

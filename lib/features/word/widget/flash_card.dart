@@ -54,27 +54,28 @@ class FlashCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(
-            //     left: 28.0,
-            //     top: 22.0,
-            //     right: 28.0,
-            //   ),
-            //   child: Align(
-            //     alignment:
-            //         state.position > 0 ? Alignment.topRight : Alignment.topLeft,
-            //     child: Text(
-            //       state.position > 0
-            //           ? "Great!"
-            //           : state.position < 0
-            //               ? "You got this. Let's try again!"
-            //               : "",
-            //       style: theme.textTheme.bodyMedium!.copyWith(
-            //         color: Colors.white,
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 28.0,
+                top: 22.0,
+                right: 28.0,
+              ),
+              child: Align(
+                alignment: cardState.direction == CardSwiperDirection.right
+                    ? Alignment.topRight
+                    : Alignment.topLeft,
+                child: Text(
+                  cardState.direction == CardSwiperDirection.right
+                      ? "Great!"
+                      : cardState.direction == CardSwiperDirection.left
+                          ? "You got this. Let's try again!"
+                          : "",
+                  style: theme.textTheme.bodyMedium!.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
             Expanded(
               child: Center(
                 child: Text(
@@ -90,22 +91,42 @@ class FlashCard extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: Align(
                 alignment: Alignment.bottomRight,
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: ColorTheme.tBlackColor,
-                  child: IconButton(
-                    onPressed: () async {
-                      context.read<WordBloc>().add(WordSpeakRequested(
-                            frontWord: word.word ?? "",
-                            backWord: translatedWord ?? "",
-                          ));
-                    },
-                    iconSize: 30.0,
-                    icon: const Icon(
-                      Icons.volume_down,
-                      color: Colors.white,
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: ColorTheme.tRedColor,
+                      child: IconButton(
+                        onPressed: () {
+                          context.read<WordBloc>().add(WordFavoriteAdded(
+                                word: word,
+                              ));
+                        },
+                        icon: Icon(
+                          Icons.favorite,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 12.0),
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: ColorTheme.tBlackColor,
+                      child: IconButton(
+                        onPressed: () async {
+                          context.read<WordBloc>().add(WordSpeakRequested(
+                                frontWord: word.word ?? "",
+                                backWord: translatedWord ?? "",
+                              ));
+                        },
+                        iconSize: 20.0,
+                        icon: const Icon(
+                          Icons.volume_down,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

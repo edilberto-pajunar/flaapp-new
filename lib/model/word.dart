@@ -1,14 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/translation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'word.g.dart';
-
-DateTime? timestampToDate(Timestamp? timestamp) => timestamp?.toDate();
-
-Timestamp? dateToTimestamp(DateTime? date) =>
-    date == null ? null : Timestamp.fromDate(date);
 
 @JsonSerializable(explicitToJson: true)
 class WordModel extends Equatable {

@@ -1,6 +1,7 @@
 import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/admin/features/features/levels/view/admin_levels_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
+import 'package:flaapp/features/language/view/language_page.dart';
 import 'package:flaapp/features/level/view/level_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,12 +32,20 @@ class _WrapperViewState extends State<WrapperView> {
           if (state.currentUserInfo?.role == "admin") {
             context.goNamed(AdminLevelsPage.route);
           } else {
-            context.goNamed(LevelPage.route);
+            if (state.currentUserInfo?.codeToLearn == null) {
+              context.goNamed(LanguagePage.route);
+            } else {
+              context.goNamed(LevelPage.route);
+            }
           }
         }
       },
       builder: (context, state) {
-        return Scaffold();
+        return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
       },
     );
   }

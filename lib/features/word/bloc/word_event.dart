@@ -64,3 +64,11 @@ final class WordSpeakRequested extends WordEvent {
     required this.backWord,
   });
 }
+
+class WordFavoriteAdded extends WordEvent {
+  final WordModel word;
+
+  const WordFavoriteAdded({
+    required this.word,
+  });
+}

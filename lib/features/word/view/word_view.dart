@@ -2,6 +2,7 @@ import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/word/bloc/card_bloc.dart';
 import 'package:flaapp/features/word/bloc/word_bloc.dart';
+import 'package:flaapp/features/word/utils/word_sheet.dart';
 import 'package:flaapp/features/word/widget/progress_card.dart';
 import 'package:flaapp/features/word/widget/flash_card.dart';
 import 'package:flaapp/model/lesson.dart';
@@ -47,7 +48,8 @@ class _WordViewState extends State<WordView> {
       ),
       body: BlocConsumer<WordBloc, WordState>(
         listenWhen: (previous, current) =>
-            previous.wordLoadingStatus != current.wordLoadingStatus,
+            previous.wordLoadingStatus != current.wordLoadingStatus ||
+            previous.wordFavoriteStatus != current.wordFavoriteStatus,
         listener: (context, state) {
           // if (state.lockedStatus == LockedStatus.locked) {
           //   context.read<WordBloc>().add(WordTimerInitRequested(
@@ -68,6 +70,14 @@ class _WordViewState extends State<WordView> {
                     currentBox: getUserWordsWithLeastBox.box ?? 0,
                   ));
             }
+          }
+
+          if (state.wordFavoriteStatus == WordFavoriteStatus.success) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Word added to favorites"),
+              ),
+            );
           }
         },
         builder: (context, state) {
@@ -99,6 +109,7 @@ class _WordViewState extends State<WordView> {
                         levelId: widget.lesson.levelId ?? "",
                         lessonId: widget.lesson.id ?? "",
                       ));
+                  WordSheet.completed(context);
                 }
                 context.read<CardBloc>().add(CardProgressIndexChanged(
                       currentBox: cardState.currentProgressIndex + 1,
@@ -165,15 +176,15 @@ class _WordViewState extends State<WordView> {
                       ],
                     ),
                     const SizedBox(height: 12.0),
-                    cardState.status == CardStateStatus.loading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : BlocSelector<AppBloc, AppState, AppUserInfo?>(
-                            selector: (state) => state.currentUserInfo,
-                            builder: (context, userInfo) {
-                              return Flexible(
-                                child: CardSwiper(
+                    BlocSelector<AppBloc, AppState, AppUserInfo?>(
+                      selector: (state) => state.currentUserInfo,
+                      builder: (context, userInfo) {
+                        return Flexible(
+                          child: cardState.status == CardStateStatus.loading
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : CardSwiper(
                                   allowedSwipeDirection:
                                       AllowedSwipeDirection.only(
                                     right: true,
@@ -185,9 +196,6 @@ class _WordViewState extends State<WordView> {
                                   onSwipe: (int previousIndex,
                                       int? currentIndex,
                                       CardSwiperDirection direction) {
-                                    print(
-                                      'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
-                                    );
                                     context.read<CardBloc>().add(CardSwiped(
                                           wordId:
                                               currentWords[previousIndex].id ??
@@ -240,9 +248,9 @@ class _WordViewState extends State<WordView> {
                                   },
                                   cardsCount: currentWords.length,
                                 ),
-                              );
-                            },
-                          ),
+                        );
+                      },
+                    ),
                     // state.lockedStatus == LockedStatus.locked
                     //     ? const LockedCard()
                     //     : Draggable(

@@ -1,10 +1,12 @@
 part of 'word_bloc.dart';
 
-enum WordLoadingStatus {
+enum WordLoadingStatus { idle, loading, success, failed }
+
+enum WordFavoriteStatus {
   idle,
   loading,
   success,
-  failed
+  failed,
 }
 
 final class WordState extends Equatable {
@@ -16,7 +18,7 @@ final class WordState extends Equatable {
   final int? lockedTime;
   final String error;
   final WordLoadingStatus wordLoadingStatus;
-
+  final WordFavoriteStatus wordFavoriteStatus;
   const WordState({
     this.words = const [],
     this.userWords = const [],
@@ -26,6 +28,7 @@ final class WordState extends Equatable {
     this.lockedTime,
     this.error = "",
     this.wordLoadingStatus = WordLoadingStatus.idle,
+    this.wordFavoriteStatus = WordFavoriteStatus.idle,
   });
 
   WordState copyWith({
@@ -37,6 +40,7 @@ final class WordState extends Equatable {
     int? lockedTime,
     String? error,
     WordLoadingStatus? wordLoadingStatus,
+    WordFavoriteStatus? wordFavoriteStatus,
   }) {
     return WordState(
       words: words ?? this.words,
@@ -47,6 +51,7 @@ final class WordState extends Equatable {
       lockedTime: lockedTime ?? this.lockedTime,
       error: error ?? this.error,
       wordLoadingStatus: wordLoadingStatus ?? this.wordLoadingStatus,
+      wordFavoriteStatus: wordFavoriteStatus ?? this.wordFavoriteStatus,
     );
   }
 
@@ -60,5 +65,6 @@ final class WordState extends Equatable {
         lockedTime,
         error,
         wordLoadingStatus,
+        wordFavoriteStatus,
       ];
 }
