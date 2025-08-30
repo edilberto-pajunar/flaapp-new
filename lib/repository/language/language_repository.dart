@@ -30,4 +30,12 @@ class LanguageRepository implements BaseLanguageRepository {
       "updatedTime": DateTime.now(),
     });
   }
+
+  @override
+  Future<void> addLanguage(LanguageModel language) async {
+    await databaseRepository.addData(
+      path: "languages",
+      data: language.toJson(),
+    );
+  }
 }

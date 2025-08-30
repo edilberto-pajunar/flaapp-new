@@ -16,6 +16,7 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
     on<LanguageInitRequested>(_onLanguageInitRequested);
     on<LanguageSelected>(_onLanguageSelected);
     on<LanguageChangeRequested>(_onLanguageChangeRequested);
+    on<LanguageAddRequested>(_onLanguageAddRequested);
   }
 
   void _onLanguageInitRequested(
@@ -34,6 +35,17 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
     emit(state.copyWith(status: LanguageStatus.loading));
     try {
       await _languageRepository.changeLanguage(event.language);
+      emit(state.copyWith(status: LanguageStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: LanguageStatus.failed, error: e.toString()));
+    }
+  }
+
+  void _onLanguageAddRequested(
+      LanguageAddRequested event, Emitter<LanguageState> emit) async {
+    emit(state.copyWith(status: LanguageStatus.loading));
+    try {
+      await _languageRepository.addLanguage(event.language);
       emit(state.copyWith(status: LanguageStatus.success));
     } catch (e) {
       emit(state.copyWith(status: LanguageStatus.failed, error: e.toString()));

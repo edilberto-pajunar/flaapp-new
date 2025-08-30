@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flaapp/admin/features/features/language/view/add_admin_language_page.dart';
+import 'package:flaapp/admin/features/features/language/view/admin_language_page.dart';
 import 'package:flaapp/admin/features/features/lessons/view/admin_lessons_page.dart';
 import 'package:flaapp/admin/features/features/levels/view/admin_levels_page.dart';
 import 'package:flaapp/admin/features/features/profile/view/admin_profile_page.dart';
@@ -78,6 +80,18 @@ class AppRouter {
                   name: AdminProfilePage.route,
                   path: "profile",
                   builder: (context, state) => const AdminProfilePage(),
+                ),
+                GoRoute(
+                  name: AdminLanguagePage.route,
+                  path: "language",
+                  builder: (context, state) => const AdminLanguagePage(),
+                  routes: [
+                    GoRoute(
+                      name: AddAdminLanguagePage.route,
+                      path: "add_language",
+                      builder: (context, state) => const AddAdminLanguagePage(),
+                    ),
+                  ],
                 ),
               ],
             ),

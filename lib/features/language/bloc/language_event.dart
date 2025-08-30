@@ -26,3 +26,11 @@ class LanguageChangeRequested extends LanguageEvent {
     required this.language,
   });
 }
+
+class LanguageAddRequested extends LanguageEvent {
+  final LanguageModel language;
+
+  const LanguageAddRequested({
+    required this.language,
+  });
+}

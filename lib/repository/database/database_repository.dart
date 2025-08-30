@@ -66,7 +66,12 @@ class DatabaseRepository extends BaseDatabaseRepository {
     bool merge = true,
   }) async {
     final reference = FirebaseFirestore.instance.collection(path);
-    await reference.add(data);
+    final refId = reference.doc().id;
+    await reference.add({
+      ...data,
+      "id": refId,
+      "createdAt": DateTime.now(),
+    });
   }
 
   @override

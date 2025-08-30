@@ -11,9 +11,7 @@ LanguageModel _$LanguageModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       language: json['language'] as String?,
       code: json['code'] as String?,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
+      createdAt: timestampToDate(json['createdAt'] as Timestamp?),
       flag: json['flag'] as String?,
     );
 
@@ -22,6 +20,6 @@ Map<String, dynamic> _$LanguageModelToJson(LanguageModel instance) =>
       'id': instance.id,
       'language': instance.language,
       'code': instance.code,
-      'createdAt': instance.createdAt?.toIso8601String(),
+      'createdAt': dateToTimestamp(instance.createdAt),
       'flag': instance.flag,
     };

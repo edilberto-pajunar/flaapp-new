@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flaapp/model/lesson.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'language.g.dart';
@@ -7,6 +9,7 @@ class LanguageModel {
   final String? id;
   final String? language;
   final String? code;
+  @JsonKey(fromJson: timestampToDate, toJson: dateToTimestamp)
   final DateTime? createdAt;
   final String? flag;
 
