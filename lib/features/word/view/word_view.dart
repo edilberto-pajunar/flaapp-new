@@ -59,13 +59,15 @@ class _WordViewState extends State<WordView> {
           //   context.pop();
           //   showCompleteDialog(context);
           // }
-          if (state.wordLoadingStatus == WordLoadingStatus.success) {
-            final getUserWordsWithLeastBox = state.userWords.reduce(
-                (currentMin, word) =>
-                    word.box! < currentMin.box! ? word : currentMin);
-            context.read<CardBloc>().add(CardProgressIndexChanged(
-                  currentBox: getUserWordsWithLeastBox.box ?? 0,
-                ));
+          if (state.words.isNotEmpty) {
+            if (state.wordLoadingStatus == WordLoadingStatus.success) {
+              final getUserWordsWithLeastBox = state.userWords.reduce(
+                  (currentMin, word) =>
+                      word.box! < currentMin.box! ? word : currentMin);
+              context.read<CardBloc>().add(CardProgressIndexChanged(
+                    currentBox: getUserWordsWithLeastBox.box ?? 0,
+                  ));
+            }
           }
         },
         builder: (context, state) {
@@ -91,7 +93,6 @@ class _WordViewState extends State<WordView> {
                   .toList();
               if (currentWords.isEmpty &&
                   cardState.status == CardStateStatus.success) {
-                print(cardState.currentProgressIndex);
                 if (cardState.currentProgressIndex == 4) {
                   context.read<WordBloc>().add(WordCompleted(
                         userId: context.read<AppBloc>().state.currentUser!.uid,

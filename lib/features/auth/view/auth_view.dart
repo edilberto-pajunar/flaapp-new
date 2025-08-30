@@ -18,15 +18,10 @@ class AuthView extends StatefulWidget {
 
 class _AuthViewState extends State<AuthView> {
   bool isLogin = true;
+  final GlobalKey<FormBuilderState> formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormBuilderState> formKey = GlobalKey();
-
-    final TextEditingController username = TextEditingController();
-    final TextEditingController email = TextEditingController();
-    final TextEditingController password = TextEditingController();
-
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
@@ -83,6 +78,7 @@ class _AuthViewState extends State<AuthView> {
                         PrimaryTextField(
                           label: "Email",
                           hintText: "example@gmail.com",
+                          name: "email",
                           required: true,
                           validator: (val) {
                             if (val == null || val.isEmpty) {
@@ -110,19 +106,20 @@ class _AuthViewState extends State<AuthView> {
                           label: isLogin ? "Login" : "Sign up",
                           onTap: () async {
                             if (formKey.currentState!.saveAndValidate()) {
+                              final value = formKey.currentState?.value ?? {};
                               isLogin
                                   ? context
                                       .read<AuthBloc>()
                                       .add(AuthLoginAttempted(
-                                        email: email.text,
-                                        password: password.text,
+                                        email: value["email"],
+                                        password: value["password"],
                                       ))
                                   : context
                                       .read<AuthBloc>()
                                       .add(AuthCreateAccountAttempted(
-                                        email: email.text,
-                                        password: password.text,
-                                        username: username.text,
+                                        email: value["email"],
+                                        password: value["password"],
+                                        username: value["username"],
                                       ));
                             }
                           },
@@ -147,9 +144,7 @@ class _AuthViewState extends State<AuthView> {
                                   ..onTap = () {
                                     setState(() {
                                       isLogin = !isLogin;
-                                      email.clear();
-                                      username.clear();
-                                      password.clear();
+                                      formKey.currentState?.reset();
                                     });
                                   },
                               ),

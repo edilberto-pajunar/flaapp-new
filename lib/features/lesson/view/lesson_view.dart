@@ -61,6 +61,8 @@ class _LessonViewState extends State<LessonView> {
                                 orElse: () => lesson,
                               );
                               final lessonLocked = userLesson.locked ?? true;
+                              final lessonCompleted =
+                                  userLesson.status == LessonStatus.completed;
 
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 16.0),
@@ -92,15 +94,23 @@ class _LessonViewState extends State<LessonView> {
                                 ),
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(15.0),
-                                  onTap: !lessonLocked
-                                      ? () {
-                                          context.pushNamed(WordPage.route,
-                                              extra: {
-                                                "level": widget.level,
-                                                "lesson": lesson,
-                                              });
-                                        }
-                                      : null,
+                                  onTap: () {
+                                    if (lessonLocked || lessonCompleted) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(lessonLocked
+                                              ? "Lesson is locked"
+                                              : "Lesson is already completed"),
+                                        ),
+                                      );
+                                      return;
+                                    }
+                                    context.pushNamed(WordPage.route, extra: {
+                                      "level": widget.level,
+                                      "lesson": lesson,
+                                    });
+                                  },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 20.0,
@@ -118,8 +128,7 @@ class _LessonViewState extends State<LessonView> {
                                             ),
                                           ),
                                         ),
-                                        if (userLesson.status ==
-                                            LessonStatus.completed)
+                                        if (lessonCompleted)
                                           Icon(
                                             Icons.check_circle,
                                             color: ColorTheme.tGreenColor,
