@@ -1,4 +1,5 @@
 import 'package:flaapp/app/bloc/app_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
@@ -23,12 +24,15 @@ Future<void> setupLocator() async {
   );
   getIt.registerLazySingleton<DatabaseRepository>(() => DatabaseRepository());
   getIt.registerLazySingleton<LevelRepository>(
-    () => LevelRepository(databaseRepository: getIt<DatabaseRepository>()),
+    () => LevelRepository(
+        databaseRepository: getIt<DatabaseRepository>(),
+        firebaseAuth: FirebaseAuth.instance),
   );
   getIt.registerLazySingleton<LessonRepository>(
     () => LessonRepository(
       databaseRepository: getIt<DatabaseRepository>(),
       levelRepository: getIt<LevelRepository>(),
+      firebaseAuth: FirebaseAuth.instance,
     ),
   );
   getIt.registerLazySingleton<TranslateRepository>(

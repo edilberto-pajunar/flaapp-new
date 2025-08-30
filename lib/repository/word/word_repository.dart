@@ -92,7 +92,7 @@ class WordRepository extends BaseWordRepository {
 
       // Add next lesson to user_lessons
       await lessonRepository.unlockUserLesson(
-          userId: userId, levelId: levelId, currentLessonId: lessonId);
+          levelId: levelId, currentLessonId: lessonId);
     } catch (e) {
       print("Error marking lesson as completed: $e");
     }

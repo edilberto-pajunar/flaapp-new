@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 
@@ -29,13 +28,11 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
 
     await emit.forEach(
       _lessonRepository.getUserLessons(
-        userId: event.user.uid,
         level: event.levelId,
       ),
       onData: (userLessons) {
         if (userLessons.isEmpty) {
           add(LessonAddUserLessonRequested(
-            user: event.user,
             levelId: event.levelId,
             lessonId: lessons.first.id ?? "",
           ));
@@ -50,7 +47,6 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
     Emitter<LessonState> emit,
   ) async {
     await _lessonRepository.addUserLesson(
-      userId: event.user.uid,
       levelId: event.levelId,
       lessonId: event.lessonId,
     );
@@ -63,7 +59,6 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
     final int currentLessonIndex = event.lessons.indexOf(event.lesson);
 
     await _lessonRepository.unlockLesson(
-      event.user.uid,
       event.lessons[currentLessonIndex + 1],
     );
   }

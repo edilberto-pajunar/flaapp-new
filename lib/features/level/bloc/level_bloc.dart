@@ -25,13 +25,12 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     final levels = await _levelRepository.getLevels();
     emit(state.copyWith(levels: levels));
 
-    await emit.forEach(_levelRepository.getUserLevels(event.user.uid),
+    await emit.forEach(_levelRepository.getUserLevels(),
         onData: (userLevels) {
       // if user levels is empty, initialized a level
       if (userLevels.isEmpty) {
         add(LevelAddUserLevelRequested(
           levelId: state.levels.first.id ?? "",
-          userId: event.user.uid,
         ));
       }
 
@@ -45,7 +44,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   ) async {
     await _levelRepository.addUserLevel(
       levelId: event.levelId,
-      userId: event.userId,
     );
   }
 }

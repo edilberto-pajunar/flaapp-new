@@ -15,10 +15,8 @@ class AuthRepository extends BaseAuthRepository {
     required String email,
     required String password,
   }) async {
-    await _firebaseAuth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) => log("Login Successful!"))
-        .onError((error, stackTrace) => log("Error: $error"));
+    await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
   }
 
   @override

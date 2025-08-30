@@ -289,7 +289,6 @@ class _WordViewState extends State<WordView> {
   ) {
     if (words.length == 1 && words[0].box == 3) {
       context.read<LessonBloc>().add(LessonUnlockTriggered(
-            user: context.read<AppBloc>().state.currentUser!,
             lessons: context.read<LessonBloc>().state.lessons,
             lesson: widget.lesson,
           ));

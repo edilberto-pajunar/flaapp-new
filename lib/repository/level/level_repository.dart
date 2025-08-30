@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
@@ -6,9 +7,11 @@ import 'package:flaapp/utils/constant/strings/constant.dart';
 
 class LevelRepository extends BaseLevelRepository {
   final DatabaseRepository databaseRepository;
+  final FirebaseAuth firebaseAuth;
 
   LevelRepository({
     required this.databaseRepository,
+    required this.firebaseAuth,
   });
 
   @override
@@ -21,7 +24,12 @@ class LevelRepository extends BaseLevelRepository {
   }
 
   @override
-  Stream<List<LevelModel>> getUserLevels(String userId) {
+  Stream<List<LevelModel>> getUserLevels() {
+    final userId = firebaseAuth.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
     return databaseRepository.collectionStream(
       path: "users/$userId/user_levels",
       queryBuilder: (query) => query.orderBy("label", descending: false),
@@ -73,8 +81,12 @@ class LevelRepository extends BaseLevelRepository {
   @override
   Future<void> addUserLevel({
     required String levelId,
-    required String userId,
   }) async {
+    final userId = firebaseAuth.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
     final level = await databaseRepository.getData(
       path: "levels/$levelId",
       builder: (data, _) => LevelModel.fromJson(data),
@@ -92,9 +104,13 @@ class LevelRepository extends BaseLevelRepository {
 
   @override
   Future<void> unlockUserLevel({
-    required String userId,
     required String levelId,
   }) async {
+    final userId = firebaseAuth.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
     try {
       // Get all levels ordered by their order field
       final allLevels = await databaseRepository.collectionToList(

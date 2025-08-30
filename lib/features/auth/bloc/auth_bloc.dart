@@ -35,7 +35,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       emit(state.copyWith(status: AuthStatus.success));
     } catch (e) {
-      emit(state.copyWith(status: AuthStatus.failed, error: e.toString()));
+      emit(state.copyWith(
+        status: AuthStatus.failed,
+        error: e.toString(),
+      ));
     }
   }
 

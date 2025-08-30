@@ -2,15 +2,11 @@ import 'package:flaapp/model/level.dart';
 
 abstract class BaseLevelRepository {
   Future<List<LevelModel>> getLevels();
-  Stream<List<LevelModel>> getUserLevels(
-    String userId,
-  );
+  Stream<List<LevelModel>> getUserLevels();
   Future<void> addUserLevel({
     required String levelId,
-    required String userId,
   });
   Future<void> unlockUserLevel({
-    required String userId,
     required String levelId,
   });
 

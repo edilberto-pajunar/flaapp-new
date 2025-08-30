@@ -3,7 +3,6 @@ import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
-import 'package:flaapp/model/level.dart';
 import 'package:flaapp/utils/constant/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,9 +19,7 @@ class _LevelViewState extends State<LevelView> {
   @override
   void initState() {
     super.initState();
-    context.read<LevelBloc>().add(LevelInitRequested(
-          user: context.read<AppBloc>().state.currentUser!,
-        ));
+    context.read<LevelBloc>().add(LevelInitRequested());
   }
 
   @override

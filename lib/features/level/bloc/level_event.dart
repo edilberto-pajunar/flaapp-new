@@ -8,22 +8,13 @@ class LevelEvent extends Equatable {
 }
 
 class LevelInitRequested extends LevelEvent {
-  final User user;
-
-  const LevelInitRequested({
-    required this.user,
-  });
-
-  @override
-  List<Object> get props => [user];
+  const LevelInitRequested();
 }
 
 class LevelAddUserLevelRequested extends LevelEvent {
   final String levelId;
-  final String userId;
 
   const LevelAddUserLevelRequested({
     required this.levelId,
-    required this.userId,
   });
 }

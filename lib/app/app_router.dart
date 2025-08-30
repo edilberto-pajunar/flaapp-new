@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flaapp/features/admin/layout/features/lessons/view/admin_lessons_page.dart';
 import 'package:flaapp/features/admin/layout/features/levels/view/admin_levels_page.dart';
+import 'package:flaapp/features/admin/layout/features/profile/view/admin_profile_page.dart';
 import 'package:flaapp/features/admin/layout/features/words/view/admin_words_page.dart';
 import 'package:flaapp/features/admin/layout/view/admin_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
@@ -65,6 +66,11 @@ class AppRouter {
                     levelId: (state.pathParameters as Map)["level_id"],
                     lessonId: (state.pathParameters as Map)["lesson_id"],
                   ),
+                ),
+                GoRoute(
+                  name: AdminProfilePage.route,
+                  path: "profile",
+                  builder: (context, state) => const AdminProfilePage(),
                 ),
               ],
             ),

@@ -25,7 +25,6 @@ class _LessonViewState extends State<LessonView> {
   void initState() {
     super.initState();
     context.read<LessonBloc>().add(LessonInitRequested(
-          user: context.read<AppBloc>().state.currentUser!,
           levelId: widget.level.id ?? "",
         ));
   }

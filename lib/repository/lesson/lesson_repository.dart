@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
@@ -8,10 +9,12 @@ import 'package:flaapp/utils/constant/strings/constant.dart';
 class LessonRepository extends BaseLessonRepository {
   final DatabaseRepository databaseRepository;
   final LevelRepository levelRepository;
+  final FirebaseAuth firebaseAuth;
 
   LessonRepository({
     required this.databaseRepository,
     required this.levelRepository,
+    required this.firebaseAuth,
   });
 
   @override
@@ -25,9 +28,13 @@ class LessonRepository extends BaseLessonRepository {
 
   @override
   Stream<List<LessonModel>> getUserLessons({
-    required String userId,
     required String level,
   }) {
+    final userId = firebaseAuth.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
     return databaseRepository.collectionStream(
       path: "users/$userId/user_lessons",
       builder: (data, _) => LessonModel.fromJson(data),
@@ -36,10 +43,14 @@ class LessonRepository extends BaseLessonRepository {
 
   @override
   Future<void> addUserLesson({
-    required String userId,
     required String levelId,
     required String lessonId,
   }) async {
+    final userId = firebaseAuth.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
     final LessonModel? lesson = await databaseRepository.getData(
       path: "levels/$levelId/lessons/$lessonId",
       builder: (data, _) => LessonModel.fromJson(data),
@@ -59,11 +70,15 @@ class LessonRepository extends BaseLessonRepository {
 
   @override
   Future<void> unlockUserLesson({
-    required String userId,
     required String levelId,
     required String currentLessonId,
   }) async {
     try {
+      final userId = firebaseAuth.currentUser?.uid;
+      if (userId == null) {
+        throw Exception("User not found");
+      }
+
       // Get all lessons in the current level, ordered by order field
       final lessons = await databaseRepository.collectionToList(
         path: "levels/$levelId/lessons",
@@ -90,7 +105,7 @@ class LessonRepository extends BaseLessonRepository {
         print("Next lesson added: ${nextLesson.label}");
       } else {
         // If no more lessons in current level, check if we should unlock next level
-        await levelRepository.unlockUserLevel(userId: userId, levelId: levelId);
+        await levelRepository.unlockUserLevel(levelId: levelId);
       }
     } catch (e) {
       print("Error adding next lesson: $e");
@@ -98,7 +113,12 @@ class LessonRepository extends BaseLessonRepository {
   }
 
   @override
-  Future<void> unlockLesson(String userId, LessonModel lesson) async {
+  Future<void> unlockLesson(LessonModel lesson) async {
+    final userId = firebaseAuth.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("User not found");
+    }
+
     await databaseRepository.setData(
       path: "users/$userId/lessons/${lesson.id}",
       data: lesson.copyWith(locked: false).toJson(),
