@@ -52,18 +52,14 @@ class AdminAddLessonSubmitted extends AdminEvent {
 }
 
 class AdminAddWordSubmitted extends AdminEvent {
-  final LevelModel level;
-  final LessonModel lesson;
-  final String us;
-  final String de;
-  final String es;
+  final WordModel word;
+  final String levelId;
+  final String lessonId;
 
   const AdminAddWordSubmitted({
-    required this.level,
-    required this.lesson,
-    required this.us,
-    required this.de,
-    required this.es,
+    required this.word,
+    required this.levelId,
+    required this.lessonId,
   });
 }
 
@@ -116,7 +112,6 @@ class AdminWordChanged extends AdminEvent {
     required this.index,
   });
 }
-
 
 class AdminLanguageStreamRequested extends AdminEvent {
   const AdminLanguageStreamRequested();

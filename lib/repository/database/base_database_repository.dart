@@ -24,6 +24,12 @@ abstract class BaseDatabaseRepository {
     bool merge = false,
   });
 
+  Future<void> addData({
+    required String path,
+    required Map<String, dynamic> data,
+    bool merge = true,
+  });
+
   Stream<List<T>> collectionStream<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentId) builder,

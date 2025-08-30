@@ -1,5 +1,5 @@
 import 'package:flaapp/app/bloc/app_bloc.dart';
-import 'package:flaapp/features/admin/layout/features/levels/view/admin_levels_page.dart';
+import 'package:flaapp/admin/features/features/levels/view/admin_levels_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
 import 'package:flaapp/features/level/view/level_page.dart';
 import 'package:flutter/material.dart';

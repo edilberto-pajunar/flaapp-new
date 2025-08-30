@@ -1,4 +1,4 @@
-import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
+import 'package:flaapp/admin/features/bloc/admin_bloc.dart';
 import 'package:flutter/material.dart';
 
 class WordList extends StatelessWidget {

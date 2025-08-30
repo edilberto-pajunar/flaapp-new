@@ -1,6 +1,6 @@
 import 'package:flaapp/app/app_locator.dart';
-import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
-import 'package:flaapp/features/admin/layout/features/levels/view/admin_levels_view.dart';
+import 'package:flaapp/admin/features/bloc/admin_bloc.dart';
+import 'package:flaapp/admin/features/features/levels/view/admin_levels_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

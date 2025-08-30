@@ -1,5 +1,5 @@
 import 'package:flaapp/app/app_locator.dart';
-import 'package:flaapp/features/admin/layout/features/profile/view/admin_profile_view.dart';
+import 'package:flaapp/admin/features/features/profile/view/admin_profile_view.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

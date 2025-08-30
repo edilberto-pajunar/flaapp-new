@@ -1,5 +1,3 @@
-import 'package:flaapp/model/lesson.dart';
-import 'package:flaapp/model/level.dart';
 import 'package:flaapp/model/word.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
@@ -33,11 +31,9 @@ abstract class BaseWordRepository {
   });
 
   Future<void> adminAddWord({
-    required LevelModel level,
-    required LessonModel lesson,
-    required String us,
-    required String de,
-    required String es,
+    required String levelId,
+    required String lessonId,
+    required WordModel wordModel,
   });
 
   Future<void> swipeCard({

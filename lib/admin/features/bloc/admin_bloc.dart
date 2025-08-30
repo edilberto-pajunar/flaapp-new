@@ -152,16 +152,15 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       emit(state.copyWith(adminStatus: AdminStatus.loading));
 
       await _wordRepository.adminAddWord(
-        level: event.level,
-        lesson: event.lesson,
-        us: event.us.toLowerCase(),
-        de: event.de.toLowerCase(),
-        es: event.es.toLowerCase(),
+        levelId: event.levelId,
+        lessonId: event.lessonId,
+        wordModel: event.word,
       );
 
       emit(state.copyWith(adminStatus: AdminStatus.success));
     } catch (e) {
-      emit(state.copyWith(adminStatus: AdminStatus.failed));
+      emit(
+          state.copyWith(adminStatus: AdminStatus.failed, error: e.toString()));
     }
   }
 

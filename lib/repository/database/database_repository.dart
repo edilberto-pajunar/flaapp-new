@@ -60,6 +60,16 @@ class DatabaseRepository extends BaseDatabaseRepository {
   }
 
   @override
+  Future<void> addData({
+    required String path,
+    required Map<String, dynamic> data,
+    bool merge = true,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection(path);
+    await reference.add(data);
+  }
+
+  @override
   Future<void> setBatchDataForDocInList({
     required String baseColPath,
     required List<String> docIdList,

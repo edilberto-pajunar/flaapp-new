@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flaapp/features/admin/layout/features/lessons/view/admin_lessons_page.dart';
-import 'package:flaapp/features/admin/layout/features/levels/view/admin_levels_page.dart';
-import 'package:flaapp/features/admin/layout/features/profile/view/admin_profile_page.dart';
-import 'package:flaapp/features/admin/layout/features/words/view/add_word_page.dart';
-import 'package:flaapp/features/admin/layout/features/words/view/admin_words_page.dart';
+import 'package:flaapp/admin/features/features/lessons/view/admin_lessons_page.dart';
+import 'package:flaapp/admin/features/features/levels/view/admin_levels_page.dart';
+import 'package:flaapp/admin/features/features/profile/view/admin_profile_page.dart';
+import 'package:flaapp/admin/features/features/words/view/add_word_page.dart';
+import 'package:flaapp/admin/features/features/words/view/admin_words_page.dart';
 import 'package:flaapp/features/auth/view/auth_page.dart';
 import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
@@ -65,7 +65,10 @@ class AppRouter {
                     GoRoute(
                       name: AdminAddWordPage.route,
                       path: "add_word",
-                      builder: (context, state) => const AdminAddWordPage(),
+                      builder: (context, state) => AdminAddWordPage(
+                        levelId: (state.pathParameters as Map)["level_id"],
+                        lessonId: (state.pathParameters as Map)["lesson_id"],
+                      ),
                     ),
                   ],
                 ),

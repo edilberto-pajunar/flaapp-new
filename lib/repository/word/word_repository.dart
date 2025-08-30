@@ -192,30 +192,13 @@ class WordRepository extends BaseWordRepository {
 
   @override
   Future<void> adminAddWord({
-    required LevelModel level,
-    required LessonModel lesson,
-    required String us,
-    required String de,
-    required String es,
+    required String levelId,
+    required String lessonId,
+    required WordModel wordModel,
   }) async {
-    final int length = await databaseRepository.getCount(path: "words");
-    final id = length.toString().padLeft(4, "0");
-    final WordModel word = WordModel(
-      id: id,
-      word: us,
-      translations: [
-        Translation(word: us, language: "us"),
-        Translation(word: de, language: "de"),
-        Translation(word: es, language: "es"),
-      ],
-      levelId: level.id,
-      lessonId: lesson.id,
-      updatedTime: DateTime.now(),
-    );
-
-    await databaseRepository.setData(
-      path: "words/$id",
-      data: word.toJson(),
+    await databaseRepository.addData(
+      path: "levels/$levelId/lessons/$lessonId/words",
+      data: wordModel.toJson(),
     );
   }
 

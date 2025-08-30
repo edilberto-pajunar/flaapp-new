@@ -6,6 +6,7 @@ import 'package:flaapp/widgets/fields/primary_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 
 class AuthView extends StatefulWidget {
@@ -20,10 +21,7 @@ class _AuthViewState extends State<AuthView> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormFieldState> emailKey = GlobalKey();
-    final GlobalKey<FormFieldState> passwordKey = GlobalKey();
-    final GlobalKey<FormState> formKey = GlobalKey();
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+    final GlobalKey<FormBuilderState> formKey = GlobalKey();
 
     final TextEditingController username = TextEditingController();
     final TextEditingController email = TextEditingController();
@@ -32,7 +30,6 @@ class _AuthViewState extends State<AuthView> {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
-      key: scaffoldKey,
       body: BlocConsumer<AuthBloc, AuthState>(
         listenWhen: (prev, curr) => prev.status != curr.status,
         listener: (context, state) {
@@ -53,8 +50,9 @@ class _AuthViewState extends State<AuthView> {
             );
           }
 
-          return Form(
+          return FormBuilder(
             key: formKey,
+            onChanged: () => formKey.currentState?.save(),
             child: SafeArea(
               child: Center(
                 child: Padding(
@@ -77,16 +75,15 @@ class _AuthViewState extends State<AuthView> {
                         Visibility(
                           visible: !isLogin,
                           child: PrimaryTextField(
-                            controller: username,
                             label: "Username",
                             hintText: "username",
+                            name: "username",
                           ),
                         ),
                         PrimaryTextField(
-                          key: emailKey,
-                          controller: email,
                           label: "Email",
                           hintText: "example@gmail.com",
+                          required: true,
                           validator: (val) {
                             if (val == null || val.isEmpty) {
                               return "This field is required";
@@ -95,11 +92,11 @@ class _AuthViewState extends State<AuthView> {
                           },
                         ),
                         PrimaryTextField(
-                          key: passwordKey,
-                          controller: password,
+                          name: "password",
                           label: "Password",
                           isPassword: true,
                           hintText: "Password",
+                          required: true,
                           validator: (val) {
                             if (val == null || val.isEmpty) {
                             } else if (val.length < 6) {
@@ -112,20 +109,22 @@ class _AuthViewState extends State<AuthView> {
                         PrimaryButton(
                           label: isLogin ? "Login" : "Sign up",
                           onTap: () async {
-                            isLogin
-                                ? context
-                                    .read<AuthBloc>()
-                                    .add(AuthLoginAttempted(
-                                      email: email.text,
-                                      password: password.text,
-                                    ))
-                                : context
-                                    .read<AuthBloc>()
-                                    .add(AuthCreateAccountAttempted(
-                                      email: email.text,
-                                      password: password.text,
-                                      username: username.text,
-                                    ));
+                            if (formKey.currentState!.saveAndValidate()) {
+                              isLogin
+                                  ? context
+                                      .read<AuthBloc>()
+                                      .add(AuthLoginAttempted(
+                                        email: email.text,
+                                        password: password.text,
+                                      ))
+                                  : context
+                                      .read<AuthBloc>()
+                                      .add(AuthCreateAccountAttempted(
+                                        email: email.text,
+                                        password: password.text,
+                                        username: username.text,
+                                      ));
+                            }
                           },
                         ),
                         const SizedBox(height: 100.0),
