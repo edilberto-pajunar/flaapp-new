@@ -70,7 +70,9 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
                 lessons: lessons,
                 adminStatus: AdminStatus.success,
               ));
-    } catch (e) {}
+    } catch (e) {
+      print("Error getting admin lessons: $e");
+    }
   }
 
   void _onAdminWordStreamRequested(

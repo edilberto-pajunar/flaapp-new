@@ -33,7 +33,7 @@ class LevelRepository extends BaseLevelRepository {
   Stream<List<LevelModel>> getAdminLevels() {
     return databaseRepository.collectionStream(
       path: tLevelPath,
-      queryBuilder: (query) => query.orderBy("id", descending: false),
+      queryBuilder: (query) => query.orderBy("label", descending: false),
       builder: (data, _) => LevelModel.fromJson(data),
     );
   }

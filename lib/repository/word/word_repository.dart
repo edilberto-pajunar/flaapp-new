@@ -185,12 +185,7 @@ class WordRepository extends BaseWordRepository {
     required String lesson,
   }) {
     return databaseRepository.collectionStream(
-      path: "words",
-      queryBuilder: (query) {
-        return query
-            .where("level.id", isEqualTo: level)
-            .where("lesson.id", isEqualTo: lesson);
-      },
+      path: "levels/$level/lessons/$lesson/words",
       builder: (data, _) => WordModel.fromJson(data),
     );
   }

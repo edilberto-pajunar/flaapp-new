@@ -11,6 +11,7 @@ class AppUserInfo extends Equatable {
   final String? language;
   final String? code;
   final String? codeToLearn;
+  final String? role;
 
   const AppUserInfo({
     this.id,
@@ -19,6 +20,7 @@ class AppUserInfo extends Equatable {
     this.language,
     this.code,
     this.codeToLearn,
+    this.role,
   });
 
   AppUserInfo copyWith({
@@ -28,6 +30,7 @@ class AppUserInfo extends Equatable {
     String? language,
     String? code,
     String? codeToLearn,
+    String? role,
   }) =>
       AppUserInfo(
         id: id ?? this.id,
@@ -36,6 +39,7 @@ class AppUserInfo extends Equatable {
         language: language ?? this.language,
         code: code ?? this.code,
         codeToLearn: codeToLearn ?? this.codeToLearn,
+        role: role ?? this.role,
       );
 
   factory AppUserInfo.fromJson(Map<String, dynamic> json) =>
@@ -51,5 +55,6 @@ class AppUserInfo extends Equatable {
         language,
         code,
         codeToLearn,
+        role,
       ];
 }

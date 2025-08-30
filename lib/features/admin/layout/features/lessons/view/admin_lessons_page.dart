@@ -1,33 +1,27 @@
+import 'package:flaapp/app/app_locator.dart';
 import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
 import 'package:flaapp/features/admin/layout/features/lessons/view/admin_lessons_view.dart';
-import 'package:flaapp/model/level.dart';
-import 'package:flaapp/repository/lesson/lesson_repository.dart';
-import 'package:flaapp/repository/level/level_repository.dart';
-import 'package:flaapp/repository/translate/translate_repository.dart';
-import 'package:flaapp/repository/word/word_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminLessonsPage extends StatelessWidget {
-  static const route = "/admin/lessons";
+  static const route = "/admin_lessons";
   const AdminLessonsPage({
-    required this.levelModel,
+    required this.levelId,
+    required this.levelLabel,
     super.key,
   });
 
-  final LevelModel levelModel;
+  final String levelId;
+  final String levelLabel;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AdminBloc(
-        levelRepository: context.read<LevelRepository>(),
-        lessonRepository: context.read<LessonRepository>(),
-        wordRepository: context.read<WordRepository>(),
-        translateRepository: context.read<TranslateRepository>(),
-      )..add(AdminLessonStreamRequested(levelId: levelModel.id ?? "")),
+    return BlocProvider.value(
+      value: getIt<AdminBloc>(),
       child: AdminLessonsView(
-        levelModel: levelModel,
+        levelId: levelId,
+        levelLabel: levelLabel,
       ),
     );
   }

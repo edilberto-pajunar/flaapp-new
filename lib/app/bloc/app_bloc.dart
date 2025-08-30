@@ -35,9 +35,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     Emitter<AppState> emit,
   ) async {
     await emit.forEach(_authRepository.user, onData: (user) {
+      print(user?.uid);
+      print(state.currentUserInfo?.id);
       if (user == null) return state.copyWith(currentUser: null);
 
-      if (user.uid != state.currentUserInfo?.id) {
+      if (user.uid != state.currentUser?.uid) {
+        print("This is called");
         add(AppInitUserInfoStreamRequested(user));
       }
       return state.copyWith(currentUser: user);

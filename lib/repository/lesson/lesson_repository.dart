@@ -106,10 +106,10 @@ class LessonRepository extends BaseLessonRepository {
   }
 
   @override
-  Stream<List<LessonModel>> getAdminLessons(String level) {
+  Stream<List<LessonModel>> getAdminLessons(String levelId) {
     return databaseRepository.collectionStream(
-      path: "lessons",
-      queryBuilder: (query) => query.where("level.id", isEqualTo: level),
+      path: "levels/$levelId/lessons",
+      queryBuilder: (query) => query.orderBy("order", descending: false),
       builder: (data, _) => LessonModel.fromJson(data),
     );
   }

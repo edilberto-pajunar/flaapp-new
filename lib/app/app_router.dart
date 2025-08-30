@@ -9,6 +9,7 @@ import 'package:flaapp/features/favorite/view/favorite_page.dart';
 import 'package:flaapp/features/lesson/view/lesson_page.dart';
 import 'package:flaapp/features/level/view/level_page.dart';
 import 'package:flaapp/features/word/view/word_page.dart';
+import 'package:flaapp/features/wrapper/view/wrapper_page.dart';
 import 'package:flaapp/model/lesson.dart';
 import 'package:flaapp/model/level.dart';
 import 'package:flaapp/repository/auth/auth_repository.dart';
@@ -30,37 +31,43 @@ class AppRouter {
           builder: (context, state) => const AuthPage(),
         ),
         GoRoute(
-          name: AdminPage.route,
-          path: "/admin",
-          builder: (context, state) => const AdminPage(),
-          routes: [
-            GoRoute(
-              name: AdminLevelsPage.route,
-              path: "levels",
-              builder: (context, state) => const AdminLevelsPage(),
-            ),
-            GoRoute(
-              name: AdminLessonsPage.route,
-              path: "lessons/:level_id",
-              builder: (context, state) => AdminLessonsPage(
-                levelModel: (state.extra as Map)["levelModel"],
-              ),
-            ),
-            GoRoute(
-              name: AdminWordsPage.route,
-              path: "words/:level_id/:lesson_id",
-              builder: (context, state) => AdminWordsPage(
-                levelModel: (state.extra as Map)["levelModel"],
-                lessonModel: (state.extra as Map)["lessonModel"],
-              ),
-            ),
-          ],
-        ),
-        GoRoute(
-          name: LevelPage.route,
+          name: WrapperPage.route,
           path: "/",
-          builder: (context, state) => const LevelPage(),
+          builder: (context, state) => const WrapperPage(),
           routes: [
+            GoRoute(
+              name: LevelPage.route,
+              path: "/level",
+              builder: (context, state) => const LevelPage(),
+            ),
+            GoRoute(
+              name: AdminPage.route,
+              path: "/admin",
+              builder: (context, state) => const AdminPage(),
+              routes: [
+                GoRoute(
+                  name: AdminLevelsPage.route,
+                  path: "levels",
+                  builder: (context, state) => const AdminLevelsPage(),
+                ),
+                GoRoute(
+                  name: AdminLessonsPage.route,
+                  path: "lessons/:level_id",
+                  builder: (context, state) => AdminLessonsPage(
+                    levelId: (state.pathParameters as Map)["level_id"],
+                    levelLabel: (state.extra as Map)["levelLabel"],
+                  ),
+                ),
+                GoRoute(
+                  name: AdminWordsPage.route,
+                  path: "words/:level_id/:lesson_id",
+                  builder: (context, state) => AdminWordsPage(
+                    levelId: (state.pathParameters as Map)["level_id"],
+                    lessonId: (state.pathParameters as Map)["lesson_id"],
+                  ),
+                ),
+              ],
+            ),
             GoRoute(
               name: FavoritePage.route,
               path: "favorite",
@@ -94,13 +101,7 @@ class AppRouter {
         final isLoggedIn = currentUser != null;
         final loggingIn = state.matchedLocation.startsWith("/login");
 
-        final isAdmin = currentUser?.email == "admin@gmail.com";
-
         if (isLoggedIn) {
-          // if the user is admin
-          if (kIsWeb && isAdmin) {
-            // return "/admin";
-          }
         } else if (!isLoggedIn) {
           // if the user is not logged in, they must login
           return "/login";
@@ -110,9 +111,6 @@ class AppRouter {
 
         // if the user is logged in but still on login screen, send them to the home
         if (loggingIn) {
-          if (isAdmin) {
-            return "/admin";
-          }
           return "/";
         }
 

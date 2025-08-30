@@ -1,4 +1,5 @@
 import 'package:flaapp/app/bloc/app_bloc.dart';
+import 'package:flaapp/features/admin/layout/bloc/admin_bloc.dart';
 import 'package:flaapp/features/auth/bloc/auth_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/level/bloc/level_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:flaapp/repository/auth/auth_repository.dart';
 import 'package:flaapp/repository/database/database_repository.dart';
 import 'package:flaapp/repository/lesson/lesson_repository.dart';
 import 'package:flaapp/repository/level/level_repository.dart';
+import 'package:flaapp/repository/translate/translate_repository.dart';
 import 'package:flaapp/repository/user/user_repository.dart';
 import 'package:flaapp/repository/word/word_repository.dart';
 import 'package:get_it/get_it.dart';
@@ -29,6 +31,9 @@ Future<void> setupLocator() async {
       levelRepository: getIt<LevelRepository>(),
     ),
   );
+  getIt.registerLazySingleton<TranslateRepository>(
+    () => TranslateRepository(),
+  );
   getIt.registerLazySingleton<WordRepository>(
     () => WordRepository(
       databaseRepository: getIt<DatabaseRepository>(),
@@ -37,6 +42,14 @@ Future<void> setupLocator() async {
   );
 
   // BLOCS
+  getIt.registerLazySingleton<AdminBloc>(
+    () => AdminBloc(
+      levelRepository: getIt<LevelRepository>(),
+      lessonRepository: getIt<LessonRepository>(),
+      wordRepository: getIt<WordRepository>(),
+      translateRepository: getIt<TranslateRepository>(),
+    ),
+  );
   getIt.registerLazySingleton<AppBloc>(
     () => AppBloc(
         userRepository: getIt<UserRepository>(),
