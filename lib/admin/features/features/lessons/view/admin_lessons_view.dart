@@ -1,4 +1,5 @@
 import 'package:flaapp/admin/features/bloc/admin_bloc.dart';
+import 'package:flaapp/admin/features/features/lessons/view/add_admin_lesson_page.dart';
 import 'package:flaapp/admin/features/features/words/view/admin_words_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,11 @@ class _AdminLessonsViewState extends State<AdminLessonsView> {
         title: Text("${widget.levelLabel} Lessons"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.pushNamed(AddAdminLessonPage.route, pathParameters: {
+                "level_id": widget.levelId,
+              });
+            },
             icon: Icon(
               Icons.add,
             ),

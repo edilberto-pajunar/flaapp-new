@@ -65,7 +65,9 @@ class LessonRepository extends BaseLessonRepository {
 
     await databaseRepository.setData(
       path: "users/$userId/user_lessons/${lesson.id}",
-      data: lesson.copyWith(locked: false, status: LessonStatus.inProgress).toJson(),
+      data: lesson
+          .copyWith(locked: false, status: LessonStatus.inProgress)
+          .toJson(),
     );
   }
 
@@ -136,20 +138,19 @@ class LessonRepository extends BaseLessonRepository {
   }
 
   @override
-  Future<void> adminAddLesson(LevelModel level, String lesson) async {
-    final int length = await databaseRepository.getCount(path: "lessons");
-    final id = length.toString().padLeft(4, "0");
-
-    final LessonModel lessonModel = LessonModel(
-      label: lesson,
-      levelId: level.id,
-      id: id,
-      locked: true,
-    );
-
-    await databaseRepository.setData(
-      path: "lessons/$id",
-      data: lessonModel.toJson(),
+  Future<void> adminAddLesson(
+      String levelId, String lesson, String description) async {
+    final int length =
+        await databaseRepository.getCount(path: "levels/$levelId/lessons");
+    await databaseRepository.addData(
+      path: "levels/$levelId/lessons",
+      data: {
+        "label": lesson,
+        "description": description,
+        "levelId": levelId,
+        "locked": true,
+        "order": length,
+      },
     );
   }
 

@@ -35,19 +35,23 @@ class AdminWordStreamRequested extends AdminEvent {
 
 class AdminAddLevelSubmitted extends AdminEvent {
   final String level;
+  final String description;
 
   const AdminAddLevelSubmitted({
     required this.level,
+    required this.description,
   });
 }
 
 class AdminAddLessonSubmitted extends AdminEvent {
-  final LevelModel level;
+  final String levelId;
   final String lesson;
+  final String description;
 
   const AdminAddLessonSubmitted({
-    required this.level,
+    required this.levelId,
     required this.lesson,
+    required this.description,
   });
 }
 

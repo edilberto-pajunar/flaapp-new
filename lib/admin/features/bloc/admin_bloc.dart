@@ -112,12 +112,11 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     AdminAddLevelSubmitted event,
     Emitter<AdminState> emit,
   ) async {
-    if (event.level.isEmpty) return;
-
     try {
       emit(state.copyWith(adminStatus: AdminStatus.loading));
       await _levelRepository.adminAddLevel(
-        event.level.toLowerCase(),
+        event.level,
+        event.description,
       );
       emit(state.copyWith(adminStatus: AdminStatus.success));
     } catch (e) {
@@ -134,8 +133,9 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     try {
       emit(state.copyWith(adminStatus: AdminStatus.loading));
       await _lessonRepository.adminAddLesson(
-        event.level,
-        event.lesson.toLowerCase(),
+        event.levelId,
+        event.lesson,
+        event.description,
       );
 
       emit(state.copyWith(adminStatus: AdminStatus.success));

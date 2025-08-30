@@ -12,7 +12,7 @@ abstract class BaseLevelRepository {
 
   // ADMIN
   Stream<List<LevelModel>> getAdminLevels();
-  Future<void> adminAddLevel(String level);
+  Future<void> adminAddLevel(String level, String description);
   Future<void> deleteAdminLevel(String level);
   Future<void> updateAdminLevel(LevelModel level);
 }

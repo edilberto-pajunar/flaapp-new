@@ -47,20 +47,17 @@ class LevelRepository extends BaseLevelRepository {
   }
 
   @override
-  Future<void> adminAddLevel(String level) async {
+  Future<void> adminAddLevel(String level, String description) async {
     final int length = await databaseRepository.getCount(path: "levels");
-    final id = length.toString().padLeft(4, "0");
 
-    final LevelModel levelModel = LevelModel(
-      label: level,
-      id: id,
-      locked: true,
-    );
-
-    await databaseRepository.setData(
-      path: "$tLevelPath/$id",
-      data: levelModel.toJson(),
-      merge: true,
+    await databaseRepository.addData(
+      path: "levels",
+      data: {
+        "label": level,
+        "description": description,
+        "locked": true,
+        "order": length,
+      },
     );
   }
 

@@ -17,7 +17,8 @@ abstract class BaseLessonRepository {
 
   // ADMIN SIDE
   Stream<List<LessonModel>> getAdminLessons(String levelId);
-  Future<void> adminAddLesson(LevelModel level, String lesson);
+  Future<void> adminAddLesson(
+      String levelId, String lesson, String description);
   Future<void> unlockLesson(LessonModel lesson);
   Future<void> deleteAdminLesson(String lesson);
   Future<void> updateAdminLesson(LessonModel lesson);

@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flaapp/admin/features/features/language/view/add_admin_language_page.dart';
 import 'package:flaapp/admin/features/features/language/view/admin_language_page.dart';
+import 'package:flaapp/admin/features/features/lessons/view/add_admin_lesson_page.dart';
 import 'package:flaapp/admin/features/features/lessons/view/admin_lessons_page.dart';
+import 'package:flaapp/admin/features/features/levels/view/add_admin_level_page.dart';
 import 'package:flaapp/admin/features/features/levels/view/admin_levels_page.dart';
 import 'package:flaapp/admin/features/features/profile/view/admin_profile_page.dart';
 import 'package:flaapp/admin/features/features/words/view/add_word_page.dart';
@@ -51,12 +53,26 @@ class AppRouter {
               builder: (context, state) => const AdminLevelsPage(),
               routes: [
                 GoRoute(
+                  name: AddAdminLevelPage.route,
+                  path: "add_level",
+                  builder: (context, state) => const AddAdminLevelPage(),
+                ),
+                GoRoute(
                   name: AdminLessonsPage.route,
                   path: "lessons/:level_id",
                   builder: (context, state) => AdminLessonsPage(
                     levelId: (state.pathParameters as Map)["level_id"],
                     levelLabel: (state.extra as Map)["levelLabel"],
                   ),
+                  routes: [
+                    GoRoute(
+                      name: AddAdminLessonPage.route,
+                      path: "add_lesson",
+                      builder: (context, state) => AddAdminLessonPage(
+                        levelId: (state.pathParameters as Map)["level_id"],
+                      ),
+                    ),
+                  ],
                 ),
                 GoRoute(
                   name: AdminWordsPage.route,
