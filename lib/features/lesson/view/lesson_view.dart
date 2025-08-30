@@ -1,4 +1,3 @@
-import 'package:flaapp/app/bloc/app_bloc.dart';
 import 'package:flaapp/features/lesson/bloc/lesson_bloc.dart';
 import 'package:flaapp/features/word/view/word_page.dart';
 import 'package:flaapp/model/lesson.dart';
@@ -119,6 +118,12 @@ class _LessonViewState extends State<LessonView> {
                                             ),
                                           ),
                                         ),
+                                        if (userLesson.status ==
+                                            LessonStatus.completed)
+                                          Icon(
+                                            Icons.check_circle,
+                                            color: ColorTheme.tGreenColor,
+                                          ),
                                         if (lessonLocked)
                                           Icon(
                                             Icons.lock_outline,

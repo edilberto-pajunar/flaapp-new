@@ -37,7 +37,10 @@ class LessonRepository extends BaseLessonRepository {
 
     return databaseRepository.collectionStream(
       path: "users/$userId/user_lessons",
-      builder: (data, _) => LessonModel.fromJson(data),
+      builder: (data, _) {
+        print(data);
+        return LessonModel.fromJson(data);
+      },
     );
   }
 
@@ -62,9 +65,7 @@ class LessonRepository extends BaseLessonRepository {
 
     await databaseRepository.setData(
       path: "users/$userId/user_lessons/${lesson.id}",
-      data: lesson
-          .copyWith(locked: false, status: LessonStatus.inProgress)
-          .toJson(),
+      data: lesson.copyWith(locked: false, status: LessonStatus.inProgress).toJson(),
     );
   }
 
